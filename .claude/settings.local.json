@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(gh pr create --title 'feat: Stade Iba Mar Diop — simulation interactive foule & poubelles \\(JOJ Dakar 2026\\)' --body ' *)",
+      "Bash(where gh *)",
+      "Bash(winget list *)",
+      "Bash(where.exe gh *)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/HP/AppData/Local/Programs/**)",
+      "Read(//c/Users/HP/scoop/shims/**)",
+      "PowerShell(Get-Command gh -ErrorAction SilentlyContinue; Get-Item \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" -ErrorAction SilentlyContinue; Get-Item \"$env:LOCALAPPDATA\\\\Programs\\\\GitHub CLI\\\\gh.exe\" -ErrorAction SilentlyContinue)",
+      "PowerShell(git config --global credential.helper)",
+      "PowerShell(git -C \"C:\\\\Users\\\\HP\\\\Desktop\\\\hackathon\\\\test\\\\frontend\\\\.claude\\\\worktrees\\\\cool-blackburn-e883f3\" remote get-url origin)",
+      "PowerShell($env:GH_TOKEN)",
+      "PowerShell($env:GITHUB_TOKEN)"
+    ]
+  }
+}
