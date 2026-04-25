@@ -87,8 +87,8 @@ export function DensityChart() {
           label: site.site_name,
           data: [],
           borderColor: PALETTE[idx % PALETTE.length],
-          borderWidth: 2,
-          tension: 0.3,
+          borderWidth: 1.5,
+          tension: 0.1,
           pointRadius: 0,
         };
         chart.data.datasets.push(ds);
@@ -102,13 +102,8 @@ export function DensityChart() {
   }, [density]);
 
   return (
-    <section className="panel" id="chartPanel">
-      <h2 className="section-title">
-        Évolution de la densité (Toutes villes)
-      </h2>
-      <div id="chartWrap">
-        <canvas ref={canvasRef} id="densityChart" />
-      </div>
-    </section>
+    <div className="w-full h-full min-h-[300px]">
+      <canvas ref={canvasRef} />
+    </div>
   );
 }

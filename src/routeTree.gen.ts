@@ -9,9 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as GreenRouteImport } from './routes/green'
+import { Route as FlowsRouteImport } from './routes/flows'
+import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as DashboardPageRouteImport } from './routes/DashboardPage'
 import { Route as IndexRouteImport } from './routes/index'
 
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GreenRoute = GreenRouteImport.update({
+  id: '/green',
+  path: '/green',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlowsRoute = FlowsRouteImport.update({
+  id: '/flows',
+  path: '/flows',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlertsRoute = AlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardPageRoute = DashboardPageRouteImport.update({
   id: '/DashboardPage',
   path: '/DashboardPage',
@@ -26,31 +50,82 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/DashboardPage': typeof DashboardPageRoute
+  '/alerts': typeof AlertsRoute
+  '/flows': typeof FlowsRoute
+  '/green': typeof GreenRoute
+  '/map': typeof MapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/DashboardPage': typeof DashboardPageRoute
+  '/alerts': typeof AlertsRoute
+  '/flows': typeof FlowsRoute
+  '/green': typeof GreenRoute
+  '/map': typeof MapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/DashboardPage': typeof DashboardPageRoute
+  '/alerts': typeof AlertsRoute
+  '/flows': typeof FlowsRoute
+  '/green': typeof GreenRoute
+  '/map': typeof MapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/DashboardPage'
+  fullPaths: '/' | '/DashboardPage' | '/alerts' | '/flows' | '/green' | '/map'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/DashboardPage'
-  id: '__root__' | '/' | '/DashboardPage'
+  to: '/' | '/DashboardPage' | '/alerts' | '/flows' | '/green' | '/map'
+  id:
+    | '__root__'
+    | '/'
+    | '/DashboardPage'
+    | '/alerts'
+    | '/flows'
+    | '/green'
+    | '/map'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardPageRoute: typeof DashboardPageRoute
+  AlertsRoute: typeof AlertsRoute
+  FlowsRoute: typeof FlowsRoute
+  GreenRoute: typeof GreenRoute
+  MapRoute: typeof MapRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/green': {
+      id: '/green'
+      path: '/green'
+      fullPath: '/green'
+      preLoaderRoute: typeof GreenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flows': {
+      id: '/flows'
+      path: '/flows'
+      fullPath: '/flows'
+      preLoaderRoute: typeof FlowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alerts': {
+      id: '/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof AlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/DashboardPage': {
       id: '/DashboardPage'
       path: '/DashboardPage'
@@ -71,6 +146,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardPageRoute: DashboardPageRoute,
+  AlertsRoute: AlertsRoute,
+  FlowsRoute: FlowsRoute,
+  GreenRoute: GreenRoute,
+  MapRoute: MapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

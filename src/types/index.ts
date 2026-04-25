@@ -135,3 +135,36 @@ export interface DemoPayload {
   active_until: string;
   simulator_interval_seconds: number;
 }
+
+// ── Risk Index (IRG) ───────────────────────────────────────────────────────
+// Indicateur de Risque Global — score composite 0–100
+// Spec §13 — CrowdFlow JOJ 2026
+
+export type RiskLevel =
+  | "nominal"    // 0–30   🟢
+  | "vigilance"  // 31–55  🟡
+  | "alert"      // 56–75  🟠
+  | "critical"   // 76–90  🔴
+  | "emergency"; // 91–100 ⚫
+
+export interface SiteRiskContribution {
+  site_id: string;
+  site_name: string;
+  weight: number;
+  occupancy_percentage: number;
+  rapid_increase: boolean;
+  contribution: number; // weighted score contribution
+}
+
+export interface RiskIndexPayload {
+  timestamp: string;
+  score: number;               // 0–100
+  level: RiskLevel;
+  label: string;               // "NOMINAL" | "VIGILANCE" | "ALERTE" | "CRITIQUE" | "URGENCE"
+  recommended_action: string;  // human-readable action
+  rapid_increase_bonus: number;
+  inter_sites_congestion_bonus: number;
+  site_contributions: SiteRiskContribution[];
+  trend: "rising" | "stable" | "falling";
+  previous_score: number | null;
+}

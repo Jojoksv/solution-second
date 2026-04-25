@@ -95,15 +95,15 @@ export function MapPanel() {
 
       marker.bindPopup(`
         <div style="margin-bottom:8px;">
-          <span style="color:${cityColor(site.city)};font-size:10px;text-transform:uppercase;font-weight:bold;">${site.city}</span><br>
-          <strong style="font-size:15px;">${site.site_name}</strong>
+          <span style="color:${color};font-size:10px;text-transform:uppercase;font-weight:bold;letter-spacing:0.05em;">${site.city}</span><br>
+          <strong style="font-size:15px;color:#EDEDED;">${site.site_name}</strong>
         </div>
         <table style="width:100%;font-size:12px;border-collapse:collapse;">
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td style="padding:4px 0;color:var(--muted)">Capacité</td><td style="text-align:right;font-weight:bold;">${fmt(site.capacity)}</td></tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><td style="padding:4px 0;color:var(--muted)">Foule Estimée</td><td style="text-align:right;font-weight:bold;">${fmt(site.estimated_real_crowd)}</td></tr>
-          <tr><td style="padding:4px 0;color:var(--muted)">Densité</td><td style="text-align:right;font-weight:bold;color:var(--${site.status})">${site.occupancy_percentage}%</td></tr>
+          <tr style="border-bottom:1px solid #2A2A2A;"><td style="padding:4px 0;color:#888888;">Capacité</td><td style="text-align:right;font-weight:bold;color:#EDEDED;">${fmt(site.capacity)}</td></tr>
+          <tr style="border-bottom:1px solid #2A2A2A;"><td style="padding:4px 0;color:#888888;">Foule Estimée</td><td style="text-align:right;font-weight:bold;color:#EDEDED;">${fmt(site.estimated_real_crowd)}</td></tr>
+          <tr><td style="padding:4px 0;color:#888888;">Densité</td><td style="text-align:right;font-weight:bold;color:${color};">${site.occupancy_percentage}%</td></tr>
         </table>
-        <div style="margin-top:8px;font-size:10px;color:var(--muted);text-align:center;">Cliquez pour voir le plan interne</div>
+        <div style="margin-top:8px;font-size:10px;color:#888888;text-align:center;">Cliquez pour voir le plan interne</div>
       `)
 
       marker.on('click', () => {
@@ -138,7 +138,7 @@ export function MapPanel() {
       const lng = site.longitude + 0.002
 
       const alertHtml = site.early_crowd_alert
-        ? `<div style="position:absolute;top:-8px;right:-8px;background:var(--orange);color:#000;border-radius:50%;width:14px;height:14px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:bold;animation:pulse 1s infinite;">!</div>`
+        ? `<div style="position:absolute;top:-8px;right:-8px;background:#F5A623;color:#000;border-radius:50%;width:14px;height:14px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:bold;animation:pulse-red 2s infinite;">!</div>`
         : ''
 
       const icon = L.divIcon({
@@ -151,10 +151,13 @@ export function MapPanel() {
       L.marker([lat, lng], { icon })
         .bindPopup(
           `
-          <strong>Smart Green – ${site.site_name}</strong><br>
-          ${site.early_crowd_alert ? '<div style="color:var(--orange);font-size:11px;margin:4px 0;">⚠️ Alerte précoce : Forte affluence détectée.</div>' : ''}
+          <strong style="color:#EDEDED;">Smart Green – ${site.site_name}</strong><br>
+          ${site.early_crowd_alert ? '<div style="color:#F5A623;font-size:11px;margin:4px 0;">⚠️ Alerte précoce : Forte affluence détectée.</div>' : ''}
           <table style="width:100%;font-size:11px;margin-top:8px;">
-            ${site.zones.map((z) => `<tr><td>${z.zone_name}</td><td style="text-align:right;color:var(--${z.status})">${z.fill_percentage}%</td></tr>`).join('')}
+            ${site.zones.map((z) => {
+              const c = z.status === 'red' ? '#E5484D' : z.status === 'orange' ? '#F5A623' : '#10B981';
+              return `<tr><td style="color:#888888;">${z.zone_name}</td><td style="text-align:right;color:${c};font-weight:bold;">${z.fill_percentage}%</td></tr>`
+            }).join('')}
           </table>
         `,
         )
@@ -163,39 +166,40 @@ export function MapPanel() {
   }, [green?.sites])
 
   return (
-    <section className="panel" id="mapPanel">
-      <div className="city-legend">
-        <div className="city-badge">
-          <div className="city-dot" style={{ background: 'var(--dakar)' }} />
+    <div className="relative flex-1 flex flex-col w-full h-full min-h-[600px] overflow-hidden rounded-[6px]" id="mapPanel">
+      {/* Legend Top Left */}
+      <div className="absolute top-4 left-4 z-[400] flex gap-2 bg-[#0A0A0A]/90 backdrop-blur-md border border-[#2A2A2A] px-3 py-2 rounded shadow-lg pointer-events-auto">
+        <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#EDEDED] uppercase tracking-wide">
+          <div className="w-2 h-2 rounded-full bg-[#0070F3]" />
           Dakar
         </div>
-        <div className="city-badge">
-          <div
-            className="city-dot"
-            style={{ background: 'var(--diamniadio)' }}
-          />
+        <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#EDEDED] uppercase tracking-wide ml-2">
+          <div className="w-2 h-2 rounded-full bg-[#10B981]" />
           Diamniadio
         </div>
-        <div className="city-badge">
-          <div className="city-dot" style={{ background: 'var(--saly)' }} />
+        <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#EDEDED] uppercase tracking-wide ml-2">
+          <div className="w-2 h-2 rounded-full bg-[#F5A623]" />
           Saly
         </div>
       </div>
 
-      <div className="map-wrap">
-        <div id="map" ref={mapDivRef} />
+      <div className="flex-1 relative w-full h-full bg-[#000000]">
+        <div id="map" ref={mapDivRef} className="absolute inset-0 w-full h-full z-[1]" />
         <SiteOverlay
           site={selectedSite}
           onClose={() => setSelectedSite(null)}
         />
       </div>
 
-      <div className="status-line">
+      {/* Sync Status Bottom Left */}
+      <div className="absolute bottom-4 left-4 z-[400] bg-[#0A0A0A]/90 backdrop-blur-md border border-[#2A2A2A] px-3 py-1.5 rounded shadow-lg text-[11px] text-[#888888] font-mono pointer-events-auto">
         Dernière synchronisation :{' '}
-        {density?.timestamp
-          ? new Date(density.timestamp).toLocaleTimeString()
-          : '--'}
+        <span className="text-[#EDEDED]">
+          {density?.timestamp
+            ? new Date(density.timestamp).toLocaleTimeString()
+            : '--'}
+        </span>
       </div>
-    </section>
+    </div>
   )
 }

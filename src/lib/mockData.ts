@@ -1,0 +1,412 @@
+import type { Alert, DensityPayload, GreenPayload, RiskIndexPayload } from "../types";
+
+export const mockDensityNormal: DensityPayload = {
+  timestamp: new Date().toISOString(),
+  mode: "normal",
+  detected_phone_ratio: 0.55,
+  estimation_coefficient: 1.818, // 1 / 0.55
+  thresholds: {
+    default_orange_percent_gt: 75,
+    default_red_percent_gt: 85,
+    corniche_ouest_red_percent_gt: 70,
+    rise_10min_percent_gt: 15,
+  },
+  global_metrics: {
+    total_estimated_people: 42500,
+    sites_in_alert: 0,
+    sites_rapid_increase: 0,
+    sites_count: 8,
+  },
+  sites: [
+    {
+      site_id: "stade_a_wade",
+      city: "Diamniadio",
+      site_name: "Stade Abdoulaye Wade",
+      latitude: 14.7431,
+      longitude: -17.1884,
+      capacity: 50000,
+      crowd_type: "Sport",
+      telephones_detected: 8250,
+      estimated_real_crowd: 15000,
+      occupancy_percentage: 30,
+      status: "green",
+      rise_rate_10min_percent: 2,
+      rapid_increase: false,
+      site_thresholds: { orange_percent_gt: 75, red_percent_gt: 85 },
+      zones: [
+        { zone_name: "Tribune Nord", occupancy_percentage: 35, status: "green" },
+        { zone_name: "Tribune Sud", occupancy_percentage: 25, status: "green" },
+      ],
+      exits: [
+        { exit_name: "S1 - Principale", incoming_flow_per_min: 100, outgoing_flow_per_min: 20, flow_load_percentage: 15, status: "green" },
+      ],
+      site_recommendation: "Situation normale.",
+      timestamp: new Date().toISOString(),
+    },
+    {
+      site_id: "corniche_ouest",
+      city: "Dakar",
+      site_name: "Corniche Ouest",
+      latitude: 14.6865,
+      longitude: -17.4761,
+      capacity: 30000,
+      crowd_type: "Outdoor",
+      telephones_detected: 9900,
+      estimated_real_crowd: 18000,
+      occupancy_percentage: 60,
+      status: "orange",
+      rise_rate_10min_percent: 5,
+      rapid_increase: false,
+      site_thresholds: { orange_percent_gt: 60, red_percent_gt: 70 },
+      zones: [
+        { zone_name: "Zone Skatepark", occupancy_percentage: 65, status: "orange" },
+        { zone_name: "Promenade", occupancy_percentage: 55, status: "green" },
+      ],
+      exits: [
+        { exit_name: "Av. Corniche", incoming_flow_per_min: 300, outgoing_flow_per_min: 150, flow_load_percentage: 60, status: "orange" },
+      ],
+      site_recommendation: "Pré-positionnement des équipes recommandé.",
+      timestamp: new Date().toISOString(),
+    },
+    {
+      site_id: "stade_iba_mar",
+      city: "Dakar",
+      site_name: "Stade Iba Mar Diop",
+      latitude: 14.6811,
+      longitude: -17.4526,
+      capacity: 8000,
+      crowd_type: "Mixte",
+      telephones_detected: 2200,
+      estimated_real_crowd: 4000,
+      occupancy_percentage: 50,
+      status: "green",
+      rise_rate_10min_percent: 3,
+      rapid_increase: false,
+      site_thresholds: { orange_percent_gt: 75, red_percent_gt: 85 },
+      zones: [
+        { zone_name: "Parvis", occupancy_percentage: 40, status: "green" },
+        { zone_name: "Tribunes", occupancy_percentage: 60, status: "green" },
+      ],
+      exits: [
+        { exit_name: "Av. Bourguiba", incoming_flow_per_min: 50, outgoing_flow_per_min: 40, flow_load_percentage: 30, status: "green" },
+      ],
+      site_recommendation: "Situation normale.",
+      timestamp: new Date().toISOString(),
+    },
+    {
+      site_id: "plage_saly_ouest",
+      city: "Saly",
+      site_name: "Plage Saly Ouest",
+      latitude: 14.4444,
+      longitude: -17.0097,
+      capacity: 10000,
+      crowd_type: "Outdoor",
+      telephones_detected: 3025,
+      estimated_real_crowd: 5500,
+      occupancy_percentage: 55,
+      status: "orange",
+      rise_rate_10min_percent: 8,
+      rapid_increase: false,
+      site_thresholds: { orange_percent_gt: 55, red_percent_gt: 65 },
+      zones: [
+        { zone_name: "Plage Centrale", occupancy_percentage: 58, status: "orange" },
+      ],
+      exits: [
+        { exit_name: "Accès RN1", incoming_flow_per_min: 200, outgoing_flow_per_min: 100, flow_load_percentage: 50, status: "green" },
+      ],
+      site_recommendation: "Surveillance accès RN1.",
+      timestamp: new Date().toISOString(),
+    },
+    {
+      site_id: "dakar_arena",
+      city: "Diamniadio",
+      site_name: "Dakar Arena",
+      latitude: 14.7397,
+      longitude: -17.1897,
+      capacity: 15000,
+      crowd_type: "Couvert",
+      telephones_detected: 1100,
+      estimated_real_crowd: 2000,
+      occupancy_percentage: 13,
+      status: "green",
+      rise_rate_10min_percent: 1,
+      rapid_increase: false,
+      site_thresholds: { orange_percent_gt: 75, red_percent_gt: 85 },
+      zones: [
+        { zone_name: "Hall Principal", occupancy_percentage: 10, status: "green" },
+      ],
+      exits: [],
+      site_recommendation: "Situation nominale.",
+      timestamp: new Date().toISOString(),
+    },
+    {
+      site_id: "centre_expo",
+      city: "Diamniadio",
+      site_name: "Centre Expo Dakar",
+      latitude: 14.735,
+      longitude: -17.195,
+      capacity: 8000,
+      crowd_type: "Couvert",
+      telephones_detected: 550,
+      estimated_real_crowd: 1000,
+      occupancy_percentage: 12,
+      status: "green",
+      rise_rate_10min_percent: 0,
+      rapid_increase: false,
+      site_thresholds: { orange_percent_gt: 75, red_percent_gt: 85 },
+      zones: [],
+      exits: [],
+      site_recommendation: "",
+      timestamp: new Date().toISOString(),
+    },
+    {
+      site_id: "tour_oeuf",
+      city: "Dakar",
+      site_name: "Tour de l'Œuf (CTO)",
+      latitude: 14.685,
+      longitude: -17.47,
+      capacity: 5000,
+      crowd_type: "Mixte",
+      telephones_detected: 825,
+      estimated_real_crowd: 1500,
+      occupancy_percentage: 30,
+      status: "green",
+      rise_rate_10min_percent: 4,
+      rapid_increase: false,
+      site_thresholds: { orange_percent_gt: 75, red_percent_gt: 85 },
+      zones: [],
+      exits: [],
+      site_recommendation: "",
+      timestamp: new Date().toISOString(),
+    },
+    {
+      site_id: "centre_equestre",
+      city: "Diamniadio",
+      site_name: "Centre Équestre",
+      latitude: 14.75,
+      longitude: -17.18,
+      capacity: 3000,
+      crowd_type: "Outdoor",
+      telephones_detected: 275,
+      estimated_real_crowd: 500,
+      occupancy_percentage: 16,
+      status: "green",
+      rise_rate_10min_percent: 1,
+      rapid_increase: false,
+      site_thresholds: { orange_percent_gt: 70, red_percent_gt: 80 },
+      zones: [],
+      exits: [],
+      site_recommendation: "",
+      timestamp: new Date().toISOString(),
+    }
+  ],
+  live_metrics: {
+    active_alerts: 0,
+    acknowledged_alerts: 12,
+    alert_history_count: 45,
+  },
+};
+
+export const mockDensityDemo: DensityPayload = {
+  ...mockDensityNormal,
+  mode: "demo",
+  global_metrics: {
+    total_estimated_people: 79500,
+    sites_in_alert: 2,
+    sites_rapid_increase: 1,
+    sites_count: 8,
+  },
+  sites: mockDensityNormal.sites.map(site => {
+    if (site.site_id === "stade_a_wade") {
+      return {
+        ...site,
+        occupancy_percentage: 92,
+        status: "red",
+        rapid_increase: true,
+        rise_rate_10min_percent: 22,
+        estimated_real_crowd: 46000,
+        site_recommendation: "Rediriger vers Dakar Arena — 9 000 places dispo",
+        zones: [
+          { zone_name: "Tribune Nord", occupancy_percentage: 95, status: "red" },
+          { zone_name: "Tribune Sud", occupancy_percentage: 89, status: "red" },
+        ],
+        exits: [
+          { exit_name: "S1 - Principale", incoming_flow_per_min: 1500, outgoing_flow_per_min: 50, flow_load_percentage: 98, status: "red" },
+        ],
+      };
+    }
+    if (site.site_id === "corniche_ouest") {
+      return {
+        ...site,
+        occupancy_percentage: 72,
+        status: "red",
+        estimated_real_crowd: 21600,
+        site_recommendation: "Ouverture des voies secondaires nécessaire.",
+        zones: [
+          { zone_name: "Zone Skatepark", occupancy_percentage: 75, status: "red" },
+          { zone_name: "Promenade", occupancy_percentage: 69, status: "orange" },
+        ],
+        exits: [
+          { exit_name: "Av. Corniche", incoming_flow_per_min: 600, outgoing_flow_per_min: 400, flow_load_percentage: 85, status: "red" },
+        ],
+      };
+    }
+    return site;
+  }),
+  live_metrics: {
+    active_alerts: 2,
+    acknowledged_alerts: 12,
+    alert_history_count: 47,
+  },
+};
+
+export const mockAlertsNormal = {
+  timestamp: new Date().toISOString(),
+  active_alerts: [],
+  history: [],
+  total_history_events: 45,
+  acknowledged_alerts: 12,
+};
+
+export const mockAlertsDemo = {
+  timestamp: new Date().toISOString(),
+  active_alerts: [
+    {
+      id: "alert-1",
+      site_id: "stade_a_wade",
+      site_name: "Stade Abdoulaye Wade",
+      alert_level: "red" as const,
+      occupancy_percentage: 92,
+      estimated_real_crowd: 46000,
+      rise_rate_10min_percent: 22,
+      rapid_increase: true,
+      city: "Diamniadio",
+      site_thresholds: { orange_percent_gt: 75, red_percent_gt: 85 },
+      site_recommendation: "Rediriger vers Dakar Arena — 9 000 places dispo",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      acknowledged: false,
+      acknowledged_at: null,
+      escalated: false,
+      escalation_created_at: null,
+      assigned_volunteer: "Agent 42",
+    },
+    {
+      id: "alert-2",
+      site_id: "corniche_ouest",
+      site_name: "Corniche Ouest",
+      alert_level: "red" as const,
+      occupancy_percentage: 72,
+      estimated_real_crowd: 21600,
+      rise_rate_10min_percent: 8,
+      rapid_increase: false,
+      city: "Dakar",
+      site_thresholds: { orange_percent_gt: 60, red_percent_gt: 70 },
+      site_recommendation: "Ouverture des voies secondaires nécessaire.",
+      created_at: new Date(Date.now() - 5 * 60000).toISOString(),
+      updated_at: new Date(Date.now() - 5 * 60000).toISOString(),
+      acknowledged: false,
+      acknowledged_at: null,
+      escalated: false,
+      escalation_created_at: null,
+      assigned_volunteer: "Agent 18",
+    }
+  ],
+  history: [],
+  total_history_events: 47,
+  acknowledged_alerts: 12,
+};
+
+export const mockGreenNormal: GreenPayload = {
+  timestamp: new Date().toISOString(),
+  sites: [
+    {
+      site_id: "corniche_ouest",
+      site_name: "Corniche Ouest",
+      city: "Dakar",
+      latitude: 14.6865,
+      longitude: -17.4761,
+      site_fill_status: "orange",
+      max_fill_percentage: 75,
+      early_crowd_alert: false,
+      zones: [
+        { zone_name: "Skatepark (B1)", fill_percentage: 75, status: "orange", early_alert: false },
+        { zone_name: "Plage (B2)", fill_percentage: 45, status: "green", early_alert: false },
+      ],
+    },
+    {
+      site_id: "stade_a_wade",
+      site_name: "Stade Abdoulaye Wade",
+      city: "Diamniadio",
+      latitude: 14.7431,
+      longitude: -17.1884,
+      site_fill_status: "green",
+      max_fill_percentage: 40,
+      early_crowd_alert: false,
+      zones: [
+        { zone_name: "Parvis Nord", fill_percentage: 40, status: "green", early_alert: false },
+        { zone_name: "Parvis Sud", fill_percentage: 20, status: "green", early_alert: false },
+      ],
+    },
+    {
+      site_id: "stade_iba_mar",
+      site_name: "Stade Iba Mar Diop",
+      city: "Dakar",
+      latitude: 14.6811,
+      longitude: -17.4526,
+      site_fill_status: "red",
+      max_fill_percentage: 95,
+      early_crowd_alert: false,
+      zones: [
+        { zone_name: "Parvis (B7)", fill_percentage: 95, status: "red", early_alert: true },
+      ],
+    }
+  ],
+};
+
+export const mockGreenDemo: GreenPayload = {
+  timestamp: new Date().toISOString(),
+  sites: [
+    ...mockGreenNormal.sites.filter(s => s.site_id !== "stade_a_wade"),
+    {
+      site_id: "stade_a_wade",
+      site_name: "Stade Abdoulaye Wade",
+      city: "Diamniadio",
+      latitude: 14.7431,
+      longitude: -17.1884,
+      site_fill_status: "orange",
+      max_fill_percentage: 65,
+      early_crowd_alert: true, // Crowds triggered early warning for trash!
+      zones: [
+        { zone_name: "Parvis Nord", fill_percentage: 65, status: "orange", early_alert: true },
+        { zone_name: "Parvis Sud", fill_percentage: 55, status: "orange", early_alert: true },
+      ],
+    }
+  ],
+};
+
+export const mockRiskIndexNormal: RiskIndexPayload = {
+  timestamp: new Date().toISOString(),
+  score: 35,
+  level: "vigilance",
+  label: "VIGILANCE",
+  recommended_action: "Pré-positionnement des équipes de sécurité sur les sites sensibles",
+  rapid_increase_bonus: 0,
+  inter_sites_congestion_bonus: 0,
+  site_contributions: [],
+  trend: "stable",
+  previous_score: 35,
+};
+
+export const mockRiskIndexDemo: RiskIndexPayload = {
+  timestamp: new Date().toISOString(),
+  score: 82,
+  level: "critical",
+  label: "CRITIQUE",
+  recommended_action: "Coordination inter-services — renforcer les équipes de sécurité",
+  rapid_increase_bonus: 10,
+  inter_sites_congestion_bonus: 5,
+  site_contributions: [],
+  trend: "rising",
+  previous_score: 35,
+};
