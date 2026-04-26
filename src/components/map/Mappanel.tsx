@@ -61,6 +61,10 @@ export function MapPanel() {
   const [toasts, setToasts] = useState<SimAlert[]>([])
   const prevAlertIds = useRef<Set<string>>(new Set())
 
+  // Fingerprints — skip expensive Leaflet rebuilds when data content is unchanged
+  const siteDataHashRef  = useRef<string>('')
+  const greenDataHashRef = useRef<string>('')
+
   // ── Init Leaflet once ──────────────────────────────────────────────────
   useEffect(() => {
     if (mapRef.current || !mapDivRef.current) return
@@ -95,6 +99,11 @@ export function MapPanel() {
   useEffect(() => {
     const layer = markerLayer.current
     if (!layer || !density?.sites || isStadiumMode) return
+
+    // Only rebuild markers when status or occupancy actually changed
+    const hash = density.sites.map(s => `${s.site_id}:${s.status}:${s.occupancy_percentage}`).join('|')
+    if (hash === siteDataHashRef.current) return
+    siteDataHashRef.current = hash
 
     layer.clearLayers()
     density.sites.forEach(site => {
@@ -151,6 +160,11 @@ export function MapPanel() {
   useEffect(() => {
     const layer = greenLayer.current
     if (!layer || !green?.sites || isStadiumMode) return
+
+    // Only rebuild when fill status or max percentage changed
+    const hash = green.sites.map(s => `${s.site_id}:${s.site_fill_status}:${s.max_fill_percentage}`).join('|')
+    if (hash === greenDataHashRef.current) return
+    greenDataHashRef.current = hash
 
     layer.clearLayers()
     green.sites.forEach(site => {

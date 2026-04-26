@@ -5,6 +5,7 @@ import {
   useMutation,
   useQuery,
   useQueryClient,
+  keepPreviousData,
 } from "@tanstack/react-query";
 import {
   acknowledgeAlert,
@@ -28,7 +29,12 @@ export function useDensity(fastMode = false) {
     queryKey: QUERY_KEYS.density,
     queryFn: fetchDensity,
     refetchInterval: fastMode ? POLLING.demo : POLLING.normal,
-    staleTime: 0,
+    // Keep stale time just under the interval so data is never treated as fresh
+    // right before a refetch, preventing spurious re-renders mid-interval.
+    staleTime: fastMode ? POLLING.demo - 500 : POLLING.normal - 2000,
+    // Retain the previous data reference while a background refetch is in
+    // flight — avoids the brief undefined flash that causes child effects to run.
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -38,7 +44,8 @@ export function useAlerts(fastMode = false) {
     queryKey: QUERY_KEYS.alerts,
     queryFn: fetchAlerts,
     refetchInterval: fastMode ? POLLING.demo : POLLING.normal,
-    staleTime: 0,
+    staleTime: fastMode ? POLLING.demo - 500 : POLLING.normal - 2000,
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -48,7 +55,8 @@ export function useGreen(fastMode = false) {
     queryKey: QUERY_KEYS.green,
     queryFn: fetchGreen,
     refetchInterval: fastMode ? POLLING.demo : POLLING.normal,
-    staleTime: 0,
+    staleTime: fastMode ? POLLING.demo - 500 : POLLING.normal - 2000,
+    placeholderData: keepPreviousData,
   });
 }
 

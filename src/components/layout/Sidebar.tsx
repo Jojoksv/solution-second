@@ -7,15 +7,20 @@ import {
   Settings,
   Command,
   Zap,
+  UserCheck,
+  HardHat,
 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useAlerts } from '@/hooks'
 import { useDemoState } from '@/stores/demoStore'
+import { useBinTaskStore } from '@/stores/binTaskStore'
 
 export function Sidebar() {
   const { data: alerts } = useAlerts()
   const demoActive = useDemoState()
   const alertCount = alerts?.active_alerts.length ?? 0
+  const { role, pendingTasks, assignedTasks, activeTasks, setRole } = useBinTaskStore()
+  const binAlertCount = pendingTasks.length + assignedTasks.length + activeTasks.length
 
   return (
     <aside className="w-[240px] bg-[#0A0A0A] border-r border-[#2A2A2A] flex flex-col h-full flex-shrink-0 z-50">
@@ -75,11 +80,18 @@ export function Sidebar() {
 
         <Link
           to="/green"
-          className="flex items-center gap-3 px-2 py-2 text-[13px] text-[#888888] font-medium rounded-[6px] hover:bg-[#141414] hover:text-[#EDEDED] transition-colors"
+          className="flex items-center justify-between px-2 py-2 text-[13px] text-[#888888] font-medium rounded-[6px] hover:bg-[#141414] hover:text-[#EDEDED] transition-colors"
           activeProps={{ className: 'bg-[#141414] text-[#EDEDED]' }}
         >
-          <Leaf size={16} strokeWidth={2} />
-          <span>Smart Green</span>
+          <div className="flex items-center gap-3">
+            <Leaf size={16} strokeWidth={2} />
+            <span>Smart Green</span>
+          </div>
+          {binAlertCount > 0 && (
+            <div className="min-w-[20px] h-5 px-1.5 flex items-center justify-center bg-[#10B981] text-white text-[10px] rounded-[4px] font-bold">
+              {binAlertCount}
+            </div>
+          )}
         </Link>
 
         <Link
@@ -108,6 +120,36 @@ export function Sidebar() {
         </div>
       )}
 
+      {/* Role switcher */}
+      <div className="px-3 pb-2">
+        <div className="border border-[#2A2A2A] rounded-[8px] overflow-hidden">
+          <button
+            onClick={() => setRole('superviseur')}
+            className={`w-full flex items-center gap-2 px-3 py-2 text-[12px] font-medium transition-colors ${
+              role === 'superviseur'
+                ? 'bg-[#F5A623] text-[#0A0A0A]'
+                : 'bg-[#0A0A0A] text-[#888888] hover:bg-[#141414]'
+            }`}
+          >
+            <UserCheck size={13} strokeWidth={2} />
+            <span>Superviseur</span>
+            {role === 'superviseur' && <span className="ml-auto text-[9px] opacity-70 font-mono">ACTIF</span>}
+          </button>
+          <button
+            onClick={() => setRole('agent')}
+            className={`w-full flex items-center gap-2 px-3 py-2 text-[12px] font-medium transition-colors border-t border-[#2A2A2A] ${
+              role === 'agent'
+                ? 'bg-[#10B981] text-white'
+                : 'bg-[#0A0A0A] text-[#888888] hover:bg-[#141414]'
+            }`}
+          >
+            <HardHat size={13} strokeWidth={2} />
+            <span>Agent Propreté</span>
+            {role === 'agent' && <span className="ml-auto text-[9px] opacity-70 font-mono">ACTIF</span>}
+          </button>
+        </div>
+      </div>
+
       {/* Footer Profile */}
       <div className="p-3 border-t border-[#2A2A2A]">
         <a
@@ -118,11 +160,19 @@ export function Sidebar() {
           <span>Paramètres</span>
         </a>
         <div className="flex items-center gap-3 px-2 py-2 rounded-[6px] hover:bg-[#141414] cursor-pointer transition-colors">
-          <div className="w-7 h-7 bg-[#2A2A2A] rounded-[4px] flex items-center justify-center text-[#EDEDED] text-[11px] font-bold">
-            JD
+          <div
+            className="w-7 h-7 rounded-[4px] flex items-center justify-center text-[11px] font-bold"
+            style={{
+              background: role === 'agent' ? '#10B981' : '#2A2A2A',
+              color: role === 'agent' ? '#fff' : '#EDEDED',
+            }}
+          >
+            {role === 'agent' ? 'AP' : 'SV'}
           </div>
           <div className="flex flex-col">
-            <span className="text-[#EDEDED] text-[12px] font-medium leading-none mb-1">Superviseur</span>
+            <span className="text-[#EDEDED] text-[12px] font-medium leading-none mb-1">
+              {role === 'agent' ? 'Agent Propreté' : 'Superviseur'}
+            </span>
             <span className="text-[#555555] text-[10px] leading-none">Dakar Operations</span>
           </div>
         </div>
