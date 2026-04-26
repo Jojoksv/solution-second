@@ -12,7 +12,7 @@ export const Route = createFileRoute('/DashboardPage')({
   component: DashboardPage,
 })
 
-export function DashboardPage() {
+function DashboardPage() {
   return (
     <div className="grid grid-cols-2 grid-rows-2 gap-4 h-full min-h-[700px]">
       <div className="panel flex flex-col overflow-hidden">

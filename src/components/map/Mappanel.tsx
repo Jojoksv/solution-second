@@ -39,7 +39,9 @@ const TRASH_SVG = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0
 export function MapPanel() {
   const demoActive = useDemoState()
   const { data: density } = useDensity(demoActive)
-  const { data: green } = useGreen(demoActive)
+  // Green markers only need to update when status crosses a threshold, not on
+  // every bin fill tick — pass false so MapPanel never enters the 2 s cycle.
+  const { data: green } = useGreen(false)
   const sim = useSimulationStore()
 
   // ── Leaflet refs ───────────────────────────────────────────────────────
@@ -161,8 +163,9 @@ export function MapPanel() {
     const layer = greenLayer.current
     if (!layer || !green?.sites || isStadiumMode) return
 
-    // Only rebuild when fill status or max percentage changed
-    const hash = green.sites.map(s => `${s.site_id}:${s.site_fill_status}:${s.max_fill_percentage}`).join('|')
+    // Only rebuild when the STATUS crosses a threshold (green→orange→red).
+    // Incremental fill changes within a band don't change the marker's appearance.
+    const hash = green.sites.map(s => `${s.site_id}:${s.site_fill_status}`).join('|')
     if (hash === greenDataHashRef.current) return
     greenDataHashRef.current = hash
 

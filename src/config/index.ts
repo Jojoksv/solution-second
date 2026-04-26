@@ -10,6 +10,7 @@ export const API_CONFIG = {
 export const POLLING = {
   normal: 15_000,  // ms – normal refresh interval
   demo: 2_000,     // ms – fast refresh during demo scenario
+  green: 8_000,    // ms – bin data; slower than demo — bins fill in 10-25 s, 8 s is plenty
 } as const;
 
 export const CHART = {

@@ -6,12 +6,9 @@ import { shortTime } from "@/lib/utils";
 export function GreenPanel() {
   const demoActive = useDemoState();
   const { data: green, isLoading } = useGreen(demoActive);
-
-  const fullBins =
-    green?.sites.reduce(
-      (acc, s) => acc + s.zones.filter((z) => z.fill_percentage >= 80).length,
-      0,
-    ) ?? 0;
+  const fullBins = green?.sites.reduce(
+    (acc, s) => acc + s.zones.filter(z => z.fill_percentage >= 80).length, 0
+  ) ?? 0;
 
   return (
     <section

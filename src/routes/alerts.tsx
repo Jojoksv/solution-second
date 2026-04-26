@@ -103,7 +103,7 @@ function AlertCard({ alert }: { alert: Alert }) {
 
 // ─── Page ────────────────────────────────────────────────────────────────
 
-export function AlertsPage() {
+function AlertsPage() {
   const demoActive = useDemoState()
   const { data: alerts } = useAlerts(demoActive)
   const active = alerts?.active_alerts ?? []

@@ -3,12 +3,12 @@
   "event": "Jeux d'Yeux Dakar 2026",
   "stadium": "Stade Iba Mar Diop",
   "theme": "Infrastructure & Environnement",
-  "generated_at": "2026-04-26T06:26:05Z",
+  "generated_at": "2026-04-26T07:54:35Z",
   "total_snapshots": 41,
   "snapshots": [
     {
       "real_tick": 0,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "pre_event",
         "label": "Pré-événement",
@@ -1237,7 +1237,7 @@
     },
     {
       "real_tick": 5,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "pre_event",
         "label": "Pré-événement",
@@ -2940,7 +2940,7 @@
     },
     {
       "real_tick": 10,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "pre_event",
         "label": "Pré-événement",
@@ -4865,7 +4865,7 @@
     },
     {
       "real_tick": 15,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "pre_event",
         "label": "Pré-événement",
@@ -7096,7 +7096,7 @@
     },
     {
       "real_tick": 20,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "pre_event",
         "label": "Pré-événement",
@@ -9990,7 +9990,7 @@
     },
     {
       "real_tick": 25,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "pre_event",
         "label": "Pré-événement",
@@ -13318,7 +13318,7 @@
     },
     {
       "real_tick": 30,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_peak",
         "label": "Pic d'affluence",
@@ -18432,7 +18432,7 @@
     },
     {
       "real_tick": 35,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_peak",
         "label": "Pic d'affluence",
@@ -23336,7 +23336,7 @@
     },
     {
       "real_tick": 40,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_peak",
         "label": "Pic d'affluence",
@@ -28162,7 +28162,7 @@
     },
     {
       "real_tick": 45,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_peak",
         "label": "Pic d'affluence",
@@ -32664,7 +32664,7 @@
     },
     {
       "real_tick": 50,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_peak",
         "label": "Pic d'affluence",
@@ -37574,7 +37574,7 @@
     },
     {
       "real_tick": 55,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_peak",
         "label": "Pic d'affluence",
@@ -42502,7 +42502,7 @@
     },
     {
       "real_tick": 60,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_peak",
         "label": "Pic d'affluence",
@@ -47328,7 +47328,7 @@
     },
     {
       "real_tick": 65,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_peak",
         "label": "Pic d'affluence",
@@ -51938,7 +51938,7 @@
     },
     {
       "real_tick": 70,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_ongoing",
         "label": "Match en cours",
@@ -56134,7 +56134,7 @@
     },
     {
       "real_tick": 75,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_ongoing",
         "label": "Match en cours",
@@ -60500,7 +60500,7 @@
     },
     {
       "real_tick": 80,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_ongoing",
         "label": "Match en cours",
@@ -64894,7 +64894,7 @@
     },
     {
       "real_tick": 85,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "event_ongoing",
         "label": "Match en cours",
@@ -69210,7 +69210,7 @@
     },
     {
       "real_tick": 90,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -74414,7 +74414,7 @@
     },
     {
       "real_tick": 95,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -79396,7 +79396,7 @@
     },
     {
       "real_tick": 100,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -84234,7 +84234,7 @@
     },
     {
       "real_tick": 105,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -88880,7 +88880,7 @@
     },
     {
       "real_tick": 110,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -93292,7 +93292,7 @@
     },
     {
       "real_tick": 115,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -97596,7 +97596,7 @@
     },
     {
       "real_tick": 120,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -101562,7 +101562,7 @@
     },
     {
       "real_tick": 125,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -105396,7 +105396,7 @@
     },
     {
       "real_tick": 130,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -109020,7 +109020,7 @@
     },
     {
       "real_tick": 135,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -112348,7 +112348,7 @@
     },
     {
       "real_tick": 140,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -115522,7 +115522,7 @@
     },
     {
       "real_tick": 145,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -118420,7 +118420,7 @@
     },
     {
       "real_tick": 150,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -121146,7 +121146,7 @@
     },
     {
       "real_tick": 155,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -123599,7 +123599,7 @@
     },
     {
       "real_tick": 160,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -125932,7 +125932,7 @@
     },
     {
       "real_tick": 165,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -127983,7 +127983,7 @@
     },
     {
       "real_tick": 170,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -129830,7 +129830,7 @@
     },
     {
       "real_tick": 175,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -131431,7 +131431,7 @@
     },
     {
       "real_tick": 180,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -132822,7 +132822,7 @@
     },
     {
       "real_tick": 185,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -134045,7 +134045,7 @@
     },
     {
       "real_tick": 190,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -135082,7 +135082,7 @@
     },
     {
       "real_tick": 195,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",
@@ -135891,7 +135891,7 @@
     },
     {
       "real_tick": 200,
-      "timestamp": "2026-04-26T06:26:05Z",
+      "timestamp": "2026-04-26T07:54:35Z",
       "phase": {
         "name": "post_event",
         "label": "Post-événement",

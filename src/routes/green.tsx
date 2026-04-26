@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import {
   Leaf, Trash2, CheckCircle2, Clock,
@@ -34,18 +34,12 @@ function timeAgo(ms: number) {
 
 // ── Page ───────────────────────────────────────────────────────────────────
 
-export function GreenPage() {
-  const demoActive = useDemoState()
-  const { data: green } = useGreen(demoActive)
-  const store = useBinTaskStore()
-
-  // Auto-generate tasks when green data updates
-  useEffect(() => {
-    if (green?.sites) checkAndGenerateTasks(green.sites)
-  }, [green])
-
-  // Apply monotonic fill correction for display
-  function stabilizedSite(site: GreenSite): GreenSite {
+// Pure function — no side-effects during render.
+// getMonotonicFill/isResetBin read+write module-level state; keeping this
+// outside the component ensures it is called at most once per data update
+// (inside useMemo) rather than on every render.
+function stabilizeGreenData(rawSites: GreenSite[]): GreenSite[] {
+  return rawSites.map(site => {
     const zones = site.zones.map(z => {
       const binId = `${site.site_id}::${z.zone_name}`
       const fill = isResetBin(binId) ? 0 : getMonotonicFill(binId, z.fill_percentage)
@@ -62,9 +56,24 @@ export function GreenPage() {
       max_fill_percentage: maxFill,
       site_fill_status: (maxFill >= 85 ? 'red' : maxFill >= 65 ? 'orange' : 'green') as typeof site.site_fill_status,
     }
-  }
+  })
+}
 
-  const sites = green?.sites.map(stabilizedSite) ?? []
+function GreenPage() {
+  const demoActive = useDemoState()
+  const { data: green } = useGreen(demoActive)
+  const store = useBinTaskStore()
+
+  // Stabilized sites — only recomputed when the query returns new data
+  const sites = useMemo(
+    () => (green?.sites ? stabilizeGreenData(green.sites) : []),
+    [green]
+  )
+
+  // Generate tasks after data stabilization — runs only when green changes
+  useEffect(() => {
+    if (green?.sites) checkAndGenerateTasks(green.sites)
+  }, [green])
 
   if (store.role === 'agent') return <AgentView store={store} />
   return <SupervisorView sites={sites} store={store} />

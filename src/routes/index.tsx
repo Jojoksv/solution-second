@@ -245,7 +245,7 @@ function SitesTable() {
 
 // ─── Main Dashboard ───────────────────────────────────────────────────────
 
-export function DashboardOverview() {
+function DashboardOverview() {
   const demoActive = useDemoState()
   const { data: density } = useQuery({
     queryKey: ['density'],

@@ -50,12 +50,15 @@ export function useAlerts(fastMode = false) {
 }
 
 // ── useGreen ───────────────────────────────────────────────────────────────
-export function useGreen(fastMode = false) {
+// Bins fill in 10-25 s — we use a dedicated GREEN polling rate (8 s) that is
+// independent of demo mode.  This prevents the 2 s demo cycle from causing
+// a cascade of re-renders across every component that shows bin data.
+export function useGreen(_fastMode = false) {
   return useQuery({
     queryKey: QUERY_KEYS.green,
     queryFn: fetchGreen,
-    refetchInterval: fastMode ? POLLING.demo : POLLING.normal,
-    staleTime: fastMode ? POLLING.demo - 500 : POLLING.normal - 2000,
+    refetchInterval: POLLING.green,
+    staleTime: POLLING.green - 1000,
     placeholderData: keepPreviousData,
   });
 }

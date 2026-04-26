@@ -1,27 +1,38 @@
 // ─── Topbar ───────────────────────────────────────────────────────────────
 // Search trigger (opens Command Palette via Ctrl+K), live KPIs, IRG badge.
 
-import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useEffect, useMemo, useState } from 'react'
 import { Search, ShieldAlert, Wifi, Users, TrendingUp } from 'lucide-react'
-import { fetchRiskIndex } from '@/api'
 import { useDensity } from '@/hooks'
 import { useDemoState } from '@/stores/demoStore'
 import { fmt } from '@/lib/utils'
 import { CommandPalette } from '@/components/layout/CommandPalette'
+import type { RiskLevel } from '@/types'
+
+// Derive IRG from cached density — avoids a separate 3 s polling cycle that
+// was making duplicate fetchDensity() HTTP calls on every tick.
+function computeIrg(density: ReturnType<typeof useDensity>['data']) {
+  if (!density?.sites) return { score: 0, level: 'nominal' as RiskLevel }
+  const occs = density.sites.map(s => s.occupancy_percentage)
+  const avg  = occs.reduce((a, b) => a + b, 0) / Math.max(1, occs.length)
+  const peak = Math.max(...occs, 0)
+  const score = Math.min(100, Math.round(avg * 0.55 + peak * 0.40))
+  const level: RiskLevel =
+    score > 90 ? 'emergency' :
+    score > 75 ? 'critical'  :
+    score > 55 ? 'alert'     :
+    score > 30 ? 'vigilance' : 'nominal'
+  return { score, level }
+}
 
 export function Topbar() {
   const demoActive = useDemoState()
   const [paletteOpen, setPaletteOpen] = useState(false)
-
-  const { data: riskIndex } = useQuery({
-    queryKey: ['risk-index'],
-    queryFn: fetchRiskIndex,
-    refetchInterval: 3000,
-  })
   const { data: density } = useDensity(demoActive)
 
-  const isCritical = riskIndex?.level === 'critical' || riskIndex?.level === 'alert'
+  const riskIndex = useMemo(() => computeIrg(density), [density])
+
+  const isCritical = riskIndex.level === 'critical' || riskIndex.level === 'alert' || riskIndex.level === 'emergency'
   const totalPeople = density?.global_metrics.total_estimated_people ?? 0
   const sitesInAlert = density?.global_metrics.sites_in_alert ?? 0
 
@@ -88,7 +99,7 @@ export function Topbar() {
             }`}
           >
             <ShieldAlert size={14} />
-            <span className="text-[12px] font-bold">IRG : {riskIndex?.score ?? 0}</span>
+            <span className="text-[12px] font-bold">IRG : {riskIndex.score}</span>
           </div>
         </div>
       </header>
