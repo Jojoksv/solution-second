@@ -69,7 +69,7 @@ export function MapPanel() {
       [14.715, -17.25],
       STADIUM_ZOOM_GLOBAL,
     )
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
       subdomains: 'abcd',
       maxZoom: 20,
@@ -122,21 +122,21 @@ export function MapPanel() {
       marker.bindPopup(`
         <div style="margin-bottom:8px;">
           <span style="color:${color};font-size:10px;text-transform:uppercase;font-weight:bold;letter-spacing:0.05em;">${site.city}</span><br>
-          <strong style="font-size:15px;color:#EDEDED;">${site.site_name}</strong>
+          <strong style="font-size:15px;color:#111827;">${site.site_name}</strong>
         </div>
         <table style="width:100%;font-size:12px;border-collapse:collapse;">
-          <tr style="border-bottom:1px solid #2A2A2A;"><td style="padding:4px 0;color:#888;">Capacité</td><td style="text-align:right;font-weight:bold;color:#EDEDED;">${fmt(site.capacity)}</td></tr>
-          <tr style="border-bottom:1px solid #2A2A2A;"><td style="padding:4px 0;color:#888;">Foule estimée</td><td style="text-align:right;font-weight:bold;color:#EDEDED;">${fmt(site.estimated_real_crowd)}</td></tr>
-          <tr><td style="padding:4px 0;color:#888;">Densité</td><td style="text-align:right;font-weight:bold;color:${color};">${site.occupancy_percentage}%</td></tr>
+          <tr style="border-bottom:1px solid #E5E7EB;"><td style="padding:4px 0;color:#6B7280;">Capacité</td><td style="text-align:right;font-weight:bold;color:#111827;">${fmt(site.capacity)}</td></tr>
+          <tr style="border-bottom:1px solid #E5E7EB;"><td style="padding:4px 0;color:#6B7280;">Foule estimée</td><td style="text-align:right;font-weight:bold;color:#111827;">${fmt(site.estimated_real_crowd)}</td></tr>
+          <tr><td style="padding:4px 0;color:#6B7280;">Densité</td><td style="text-align:right;font-weight:bold;color:${color};">${site.occupancy_percentage}%</td></tr>
         </table>
-        ${site.site_id === 'stade_iba_mar'
-          ? '<div style="margin-top:10px;text-align:center;font-size:10px;padding:4px 8px;background:#f5c84220;border:1px solid #f5c84240;border-radius:4px;color:#f5c842;font-weight:bold;">Cliquer pour la simulation complète →</div>'
-          : '<div style="margin-top:8px;font-size:10px;color:#888;text-align:center;">Cliquez pour voir le plan interne</div>'
+        ${site.site_id === 'iba_mar_diop'
+          ? '<div style="margin-top:10px;text-align:center;font-size:10px;padding:4px 8px;background:#FF660015;border:1px solid #FF660040;border-radius:4px;color:#FF6600;font-weight:bold;">Cliquer pour la simulation complète →</div>'
+          : '<div style="margin-top:8px;font-size:10px;color:#6B7280;text-align:center;">Cliquez pour voir le plan interne</div>'
         }
       `)
 
       marker.on('click', () => {
-        if (site.site_id === 'stade_iba_mar') {
+        if (site.site_id === 'iba_mar_diop') {
           enterStadiumMode()
         } else {
           setSelectedSite(site)
@@ -167,12 +167,12 @@ export function MapPanel() {
       })
       L.marker([lat, lng], { icon })
         .bindPopup(`
-          <strong style="color:#EDEDED;">Smart Green – ${site.site_name}</strong><br>
-          ${site.early_crowd_alert ? '<div style="color:#F5A623;font-size:11px;margin:4px 0;">⚠️ Alerte précoce : Forte affluence détectée.</div>' : ''}
+          <strong style="color:#111827;font-size:13px;">Smart Green – ${site.site_name}</strong><br>
+          ${site.early_crowd_alert ? '<div style="color:#FF6600;font-size:11px;margin:4px 0;">⚠️ Alerte précoce : Forte affluence détectée.</div>' : ''}
           <table style="width:100%;font-size:11px;margin-top:8px;">
             ${site.zones.map(z => {
-              const c = z.status === 'red' ? '#E5484D' : z.status === 'orange' ? '#F5A623' : '#10B981'
-              return `<tr><td style="color:#888;">${z.zone_name}</td><td style="text-align:right;color:${c};font-weight:bold;">${z.fill_percentage}%</td></tr>`
+              const c = z.status === 'red' ? '#EF4444' : z.status === 'orange' ? '#FF6600' : '#10B981'
+              return `<tr><td style="color:#6B7280;">${z.zone_name}</td><td style="text-align:right;color:${c};font-weight:bold;">${z.fill_percentage}%</td></tr>`
             }).join('')}
           </table>
         `)
@@ -346,14 +346,11 @@ export function MapPanel() {
         .bindPopup(buildGatePopup(gate))
         .addTo(gLayer)
 
-      // Gate ID label
+      // Gate ID label — iconAnchor center-bottom places label above the gate dot
       L.marker([gate.lat, gate.lng], {
         icon: L.divIcon({
           className: '',
           html: `<div style="
-            position:relative;
-            top:-26px;
-            left:-12px;
             background:${gate.color}22;
             border:1px solid ${gate.color}66;
             color:${gate.color};
@@ -367,7 +364,7 @@ export function MapPanel() {
             pointer-events:none;
           ">${gate.id}</div>`,
           iconSize: [28, 14],
-          iconAnchor: [0, 0],
+          iconAnchor: [14, 28],
         }),
         interactive: false,
       }).addTo(gLayer)
@@ -390,9 +387,9 @@ export function MapPanel() {
       const icon = L.divIcon({
         className: '',
         html: `
-          <div style="position:relative;">
+          <div style="position:relative;display:inline-flex;">
             <div style="
-              background:#070b12;
+              background:#FFFFFF;
               border:1.5px solid ${bin.color};
               border-radius:5px;
               padding:2px 5px;
@@ -403,7 +400,7 @@ export function MapPanel() {
               align-items:center;
               gap:3px;
               white-space:nowrap;
-              box-shadow:0 2px 8px rgba(0,0,0,0.6)${bin.alert ? `,0 0 6px ${bin.color}60` : ''};
+              box-shadow:0 1px 4px rgba(0,0,0,0.15)${bin.alert ? `,0 0 6px ${bin.color}50` : ''};
               font-family:monospace;
             ">
               <svg viewBox="0 0 24 24" width="9" height="9" fill="${bin.color}">
@@ -415,7 +412,7 @@ export function MapPanel() {
           </div>
         `,
         iconSize: [44, 20],
-        iconAnchor: [22, 20],
+        iconAnchor: [22, 10],
       })
 
       L.marker([bin.lat, bin.lng], { icon })
@@ -429,24 +426,24 @@ export function MapPanel() {
   function buildGatePopup(gate: GateState): string {
     return `
       <div>
-        <strong style="font-size:13px;color:#EDEDED;">${gate.name}</strong>
+        <strong style="font-size:13px;color:#111827;">${gate.name}</strong>
         <div style="margin-top:8px;font-size:11px;line-height:1.8;">
-          <div style="color:#888;">Densité :
+          <div style="color:#6B7280;">Densité :
             <span style="color:${gate.color};font-weight:700;font-size:13px;">${Math.round(gate.density * 100)}%</span>
           </div>
-          <div style="background:#0d1420;border-radius:3px;height:5px;overflow:hidden;margin:4px 0;">
+          <div style="background:#E5E7EB;border-radius:3px;height:5px;overflow:hidden;margin:4px 0;">
             <div style="height:100%;width:${Math.round(gate.density * 100)}%;background:${gate.color};border-radius:3px;"></div>
           </div>
-          <div style="color:#888;">Foule :
-            <span style="color:#EDEDED;font-weight:700;">${gate.crowdCount.toLocaleString('fr-FR')}</span> personnes
+          <div style="color:#6B7280;">Foule :
+            <span style="color:#111827;font-weight:700;">${gate.crowdCount.toLocaleString('fr-FR')}</span> personnes
           </div>
-          <div style="color:#888;">Capacité :
-            <span style="color:#EDEDED;">${gate.capacity.toLocaleString('fr-FR')}</span>
+          <div style="color:#6B7280;">Capacité :
+            <span style="color:#111827;">${gate.capacity.toLocaleString('fr-FR')}</span>
           </div>
           <div style="margin-top:6px;">
             <span style="
-              background:${gate.color}20;
-              border:1px solid ${gate.color}50;
+              background:${gate.color}18;
+              border:1px solid ${gate.color}45;
               color:${gate.color};
               font-weight:700;
               font-size:9px;
@@ -464,20 +461,20 @@ export function MapPanel() {
   function buildBinPopup(bin: BinState): string {
     return `
       <div>
-        <strong style="font-size:13px;color:#EDEDED;">${bin.label}</strong>
+        <strong style="font-size:13px;color:#111827;">${bin.label}</strong>
         <div style="margin-top:8px;">
-          <div style="font-size:10px;color:#888;margin-bottom:4px;">Remplissage</div>
-          <div style="background:#0d1420;border-radius:4px;height:8px;overflow:hidden;">
+          <div style="font-size:10px;color:#6B7280;margin-bottom:4px;">Remplissage</div>
+          <div style="background:#E5E7EB;border-radius:4px;height:8px;overflow:hidden;">
             <div style="height:100%;width:${bin.fillPercent}%;background:${bin.color};border-radius:4px;${bin.alert ? `box-shadow:0 0 4px ${bin.color};` : ''}"></div>
           </div>
           <div style="text-align:right;font-size:13px;color:${bin.color};font-weight:700;margin-top:2px;">${bin.fillPercent}%</div>
         </div>
-        <div style="font-size:11px;color:#888;margin-top:6px;line-height:1.8;">
-          <div>Volume : <span style="color:#EDEDED;font-weight:600;">${bin.currentLiters}L / ${bin.maxLiters}L</span></div>
+        <div style="font-size:11px;color:#6B7280;margin-top:6px;line-height:1.8;">
+          <div>Volume : <span style="color:#111827;font-weight:600;">${bin.currentLiters}L / ${bin.maxLiters}L</span></div>
           <div>Niveau :
             <span style="color:${bin.color};font-weight:700;text-transform:uppercase;font-size:10px;">${bin.level}</span>
           </div>
-          ${bin.alert ? `<div style="color:#ef4444;font-weight:700;margin-top:4px;">⚠ Collecte urgente requise</div>` : ''}
+          ${bin.alert ? `<div style="color:#EF4444;font-weight:700;margin-top:4px;">⚠ Collecte urgente requise</div>` : ''}
         </div>
       </div>
     `
@@ -491,13 +488,13 @@ export function MapPanel() {
     >
       {/* ── Global view legend ── */}
       {!isStadiumMode && (
-        <div className="absolute top-4 left-4 z-[400] flex gap-2 bg-[#0A0A0A]/90 backdrop-blur-md border border-[#2A2A2A] px-3 py-2 rounded shadow-lg pointer-events-auto">
+        <div className="absolute top-4 left-4 z-[400] flex gap-2 bg-white/90 backdrop-blur-md border border-[#E5E7EB] px-3 py-2 rounded-lg shadow-md pointer-events-auto">
           {[
-            { color: '#0070F3', label: 'Dakar' },
+            { color: '#3b82f6', label: 'Dakar' },
             { color: '#10B981', label: 'Diamniadio' },
-            { color: '#F5A623', label: 'Saly' },
+            { color: '#F59E0B', label: 'Saly' },
           ].map(({ color, label }) => (
-            <div key={label} className="flex items-center gap-1.5 text-[11px] font-medium text-[#EDEDED] uppercase tracking-wide ml-2 first:ml-0">
+            <div key={label} className="flex items-center gap-1.5 text-[11px] font-medium text-[#374151] uppercase tracking-wide ml-2 first:ml-0">
               <div className="w-2 h-2 rounded-full" style={{ background: color }} />
               {label}
             </div>
@@ -509,10 +506,10 @@ export function MapPanel() {
       {isStadiumMode && (
         <button
           onClick={() => setShowHeatmap(h => !h)}
-          className={`absolute top-4 left-4 z-[400] flex items-center gap-2 px-3 py-2 rounded-lg shadow-xl border backdrop-blur-md text-[11px] font-semibold uppercase tracking-wide transition-all pointer-events-auto ${
+          className={`absolute top-4 left-4 z-[400] flex items-center gap-2 px-3 py-2 rounded-lg shadow-md border backdrop-blur-md text-[11px] font-semibold uppercase tracking-wide transition-all pointer-events-auto ${
             showHeatmap
-              ? 'bg-[#f5c842]/15 border-[#f5c842]/40 text-[#f5c842]'
-              : 'bg-[#03050a]/95 border-[#0f1827] text-[#4a6080] hover:text-[#8090a0]'
+              ? 'bg-[#FF6600]/12 border-[#FF6600]/40 text-[#FF6600]'
+              : 'bg-white/90 border-[#E5E7EB] text-[#6B7280] hover:text-[#374151]'
           }`}
           title="Activer/désactiver la heatmap thermique"
         >
@@ -523,8 +520,8 @@ export function MapPanel() {
 
       {/* ── Stadium mode density/bin legend ── */}
       {isStadiumMode && (
-        <div className="absolute bottom-16 left-4 z-[400] bg-[#03050a]/95 backdrop-blur-md border border-[#0f1827] px-3 py-2.5 rounded-lg shadow-xl pointer-events-auto">
-          <div className="text-[8px] text-[#2a3a4a] uppercase tracking-widest mb-2 font-bold">Densité foule</div>
+        <div className="absolute bottom-16 left-4 z-[400] bg-white/92 backdrop-blur-md border border-[#E5E7EB] px-3 py-2.5 rounded-lg shadow-md pointer-events-auto">
+          <div className="text-[8px] text-[#9CA3AF] uppercase tracking-widest mb-2 font-bold">Densité foule</div>
           {[
             { color: '#22c55e', label: 'Faible   ≤ 25%' },
             { color: '#eab308', label: 'Modérée  ≤ 50%' },
@@ -533,10 +530,10 @@ export function MapPanel() {
           ].map(({ color, label }) => (
             <div key={color} className="flex items-center gap-2 mb-1">
               <div className="w-2 h-2 rounded-full flex-none" style={{ background: color }} />
-              <span className="text-[9px] text-[#8090a0] font-mono">{label}</span>
+              <span className="text-[9px] text-[#6B7280] font-mono">{label}</span>
             </div>
           ))}
-          <div className="border-t border-[#0f1827] mt-2 pt-2 text-[8px] text-[#2a3a4a] uppercase tracking-widest mb-2 font-bold">Poubelles</div>
+          <div className="border-t border-[#E5E7EB] mt-2 pt-2 text-[8px] text-[#9CA3AF] uppercase tracking-widest mb-2 font-bold">Poubelles</div>
           {[
             { color: '#22c55e', label: '< 50%' },
             { color: '#f97316', label: '50 – 75%' },
@@ -544,7 +541,7 @@ export function MapPanel() {
           ].map(({ color, label }) => (
             <div key={color} className="flex items-center gap-2 mb-1">
               <div className="w-2 h-2 rounded-sm flex-none" style={{ background: color }} />
-              <span className="text-[9px] text-[#8090a0] font-mono">{label}</span>
+              <span className="text-[9px] text-[#6B7280] font-mono">{label}</span>
             </div>
           ))}
         </div>

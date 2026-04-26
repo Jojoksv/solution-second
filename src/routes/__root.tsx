@@ -12,7 +12,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <div className="flex h-screen bg-[#000000] text-[#EDEDED] font-sans overflow-hidden">
+    <div className="flex h-screen bg-[#F4F5F7] text-[#111827] font-sans overflow-hidden">
       <Sidebar />
       <div className="flex flex-col flex-1 min-w-0">
         <Topbar />

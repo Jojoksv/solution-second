@@ -19,24 +19,26 @@ interface StatCardProps {
   icon: LucideIcon
   trend?: string
   isAlert?: boolean
+  accentColor?: string
 }
 
-function StatCard({ title, value, icon: Icon, trend, isAlert = false }: StatCardProps) {
+function StatCard({ title, value, icon: Icon, trend, isAlert = false, accentColor }: StatCardProps) {
+  const color = isAlert ? '#EF4444' : (accentColor ?? '#6B7280')
   return (
     <div className="panel p-4 flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Icon size={14} className={isAlert ? 'text-[#E5484D]' : 'text-[#888888]'} />
-          <span className="text-[12px] font-medium text-[#888888] tracking-wide uppercase">{title}</span>
+          <Icon size={14} style={{ color }} />
+          <span className="text-[12px] font-medium text-[#6B7280] tracking-wide uppercase">{title}</span>
         </div>
       </div>
       <div className="flex items-end justify-between mt-1">
-        <span className={`text-2xl font-semibold tracking-tight ${isAlert ? 'text-[#E5484D]' : 'text-[#EDEDED]'}`}>
+        <span className="text-2xl font-semibold tracking-tight" style={{ color: isAlert ? '#EF4444' : '#111827' }}>
           {value}
         </span>
         {trend && (
-          <div className="flex items-center gap-1 bg-[#141414] px-1.5 py-0.5 rounded-[4px] border border-[#2A2A2A]">
-            <span className={`text-[11px] font-medium ${trend.startsWith('+') ? 'text-[#10B981]' : trend.startsWith('-') ? 'text-[#E5484D]' : 'text-[#888888]'}`}>
+          <div className="flex items-center gap-1 bg-[#F4F5F7] px-1.5 py-0.5 rounded-[4px] border border-[#E5E7EB]">
+            <span className={`text-[11px] font-medium ${trend.startsWith('+') ? 'text-[#10B981]' : trend.startsWith('-') ? 'text-[#EF4444]' : 'text-[#6B7280]'}`}>
               {trend}
             </span>
           </div>
@@ -52,19 +54,18 @@ function IrgGauge() {
   const { data: riskIndex } = useQuery({
     queryKey: ['risk-index'],
     queryFn: fetchRiskIndex,
-    refetchInterval: 3000,
+    refetchInterval: 5000,
   })
   const score = riskIndex?.score ?? 0
   const level = riskIndex?.level ?? 'nominal'
   const trend = riskIndex?.trend ?? 'stable'
 
-  // Arc: 0–100% maps to a 270° gauge starting from -135°
   const angle = (score / 100) * 270 - 135
   const color =
-    level === 'emergency' ? '#E5484D' :
-    level === 'critical'  ? '#E5484D' :
-    level === 'alert'     ? '#F5A623' :
-    level === 'vigilance' ? '#F5A623' : '#10B981'
+    level === 'emergency' ? '#EF4444' :
+    level === 'critical'  ? '#EF4444' :
+    level === 'alert'     ? '#FF6600' :
+    level === 'vigilance' ? '#F59E0B' : '#10B981'
 
   const TrendIcon = trend === 'rising' ? TrendingUp : trend === 'falling' ? TrendingDown : Minus
 
@@ -72,8 +73,8 @@ function IrgGauge() {
     <div className="panel p-4 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <ShieldAlert size={14} className="text-[#888888]" />
-          <span className="text-[12px] font-medium text-[#888888] tracking-wide uppercase">Indicateur Risque Global</span>
+          <ShieldAlert size={14} className="text-[#6B7280]" />
+          <span className="text-[12px] font-medium text-[#6B7280] tracking-wide uppercase">Indicateur Risque Global</span>
         </div>
         <div className="flex items-center gap-1 text-[11px]" style={{ color }}>
           <TrendIcon size={11} />
@@ -87,11 +88,11 @@ function IrgGauge() {
           <path
             d="M 20 90 A 60 60 0 1 1 140 90"
             fill="none"
-            stroke="#1A1A1A"
+            stroke="#F4F5F7"
             strokeWidth="10"
             strokeLinecap="round"
           />
-          {/* Filled arc - using stroke-dasharray for partial fill */}
+          {/* Filled arc */}
           <path
             d="M 20 90 A 60 60 0 1 1 140 90"
             fill="none"
@@ -120,7 +121,7 @@ function IrgGauge() {
       </div>
 
       {riskIndex?.recommended_action && (
-        <div className="text-[11px] text-[#888888] leading-snug border-t border-[#2A2A2A] pt-2">
+        <div className="text-[11px] text-[#6B7280] leading-snug border-t border-[#E5E7EB] pt-2">
           {riskIndex.recommended_action}
         </div>
       )}
@@ -138,23 +139,23 @@ function AlertBanner() {
   return (
     <Link
       to="/alerts"
-      className="panel p-4 flex items-center justify-between gap-4 border border-[#E5484D]/30 bg-[#E5484D]/5 hover:bg-[#E5484D]/10 transition-colors status-pulse-red group"
+      className="panel p-4 flex items-center justify-between gap-4 border border-[#EF4444]/30 bg-[#EF4444]/5 hover:bg-[#EF4444]/8 transition-colors status-pulse-red group"
     >
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-[#E5484D]/15 flex items-center justify-center flex-none">
-          <AlertTriangle size={18} className="text-[#E5484D]" />
+        <div className="w-9 h-9 rounded-full bg-[#EF4444]/12 flex items-center justify-center flex-none">
+          <AlertTriangle size={18} className="text-[#EF4444]" />
         </div>
         <div>
-          <div className="text-[14px] font-semibold text-[#E5484D]">
+          <div className="text-[14px] font-semibold text-[#EF4444]">
             {count} alerte{count > 1 ? 's' : ''} active{count > 1 ? 's' : ''} — intervention requise
           </div>
-          <div className="text-[11px] text-[#888888] mt-0.5">
+          <div className="text-[11px] text-[#6B7280] mt-0.5">
             {alerts?.active_alerts.slice(0, 2).map(a => a.site_name).join(', ')}
             {count > 2 ? ` et ${count - 2} autre${count - 2 > 1 ? 's' : ''}` : ''}
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 text-[12px] text-[#E5484D] font-semibold group-hover:translate-x-1 transition-transform">
+      <div className="flex items-center gap-2 text-[12px] text-[#EF4444] font-semibold group-hover:translate-x-1 transition-transform">
         <span>Voir toutes</span>
         <ArrowRight size={14} />
       </div>
@@ -169,19 +170,19 @@ function SitesTable() {
   const { data: density } = useQuery({
     queryKey: ['density'],
     queryFn: fetchDensity,
-    refetchInterval: demoActive ? 2000 : 3000,
+    refetchInterval: demoActive ? 2000 : 5000,
   })
 
   return (
     <div className="panel flex flex-col">
-      <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center justify-between">
-        <h2 className="text-[13px] font-semibold text-[#EDEDED]">Sites en surveillance</h2>
-        <span className="text-[10px] text-[#888888] font-mono">{density?.sites.length ?? 0} sites</span>
+      <div className="px-4 py-3 border-b border-[#E5E7EB] flex items-center justify-between">
+        <h2 className="text-[13px] font-semibold text-[#111827]">Sites en surveillance</h2>
+        <span className="text-[10px] text-[#9CA3AF] font-mono">{density?.sites.length ?? 0} sites</span>
       </div>
       <div className="overflow-y-auto max-h-[360px]">
         <table className="w-full text-[12px]">
-          <thead className="sticky top-0 bg-[#0A0A0A] border-b border-[#2A2A2A]">
-            <tr className="text-left text-[10px] text-[#555555] uppercase tracking-wider">
+          <thead className="sticky top-0 bg-white border-b border-[#E5E7EB]">
+            <tr className="text-left text-[10px] text-[#9CA3AF] uppercase tracking-wider">
               <th className="px-4 py-2.5 font-semibold">Site</th>
               <th className="px-2 py-2.5 font-semibold">Ville</th>
               <th className="px-2 py-2.5 font-semibold text-right">Densité</th>
@@ -192,23 +193,23 @@ function SitesTable() {
           <tbody>
             {density?.sites.map(site => {
               const statusColor =
-                site.status === 'red' ? '#E5484D' :
-                site.status === 'orange' ? '#F5A623' : '#10B981'
+                site.status === 'red' ? '#EF4444' :
+                site.status === 'orange' ? '#FF6600' : '#10B981'
               const TrendIcon =
                 site.rise_rate_10min_percent > 5 ? TrendingUp :
                 site.rise_rate_10min_percent < -5 ? TrendingDown : Minus
               return (
                 <tr
                   key={site.site_id}
-                  className="border-b border-[#1A1A1A] hover:bg-[#141414] transition-colors"
+                  className="border-b border-[#F4F5F7] hover:bg-[#F9FAFB] transition-colors"
                 >
-                  <td className="px-4 py-2.5 font-medium text-[#EDEDED] whitespace-nowrap">{site.site_name}</td>
+                  <td className="px-4 py-2.5 font-medium text-[#111827] whitespace-nowrap">{site.site_name}</td>
                   <td className="px-2 py-2.5">
                     <span style={{ color: cityColor(site.city) }} className="text-[11px] font-medium">{site.city}</span>
                   </td>
                   <td className="px-2 py-2.5 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <div className="w-12 bg-[#1A1A1A] rounded-full h-1 overflow-hidden">
+                      <div className="w-12 bg-[#E5E7EB] rounded-full h-1.5 overflow-hidden">
                         <div
                           className="h-full rounded-full"
                           style={{ width: `${site.occupancy_percentage}%`, background: statusColor }}
@@ -222,12 +223,12 @@ function SitesTable() {
                   <td className="px-2 py-2.5 text-center">
                     <span
                       className="inline-block w-2 h-2 rounded-full"
-                      style={{ background: statusColor, boxShadow: `0 0 6px ${statusColor}` }}
+                      style={{ background: statusColor, boxShadow: `0 0 5px ${statusColor}` }}
                     />
                   </td>
                   <td className="px-4 py-2.5 text-right">
                     <div className="inline-flex items-center gap-1 text-[11px] font-mono"
-                      style={{ color: site.rise_rate_10min_percent > 5 ? '#E5484D' : site.rise_rate_10min_percent < -5 ? '#10B981' : '#888888' }}
+                      style={{ color: site.rise_rate_10min_percent > 5 ? '#EF4444' : site.rise_rate_10min_percent < -5 ? '#10B981' : '#9CA3AF' }}
                     >
                       <TrendIcon size={11} />
                       <span>{site.rise_rate_10min_percent > 0 ? '+' : ''}{site.rise_rate_10min_percent}%</span>
@@ -250,7 +251,7 @@ export function DashboardOverview() {
   const { data: density } = useQuery({
     queryKey: ['density'],
     queryFn: fetchDensity,
-    refetchInterval: demoActive ? 2000 : 3000,
+    refetchInterval: demoActive ? 2000 : 5000,
   })
 
   const totalPeople = density?.global_metrics.total_estimated_people ?? 0
@@ -261,8 +262,8 @@ export function DashboardOverview() {
     <div className="flex flex-col gap-6 w-full max-w-[1400px] mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-semibold text-[#EDEDED] tracking-tight">Tableau de bord</h1>
-        <p className="text-[13px] text-[#888888] mt-1">Métriques temps-réel des capteurs déployés sur tous les sites JOJ Dakar 2026.</p>
+        <h1 className="text-xl font-semibold text-[#111827] tracking-tight">Tableau de bord</h1>
+        <p className="text-[13px] text-[#6B7280] mt-1">Métriques temps-réel des capteurs déployés sur tous les sites JOJ Dakar 2026.</p>
       </div>
 
       {/* Alert Banner (visible only if active alerts) */}
@@ -270,8 +271,8 @@ export function DashboardOverview() {
 
       {/* KPI row + IRG gauge */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <StatCard title="Foule totale" value={fmt(totalPeople)} icon={Users} trend="+5.2%" />
-        <StatCard title="Capteurs actifs" value={activeSensors} icon={Radio} trend="99.9%" />
+        <StatCard title="Foule totale" value={fmt(totalPeople)} icon={Users} trend="+5.2%" accentColor="#FF6600" />
+        <StatCard title="Capteurs actifs" value={activeSensors} icon={Radio} trend="99.9%" accentColor="#10B981" />
         <StatCard
           title="Alertes actives"
           value={sitesAlert}
@@ -279,14 +280,14 @@ export function DashboardOverview() {
           trend={sitesAlert > 0 ? `+${sitesAlert}` : '0'}
           isAlert={sitesAlert > 0}
         />
-        <StatCard title="Charge système" value="42%" icon={Activity} trend="-1.5%" />
+        <StatCard title="Charge système" value="42%" icon={Activity} trend="-1.5%" accentColor="#6B7280" />
       </div>
 
       {/* Main grid: Chart + IRG Gauge + Sites Table */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 panel flex flex-col min-h-[400px]">
-          <div className="px-4 py-3 border-b border-[#2A2A2A]">
-            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Densité de foule — simulation temps réel</h2>
+          <div className="px-4 py-3 border-b border-[#E5E7EB]">
+            <h2 className="text-[13px] font-semibold text-[#111827]">Densité de foule — simulation temps réel</h2>
           </div>
           <div className="p-4 flex-1">
             <DensityChart />
@@ -301,8 +302,8 @@ export function DashboardOverview() {
           <SitesTable />
         </div>
         <div className="panel flex flex-col min-h-[400px]">
-          <div className="px-4 py-3 border-b border-[#2A2A2A] flex justify-between items-center">
-            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Flux capteurs</h2>
+          <div className="px-4 py-3 border-b border-[#E5E7EB] flex justify-between items-center">
+            <h2 className="text-[13px] font-semibold text-[#111827]">Flux capteurs</h2>
             <div className="w-2 h-2 rounded-full bg-[#10B981] status-pulse-green" />
           </div>
           <div className="p-0 flex-1 overflow-y-auto max-h-[400px]">
@@ -314,7 +315,7 @@ export function DashboardOverview() {
   )
 }
 
-// ─── Sensor Simulation Panel (kept, translated to FR) ──────────────────────
+// ─── Sensor Simulation Panel ──────────────────────────────────────────────
 
 const MOCK_MESSAGES = [
   { msg: 'Paquet de données reçu : capteur S-14A', status: 'ok' },
@@ -349,13 +350,13 @@ function SensorSimulationPanel() {
         return (
           <div
             key={log.id}
-            className="flex items-start gap-3 px-4 py-3 border-b border-[#2A2A2A] last:border-0 hover:bg-[#141414] transition-colors"
+            className="flex items-start gap-3 px-4 py-3 border-b border-[#F4F5F7] last:border-0 hover:bg-[#F9FAFB] transition-colors"
           >
-            <div className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${log.status === 'warn' ? 'bg-[#F5A623]' : 'bg-[#10B981]'}`} />
+            <div className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${log.status === 'warn' ? 'bg-[#F59E0B]' : 'bg-[#10B981]'}`} />
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between">
-                <span className="text-[12px] text-[#EDEDED] leading-snug">{log.msg}</span>
-                <span className="text-[10px] text-[#555555] font-mono">{timeStr}</span>
+                <span className="text-[12px] text-[#374151] leading-snug">{log.msg}</span>
+                <span className="text-[10px] text-[#9CA3AF] font-mono">{timeStr}</span>
               </div>
             </div>
           </div>

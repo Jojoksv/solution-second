@@ -17,11 +17,12 @@ export function Topbar() {
   const { data: riskIndex } = useQuery({
     queryKey: ['risk-index'],
     queryFn: fetchRiskIndex,
-    refetchInterval: 3000,
+    refetchInterval: 5000,
   })
   const { data: density } = useDensity(demoActive)
 
-  const isCritical = riskIndex?.level === 'critical' || riskIndex?.level === 'alert'
+  const isCritical = riskIndex?.level === 'critical' || riskIndex?.level === 'emergency'
+  const isAlert = riskIndex?.level === 'alert'
   const totalPeople = density?.global_metrics.total_estimated_people ?? 0
   const sitesInAlert = density?.global_metrics.sites_in_alert ?? 0
 
@@ -37,20 +38,22 @@ export function Topbar() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  const riskColor = isCritical ? '#EF4444' : isAlert ? '#FF6600' : '#10B981'
+
   return (
     <>
-      <header className="h-14 flex-shrink-0 flex items-center justify-between px-6 border-b border-[#2A2A2A] bg-[#0A0A0A] gap-4">
+      <header className="h-14 flex-shrink-0 flex items-center justify-between px-6 border-b border-[#E5E7EB] bg-white gap-4">
 
         {/* ── Search trigger (opens palette) ── */}
         <button
           onClick={() => setPaletteOpen(true)}
-          className="flex items-center w-[300px] h-8 bg-[#111111] border border-[#2A2A2A] rounded-[4px] px-3 hover:border-[#3A3A3A] transition-colors text-left"
+          className="flex items-center w-[300px] h-8 bg-[#F4F5F7] border border-[#E5E7EB] rounded-[6px] px-3 hover:border-[#D1D5DB] transition-colors text-left"
         >
-          <Search size={14} className="text-[#555555] mr-2 flex-none" />
-          <span className="flex-1 text-[13px] text-[#555555]">Sites, zones, alertes…</span>
+          <Search size={14} className="text-[#9CA3AF] mr-2 flex-none" />
+          <span className="flex-1 text-[13px] text-[#9CA3AF]">Sites, zones, alertes…</span>
           <div className="flex items-center gap-1">
-            <kbd className="hidden md:inline-flex text-[10px] bg-[#1A1A1A] text-[#888888] px-1.5 py-0.5 rounded border border-[#2A2A2A] font-sans">⌘</kbd>
-            <kbd className="hidden md:inline-flex text-[10px] bg-[#1A1A1A] text-[#888888] px-1.5 py-0.5 rounded border border-[#2A2A2A] font-sans">K</kbd>
+            <kbd className="hidden md:inline-flex text-[10px] bg-white text-[#9CA3AF] px-1.5 py-0.5 rounded border border-[#E5E7EB] font-sans">⌘</kbd>
+            <kbd className="hidden md:inline-flex text-[10px] bg-white text-[#9CA3AF] px-1.5 py-0.5 rounded border border-[#E5E7EB] font-sans">K</kbd>
           </div>
         </button>
 
@@ -58,34 +61,35 @@ export function Topbar() {
         <div className="flex items-center gap-3">
 
           {/* Total people KPI */}
-          <div className="hidden lg:flex items-center gap-2 px-3 h-8 bg-[#111111] border border-[#2A2A2A] rounded-[4px]">
-            <Users size={12} className="text-[#0070F3]" />
-            <span className="text-[12px] font-mono text-[#EDEDED]">{fmt(totalPeople)}</span>
-            <span className="text-[10px] text-[#888888]">pers.</span>
+          <div className="hidden lg:flex items-center gap-2 px-3 h-8 bg-[#F4F5F7] border border-[#E5E7EB] rounded-[6px]">
+            <Users size={12} className="text-[#FF6600]" />
+            <span className="text-[12px] font-mono text-[#111827] font-semibold">{fmt(totalPeople)}</span>
+            <span className="text-[10px] text-[#6B7280]">pers.</span>
           </div>
 
           {/* Sites in alert KPI */}
           {sitesInAlert > 0 && (
-            <div className="flex items-center gap-2 px-3 h-8 bg-[#E5484D]/10 border border-[#E5484D]/30 rounded-[4px] status-pulse-red">
-              <TrendingUp size={12} className="text-[#E5484D]" />
-              <span className="text-[12px] font-bold text-[#E5484D]">{sitesInAlert}</span>
-              <span className="text-[10px] text-[#E5484D]/80">site{sitesInAlert > 1 ? 's' : ''} en alerte</span>
+            <div className="flex items-center gap-2 px-3 h-8 bg-[#EF4444]/8 border border-[#EF4444]/25 rounded-[6px] status-pulse-red">
+              <TrendingUp size={12} className="text-[#EF4444]" />
+              <span className="text-[12px] font-bold text-[#EF4444]">{sitesInAlert}</span>
+              <span className="text-[10px] text-[#EF4444]/80">site{sitesInAlert > 1 ? 's' : ''} en alerte</span>
             </div>
           )}
 
           {/* System Health Status */}
-          <div className="flex items-center gap-2 px-3 h-8 bg-[#111111] border border-[#2A2A2A] rounded-[4px]">
+          <div className="flex items-center gap-2 px-3 h-8 bg-[#F4F5F7] border border-[#E5E7EB] rounded-[6px]">
             <Wifi size={12} className="text-[#10B981]" />
-            <span className="text-[12px] font-medium text-[#888888]">Tous systèmes opérationnels</span>
+            <span className="text-[12px] font-medium text-[#6B7280]">Tous systèmes opérationnels</span>
           </div>
 
           {/* Risk Index Badge */}
           <div
-            className={`flex items-center gap-2 px-3 h-8 border rounded-[4px] ${
-              isCritical
-                ? 'bg-[#E5484D]/10 border-[#E5484D]/30 text-[#E5484D]'
-                : 'bg-[#10B981]/10 border-[#10B981]/30 text-[#10B981]'
-            }`}
+            className="flex items-center gap-2 px-3 h-8 border rounded-[6px]"
+            style={{
+              background: `${riskColor}12`,
+              borderColor: `${riskColor}35`,
+              color: riskColor,
+            }}
           >
             <ShieldAlert size={14} />
             <span className="text-[12px] font-bold">IRG : {riskIndex?.score ?? 0}</span>
