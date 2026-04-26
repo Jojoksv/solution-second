@@ -28,7 +28,11 @@ import type { MapLayers } from '@/components/map/Mappanel'
 import { useAlerts, useDensity } from '@/hooks'
 import { useBinTaskStore } from '@/stores/binTaskStore'
 import { useTheme } from '@/stores/themeStore'
-import { useBinSimulation, assignBinAgent, markBinCleaned } from '@/stores/binSimulationStore'
+import {
+  useBinSimulation,
+  assignBinAgent,
+  markBinCleaned,
+} from '@/stores/binSimulationStore'
 import type { SimBin, SimBinAlert } from '@/stores/binSimulationStore'
 
 export const Route = createFileRoute('/map')({
@@ -49,8 +53,11 @@ function BinDetailPanel({
   role: string
 }) {
   const color =
-    bin.status === 'red'    ? 'var(--accent-red)' :
-    bin.status === 'orange' ? 'var(--accent-orange)' : 'var(--accent-green)'
+    bin.status === 'red'
+      ? 'var(--accent-red)'
+      : bin.status === 'orange'
+        ? 'var(--accent-orange)'
+        : 'var(--accent-green)'
 
   const maxHistory = Math.max(...bin.history, 1)
 
@@ -65,12 +72,24 @@ function BinDetailPanel({
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2.5 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
+      <div
+        className="flex items-center justify-between px-3 py-2.5 border-b"
+        style={{ borderColor: 'var(--border-subtle)' }}
+      >
         <div className="flex items-center gap-2">
           <Trash2 size={12} style={{ color }} />
-          <span className="text-[11px] font-bold" style={{ color: 'var(--text-primary)' }}>{bin.id}</span>
+          <span
+            className="text-[11px] font-bold"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {bin.id}
+          </span>
         </div>
-        <button onClick={onClose} className="hover:opacity-60 transition-opacity" style={{ color: 'var(--text-muted)' }}>
+        <button
+          onClick={onClose}
+          className="hover:opacity-60 transition-opacity"
+          style={{ color: 'var(--text-muted)' }}
+        >
           <X size={13} />
         </button>
       </div>
@@ -78,34 +97,58 @@ function BinDetailPanel({
       {/* Fill level */}
       <div className="px-3 pt-3 pb-2">
         <div className="flex items-end justify-between mb-1.5">
-          <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+          <span
+            className="text-[9px] font-bold uppercase tracking-widest"
+            style={{ color: 'var(--text-muted)' }}
+          >
             Remplissage
           </span>
-          <span className="text-[24px] font-black leading-none" style={{ color }}>
-            {bin.fillPct}<span className="text-[14px]">%</span>
+          <span
+            className="text-[24px] font-black leading-none"
+            style={{ color }}
+          >
+            {bin.fillPct}
+            <span className="text-[14px]">%</span>
           </span>
         </div>
-        <div className="h-2 rounded-full overflow-hidden" style={{ background: 'var(--bg-panel-hover)' }}>
+        <div
+          className="h-2 rounded-full overflow-hidden"
+          style={{ background: 'var(--bg-panel-hover)' }}
+        >
           <div
             className="h-full rounded-full transition-all duration-700"
-            style={{ width: `${bin.fillPct}%`, background: color, boxShadow: bin.status === 'red' ? `0 0 6px ${color}` : 'none' }}
+            style={{
+              width: `${bin.fillPct}%`,
+              background: color,
+              boxShadow: bin.status === 'red' ? `0 0 6px ${color}` : 'none',
+            }}
           />
         </div>
 
         {/* History mini chart */}
         <div className="mt-2.5 mb-1">
-          <span className="text-[8px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+          <span
+            className="text-[8px] font-bold uppercase tracking-widest"
+            style={{ color: 'var(--text-muted)' }}
+          >
             Historique
           </span>
           <div className="flex items-end gap-0.5 mt-1 h-8">
             {bin.history.map((v, i) => {
-              const h = Math.max(2, Math.round((v / Math.max(maxHistory, 1)) * 32))
+              const h = Math.max(
+                2,
+                Math.round((v / Math.max(maxHistory, 1)) * 32),
+              )
               const c = toStatusColor(v)
               return (
                 <div
                   key={i}
                   className="flex-1 rounded-sm transition-all duration-500"
-                  style={{ height: `${h}px`, background: c, opacity: 0.6 + (i / bin.history.length) * 0.4 }}
+                  style={{
+                    height: `${h}px`,
+                    background: c,
+                    opacity: 0.6 + (i / bin.history.length) * 0.4,
+                  }}
                 />
               )
             })}
@@ -113,18 +156,36 @@ function BinDetailPanel({
         </div>
 
         {/* Meta */}
-        <div className="flex items-center justify-between mt-2 pt-2 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+        <div
+          className="flex items-center justify-between mt-2 pt-2 border-t"
+          style={{ borderColor: 'var(--border-subtle)' }}
+        >
           <div>
-            <div className="text-[9px]" style={{ color: 'var(--text-muted)' }}>{bin.site_name}</div>
-            <div className="text-[10px] font-semibold" style={{ color: 'var(--text-secondary)' }}>{bin.zone_name}</div>
+            <div className="text-[9px]" style={{ color: 'var(--text-muted)' }}>
+              {bin.site_name}
+            </div>
+            <div
+              className="text-[10px] font-semibold"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              {bin.zone_name}
+            </div>
           </div>
           {bin.warningCount > 0 && (
             <div
               className="flex items-center gap-1 px-1.5 py-0.5 rounded"
-              style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)' }}
+              style={{
+                background: 'rgba(239,68,68,0.12)',
+                border: '1px solid rgba(239,68,68,0.25)',
+              }}
             >
               <TriangleAlert size={9} style={{ color: 'var(--accent-red)' }} />
-              <span className="text-[9px] font-bold" style={{ color: 'var(--accent-red)' }}>{bin.warningCount}</span>
+              <span
+                className="text-[9px] font-bold"
+                style={{ color: 'var(--accent-red)' }}
+              >
+                {bin.warningCount}
+              </span>
             </div>
           )}
         </div>
@@ -159,7 +220,11 @@ function BinDetailPanel({
         <div className="px-3 pb-3">
           <div
             className="flex items-center justify-center gap-1.5 py-2 rounded-lg text-[10px] font-bold"
-            style={{ background: 'rgba(16,185,129,0.12)', color: 'var(--accent-green)', border: '1px solid rgba(16,185,129,0.25)' }}
+            style={{
+              background: 'rgba(16,185,129,0.12)',
+              color: 'var(--accent-green)',
+              border: '1px solid rgba(16,185,129,0.25)',
+            }}
           >
             <Navigation size={10} />
             Agent en route…
@@ -208,19 +273,39 @@ function AlertCard({
         <Trash2 size={11} style={{ color, marginTop: 1, flexShrink: 0 }} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-1 mb-0.5">
-            <span className="text-[9px] font-black uppercase tracking-wider" style={{ color }}>
+            <span
+              className="text-[9px] font-black uppercase tracking-wider"
+              style={{ color }}
+            >
               {isRed ? '🔴 CRITIQUE' : '🟠 ALERTE'} · {alert.fillPct}%
             </span>
-            <span className="text-[8px] font-mono" style={{ color: 'var(--text-muted)' }}>{elapsed}</span>
+            <span
+              className="text-[8px] font-mono"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              {elapsed}
+            </span>
           </div>
-          <div className="text-[11px] font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
+          <div
+            className="text-[11px] font-semibold truncate"
+            style={{ color: 'var(--text-primary)' }}
+          >
             {alert.zone_name}
           </div>
-          <div className="text-[10px] truncate" style={{ color: 'var(--text-secondary)' }}>
+          <div
+            className="text-[10px] truncate"
+            style={{ color: 'var(--text-secondary)' }}
+          >
             {alert.site_name}
           </div>
-          <div className="mt-1.5 h-0.5 w-full rounded-full overflow-hidden" style={{ background: 'var(--border-subtle)' }}>
-            <div className="h-full rounded-full" style={{ width: `${alert.fillPct}%`, background: color }} />
+          <div
+            className="mt-1.5 h-0.5 w-full rounded-full overflow-hidden"
+            style={{ background: 'var(--border-subtle)' }}
+          >
+            <div
+              className="h-full rounded-full"
+              style={{ width: `${alert.fillPct}%`, background: color }}
+            />
           </div>
         </div>
       </div>
@@ -231,7 +316,11 @@ function AlertCard({
             <button
               onClick={() => onAssign(alert.bin_id)}
               className="w-full flex items-center justify-center gap-1 text-[9px] font-bold py-1.5 rounded-md transition-all hover:opacity-80"
-              style={{ background: `${color}18`, color, border: `1px solid ${color}35` }}
+              style={{
+                background: `${color}18`,
+                color,
+                border: `1px solid ${color}35`,
+              }}
             >
               <HardHat size={9} />
               Assigner agent
@@ -240,7 +329,11 @@ function AlertCard({
             <button
               onClick={() => markBinCleaned(alert.bin_id)}
               className="w-full flex items-center justify-center gap-1 text-[9px] font-bold py-1.5 rounded-md transition-all hover:opacity-80"
-              style={{ background: 'rgba(16,185,129,0.15)', color: 'var(--accent-green)', border: '1px solid rgba(16,185,129,0.3)' }}
+              style={{
+                background: 'rgba(16,185,129,0.15)',
+                color: 'var(--accent-green)',
+                border: '1px solid rgba(16,185,129,0.3)',
+              }}
             >
               <CheckCircle2 size={9} />
               Nettoyé
@@ -252,7 +345,10 @@ function AlertCard({
       {isAssigned && (
         <div
           className="mt-2 flex items-center gap-1 text-[9px] font-bold py-1 px-2 rounded-md"
-          style={{ background: 'rgba(16,185,129,0.1)', color: 'var(--accent-green)' }}
+          style={{
+            background: 'rgba(16,185,129,0.1)',
+            color: 'var(--accent-green)',
+          }}
         >
           <Navigation size={9} />
           Agent en route…
@@ -264,27 +360,52 @@ function AlertCard({
 
 // ─── Crowd Alert Card ──────────────────────────────────────────────────────
 
-function CrowdAlertCard({ alert }: { alert: { site_name: string; occupancy_percentage: number; city: string; alert_level: string; created_at: string } }) {
+function CrowdAlertCard({
+  alert,
+}: {
+  alert: {
+    site_name: string
+    occupancy_percentage: number
+    city: string
+    alert_level: string
+    created_at: string
+  }
+}) {
   const isRed = alert.alert_level === 'red'
   const color = isRed ? 'var(--accent-red)' : 'var(--accent-orange)'
 
   return (
     <div
       className={`rounded-lg p-2.5 fade-slide-in ${isRed ? 'bin-alert-card' : ''}`}
-      style={{ background: isRed ? 'rgba(239,68,68,0.07)' : 'rgba(249,115,22,0.06)', border: `1px solid ${isRed ? 'rgba(239,68,68,0.28)' : 'rgba(249,115,22,0.22)'}` }}
+      style={{
+        background: isRed ? 'rgba(239,68,68,0.07)' : 'rgba(249,115,22,0.06)',
+        border: `1px solid ${isRed ? 'rgba(239,68,68,0.28)' : 'rgba(249,115,22,0.22)'}`,
+      }}
     >
       <div className="flex items-start gap-2">
         <Users size={11} style={{ color, marginTop: 1, flexShrink: 0 }} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-1 mb-0.5">
-            <span className="text-[9px] font-black uppercase tracking-wider" style={{ color }}>
-              {isRed ? '🔴 FOULE CRITIQUE' : '🟠 FOULE ÉLEVÉE'} · {alert.occupancy_percentage}%
+            <span
+              className="text-[9px] font-black uppercase tracking-wider"
+              style={{ color }}
+            >
+              {isRed ? '🔴 FOULE CRITIQUE' : '🟠 FOULE ÉLEVÉE'} ·{' '}
+              {alert.occupancy_percentage}%
             </span>
           </div>
-          <div className="text-[11px] font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
+          <div
+            className="text-[11px] font-semibold truncate"
+            style={{ color: 'var(--text-primary)' }}
+          >
             {alert.site_name}
           </div>
-          <div className="text-[10px]" style={{ color: 'var(--text-secondary)' }}>{alert.city}</div>
+          <div
+            className="text-[10px]"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            {alert.city}
+          </div>
         </div>
       </div>
     </div>
@@ -312,10 +433,21 @@ function RightAlertPanel({
       style={{ borderColor: 'var(--border-subtle)' }}
     >
       {/* Header */}
-      <div className="px-3 py-2.5 border-b flex items-center justify-between" style={{ borderColor: 'var(--border-subtle)' }}>
+      <div
+        className="px-3 py-2.5 border-b flex items-center justify-between"
+        style={{ borderColor: 'var(--border-subtle)' }}
+      >
         <div className="flex items-center gap-2">
-          <Bell size={12} style={{ color: totalCount > 0 ? 'var(--accent-red)' : 'var(--text-muted)' }} />
-          <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: 'var(--text-primary)' }}>
+          <Bell
+            size={12}
+            style={{
+              color: totalCount > 0 ? 'var(--accent-red)' : 'var(--text-muted)',
+            }}
+          />
+          <span
+            className="text-[10px] font-black uppercase tracking-widest"
+            style={{ color: 'var(--text-primary)' }}
+          >
             Alertes
           </span>
         </div>
@@ -327,7 +459,12 @@ function RightAlertPanel({
             {totalCount}
           </span>
         ) : (
-          <span className="text-[8px] font-mono" style={{ color: 'var(--text-muted)' }}>0</span>
+          <span
+            className="text-[8px] font-mono"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            0
+          </span>
         )}
       </div>
 
@@ -336,16 +473,21 @@ function RightAlertPanel({
         {totalCount === 0 ? (
           <div className="flex flex-col items-center py-6 gap-2 opacity-60">
             <CheckCircle2 size={16} style={{ color: 'var(--text-muted)' }} />
-            <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>No active alerts</span>
+            <span
+              className="text-[10px]"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              No active alerts
+            </span>
           </div>
         ) : (
           <>
             {/* Crowd alerts first */}
-            {crowdAlerts.map(a => (
+            {crowdAlerts.map((a) => (
               <CrowdAlertCard key={a.id} alert={a} />
             ))}
             {/* Bin alerts */}
-            {binAlerts.map(a => (
+            {binAlerts.map((a) => (
               <AlertCard key={a.id} alert={a} onAssign={onAssign} role={role} />
             ))}
           </>
@@ -354,10 +496,17 @@ function RightAlertPanel({
 
       {/* Footer summary */}
       {totalCount > 0 && (
-        <div className="px-3 py-2 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+        <div
+          className="px-3 py-2 border-t"
+          style={{ borderColor: 'var(--border-subtle)' }}
+        >
           <div className="text-[9px]" style={{ color: 'var(--text-muted)' }}>
-            {binAlerts.filter(a => a.severity === 'red').length + crowdAlerts.filter(a => a.alert_level === 'red').length} critique{' '}·{' '}
-            {binAlerts.filter(a => a.severity === 'orange').length + crowdAlerts.filter(a => a.alert_level === 'orange').length} modérée
+            {binAlerts.filter((a) => a.severity === 'red').length +
+              crowdAlerts.filter((a) => a.alert_level === 'red').length}{' '}
+            critique ·{' '}
+            {binAlerts.filter((a) => a.severity === 'orange').length +
+              crowdAlerts.filter((a) => a.alert_level === 'orange').length}{' '}
+            modérée
           </div>
         </div>
       )}
@@ -368,9 +517,24 @@ function RightAlertPanel({
 // ─── Left Layer Panel (slim, icon-only) ───────────────────────────────────
 
 const LAYERS_DEF = [
-  { key: 'crowd' as const,   icon: Users,    label: 'Densité foule',  color: 'var(--accent-blue)' },
-  { key: 'bins'  as const,   icon: Trash2,   label: 'Poubelles',      color: 'var(--accent-green)' },
-  { key: 'heatmap' as const, icon: Activity, label: 'Heatmap',        color: 'var(--accent-orange)' },
+  {
+    key: 'crowd' as const,
+    icon: Users,
+    label: 'Densité foule',
+    color: 'var(--accent-blue)',
+  },
+  {
+    key: 'bins' as const,
+    icon: Trash2,
+    label: 'Poubelles',
+    color: 'var(--accent-green)',
+  },
+  {
+    key: 'heatmap' as const,
+    icon: Activity,
+    label: 'Heatmap',
+    color: 'var(--accent-orange)',
+  },
 ]
 
 function LeftLayerPanel({
@@ -392,9 +556,12 @@ function LeftLayerPanel({
     >
       {/* Expand toggle */}
       <button
-        onClick={() => setExpanded(e => !e)}
+        onClick={() => setExpanded((e) => !e)}
         className="h-10 flex items-center justify-center border-b transition-all hover:opacity-70"
-        style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-muted)' }}
+        style={{
+          borderColor: 'var(--border-subtle)',
+          color: 'var(--text-muted)',
+        }}
         title={expanded ? 'Réduire' : 'Couches carte'}
       >
         <Layers size={14} />
@@ -416,12 +583,21 @@ function LeftLayerPanel({
               }}
               title={label}
             >
-              {active
-                ? <Eye size={13} style={{ color, flexShrink: 0 }} />
-                : <EyeOff size={13} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
-              }
+              {active ? (
+                <Eye size={13} style={{ color, flexShrink: 0 }} />
+              ) : (
+                <EyeOff
+                  size={13}
+                  style={{ color: 'var(--text-muted)', flexShrink: 0 }}
+                />
+              )}
               {expanded && (
-                <span className="text-[10px] font-semibold whitespace-nowrap" style={{ color: active ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                <span
+                  className="text-[10px] font-semibold whitespace-nowrap"
+                  style={{
+                    color: active ? 'var(--text-primary)' : 'var(--text-muted)',
+                  }}
+                >
                   {label}
                 </span>
               )}
@@ -438,32 +614,49 @@ function LeftLayerPanel({
 function AgentTaskCard({ bins }: { bins: SimBin[] }) {
   // Find bin with an active alert (assigned to agent)
   const { alerts } = useBinSimulation()
-  const myAlert = alerts.find(a => a.assignedAt)
-  const myBin = myAlert ? bins.find(b => b.id === myAlert.bin_id) : null
+  const myAlert = alerts.find((a) => a.assignedAt)
+  const myBin = myAlert ? bins.find((b) => b.id === myAlert.bin_id) : null
 
   if (!myAlert && alerts.length === 0) {
     return (
       <div
         className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[600] rounded-xl px-4 py-3 flex items-center gap-3"
-        style={{ background: 'var(--bg-glass)', backdropFilter: 'blur(24px)', border: '1px solid var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+        style={{
+          background: 'var(--bg-glass)',
+          backdropFilter: 'blur(24px)',
+          border: '1px solid var(--border-subtle)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+        }}
       >
         <CheckCircle2 size={16} style={{ color: 'var(--accent-green)' }} />
         <div>
-          <div className="text-[12px] font-bold" style={{ color: 'var(--text-primary)' }}>Aucune tâche assignée</div>
-          <div className="text-[10px]" style={{ color: 'var(--text-secondary)' }}>En attente d'instructions du superviseur</div>
+          <div
+            className="text-[12px] font-bold"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Aucune tâche assignée
+          </div>
+          <div
+            className="text-[10px]"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            En attente d'instructions du superviseur
+          </div>
         </div>
       </div>
     )
   }
 
   // Unassigned alerts the agent can pick up
-  const unassigned = alerts.filter(a => !a.assignedAt)
+  const unassigned = alerts.filter((a) => !a.assignedAt)
   const target = myAlert ?? unassigned[0]
-  const targetBin = myBin ?? (target ? bins.find(b => b.id === target.bin_id) : null)
+  const targetBin =
+    myBin ?? (target ? bins.find((b) => b.id === target.bin_id) : null)
 
   if (!target || !targetBin) return null
 
-  const color = target.severity === 'red' ? 'var(--accent-red)' : 'var(--accent-orange)'
+  const color =
+    target.severity === 'red' ? 'var(--accent-red)' : 'var(--accent-orange)'
   const isAssigned = !!target.assignedAt
 
   return (
@@ -481,19 +674,33 @@ function AgentTaskCard({ bins }: { bins: SimBin[] }) {
       <div className="px-4 py-3">
         <div className="flex items-center gap-2 mb-2">
           <Trash2 size={14} style={{ color }} />
-          <span className="text-[12px] font-black uppercase tracking-wider" style={{ color }}>
-            {target.severity === 'red' ? 'Urgence — poubelle pleine' : 'Tâche assignée'}
+          <span
+            className="text-[12px] font-black uppercase tracking-wider"
+            style={{ color }}
+          >
+            {target.severity === 'red'
+              ? 'Urgence — poubelle pleine'
+              : 'Tâche assignée'}
           </span>
         </div>
-        <div className="text-[15px] font-bold" style={{ color: 'var(--text-primary)' }}>
+        <div
+          className="text-[15px] font-bold"
+          style={{ color: 'var(--text-primary)' }}
+        >
           {target.zone_name}
         </div>
-        <div className="text-[11px] mb-3" style={{ color: 'var(--text-secondary)' }}>
+        <div
+          className="text-[11px] mb-3"
+          style={{ color: 'var(--text-secondary)' }}
+        >
           {target.site_name} · {targetBin.fillPct}% de remplissage
         </div>
 
         {/* Fill bar */}
-        <div className="h-1.5 rounded-full overflow-hidden mb-4" style={{ background: 'var(--bg-panel-hover)' }}>
+        <div
+          className="h-1.5 rounded-full overflow-hidden mb-4"
+          style={{ background: 'var(--bg-panel-hover)' }}
+        >
           <div
             className="h-full rounded-full transition-all duration-700"
             style={{ width: `${targetBin.fillPct}%`, background: color }}
@@ -524,7 +731,11 @@ function AgentTaskCard({ bins }: { bins: SimBin[] }) {
           {targetBin.resetting && (
             <div
               className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-[12px] font-semibold"
-              style={{ background: 'rgba(16,185,129,0.12)', color: 'var(--accent-green)', border: '1px solid rgba(16,185,129,0.25)' }}
+              style={{
+                background: 'rgba(16,185,129,0.12)',
+                color: 'var(--accent-green)',
+                border: '1px solid rgba(16,185,129,0.25)',
+              }}
             >
               <Navigation size={13} />
               En route vers la zone…
@@ -557,7 +768,9 @@ function CommandTopbar({
   }, [])
 
   const totalAlerts = binAlerts.length + (apiAlerts?.active_alerts.length ?? 0)
-  const hasCritical = binAlerts.some(a => a.severity === 'red') || (apiAlerts?.active_alerts.some(a => a.alert_level === 'red') ?? false)
+  const hasCritical =
+    binAlerts.some((a) => a.severity === 'red') ||
+    (apiAlerts?.active_alerts.some((a) => a.alert_level === 'red') ?? false)
   const totalPeople = density?.global_metrics.total_estimated_people ?? 0
 
   return (
@@ -570,10 +783,15 @@ function CommandTopbar({
         <Link
           to="/"
           className="flex items-center gap-1 px-2 py-1 rounded-md transition-all hover:opacity-70"
-          style={{ color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}
+          style={{
+            color: 'var(--text-secondary)',
+            border: '1px solid var(--border-subtle)',
+          }}
         >
           <ArrowLeft size={11} />
-          <span className="text-[10px] font-medium hidden lg:block">Dashboard</span>
+          <span className="text-[10px] font-medium hidden lg:block">
+            Dashboard
+          </span>
         </Link>
         <div className="vdivider h-5" />
         <div className="flex items-center gap-1.5">
@@ -583,12 +801,24 @@ function CommandTopbar({
           >
             JOJ
           </div>
-          <span className="text-[12px] font-bold hidden lg:block" style={{ color: 'var(--text-primary)' }}>CrowdFlow</span>
+          <span
+            className="text-[12px] font-bold hidden lg:block"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            EcoFlow
+          </span>
           <div
             className="flex items-center gap-1 text-[7px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded"
-            style={{ background: 'rgba(16,185,129,0.12)', color: 'var(--accent-green)', border: '1px solid rgba(16,185,129,0.25)' }}
+            style={{
+              background: 'rgba(16,185,129,0.12)',
+              color: 'var(--accent-green)',
+              border: '1px solid rgba(16,185,129,0.25)',
+            }}
           >
-            <div className="w-1 h-1 rounded-full status-pulse-green" style={{ background: 'var(--accent-green)' }} />
+            <div
+              className="w-1 h-1 rounded-full status-pulse-green"
+              style={{ background: 'var(--accent-green)' }}
+            />
             live
           </div>
         </div>
@@ -599,25 +829,37 @@ function CommandTopbar({
         {/* Role toggle — centered and prominent */}
         <div
           className="flex rounded-lg overflow-hidden border"
-          style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}
+          style={{
+            borderColor: 'var(--border-subtle)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+          }}
         >
           <button
             onClick={() => onRoleChange('superviseur')}
             className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all"
             style={{
-              background: role === 'superviseur' ? 'var(--accent-orange)' : 'var(--bg-panel-hover)',
+              background:
+                role === 'superviseur'
+                  ? 'var(--accent-orange)'
+                  : 'var(--bg-panel-hover)',
               color: role === 'superviseur' ? '#fff' : 'var(--text-secondary)',
             }}
           >
             <UserCheck size={10} />
             Superviseur
           </button>
-          <div className="w-px" style={{ background: 'var(--border-subtle)' }} />
+          <div
+            className="w-px"
+            style={{ background: 'var(--border-subtle)' }}
+          />
           <button
             onClick={() => onRoleChange('agent')}
             className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all"
             style={{
-              background: role === 'agent' ? 'var(--accent-green)' : 'var(--bg-panel-hover)',
+              background:
+                role === 'agent'
+                  ? 'var(--accent-green)'
+                  : 'var(--bg-panel-hover)',
               color: role === 'agent' ? '#fff' : 'var(--text-secondary)',
             }}
           >
@@ -630,10 +872,16 @@ function CommandTopbar({
         <div className="hidden md:flex items-center gap-1.5">
           <div
             className="flex items-center gap-1 px-2 py-1 rounded-md"
-            style={{ background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)' }}
+            style={{
+              background: 'var(--bg-panel-hover)',
+              border: '1px solid var(--border-subtle)',
+            }}
           >
             <Users size={10} style={{ color: 'var(--accent-blue)' }} />
-            <span className="text-[10px] font-mono font-bold" style={{ color: 'var(--text-primary)' }}>
+            <span
+              className="text-[10px] font-mono font-bold"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {totalPeople > 0 ? `${(totalPeople / 1000).toFixed(0)}k` : '—'}
             </span>
           </div>
@@ -641,20 +889,50 @@ function CommandTopbar({
           {totalAlerts > 0 ? (
             <div
               className={`flex items-center gap-1 px-2 py-1 rounded-md ${hasCritical ? 'status-pulse-red' : 'status-pulse-orange'}`}
-              style={{ background: hasCritical ? 'rgba(239,68,68,0.12)' : 'rgba(249,115,22,0.12)', border: `1px solid ${hasCritical ? 'rgba(239,68,68,0.35)' : 'rgba(249,115,22,0.3)'}` }}
+              style={{
+                background: hasCritical
+                  ? 'rgba(239,68,68,0.12)'
+                  : 'rgba(249,115,22,0.12)',
+                border: `1px solid ${hasCritical ? 'rgba(239,68,68,0.35)' : 'rgba(249,115,22,0.3)'}`,
+              }}
             >
-              <AlertTriangle size={10} style={{ color: hasCritical ? 'var(--accent-red)' : 'var(--accent-orange)' }} />
-              <span className="text-[10px] font-bold" style={{ color: hasCritical ? 'var(--accent-red)' : 'var(--accent-orange)' }}>
+              <AlertTriangle
+                size={10}
+                style={{
+                  color: hasCritical
+                    ? 'var(--accent-red)'
+                    : 'var(--accent-orange)',
+                }}
+              />
+              <span
+                className="text-[10px] font-bold"
+                style={{
+                  color: hasCritical
+                    ? 'var(--accent-red)'
+                    : 'var(--accent-orange)',
+                }}
+              >
                 {totalAlerts} alerte{totalAlerts > 1 ? 's' : ''}
               </span>
             </div>
           ) : (
             <div
               className="flex items-center gap-1 px-2 py-1 rounded-md"
-              style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}
+              style={{
+                background: 'rgba(16,185,129,0.08)',
+                border: '1px solid rgba(16,185,129,0.2)',
+              }}
             >
-              <CheckCircle2 size={10} style={{ color: 'var(--accent-green)' }} />
-              <span className="text-[10px] font-semibold" style={{ color: 'var(--accent-green)' }}>OK</span>
+              <CheckCircle2
+                size={10}
+                style={{ color: 'var(--accent-green)' }}
+              />
+              <span
+                className="text-[10px] font-semibold"
+                style={{ color: 'var(--accent-green)' }}
+              >
+                OK
+              </span>
             </div>
           )}
         </div>
@@ -664,14 +942,26 @@ function CommandTopbar({
       <div className="flex items-center gap-2 flex-none">
         <div
           className="hidden md:flex items-center gap-1 px-2 py-1 rounded-md font-mono text-[10px]"
-          style={{ background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
+          style={{
+            background: 'var(--bg-panel-hover)',
+            border: '1px solid var(--border-subtle)',
+            color: 'var(--text-primary)',
+          }}
         >
-          {time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+          {time.toLocaleTimeString('fr-FR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          })}
         </div>
         <button
           onClick={toggleTheme}
           className="w-7 h-7 flex items-center justify-center rounded-md transition-all hover:opacity-70"
-          style={{ background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
+          style={{
+            background: 'var(--bg-panel-hover)',
+            border: '1px solid var(--border-subtle)',
+            color: 'var(--text-secondary)',
+          }}
           title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
         >
           {theme === 'dark' ? <Sun size={12} /> : <Moon size={12} />}
@@ -688,7 +978,11 @@ function MapCommandCenter() {
   const store = useBinTaskStore()
   const { bins, alerts: binAlerts } = useBinSimulation()
 
-  const [layers, setLayers] = useState<MapLayers>({ bins: true, crowd: true, heatmap: true })
+  const [layers, setLayers] = useState<MapLayers>({
+    bins: true,
+    crowd: true,
+    heatmap: true,
+  })
   const [role, setRole] = useState<'superviseur' | 'agent'>(store.role)
   const [selectedBin, setSelectedBin] = useState<SimBin | null>(null)
 
@@ -698,11 +992,11 @@ function MapCommandCenter() {
   }, [role])
 
   function handleToggleLayer(key: keyof MapLayers) {
-    setLayers(prev => ({ ...prev, [key]: !prev[key] }))
+    setLayers((prev) => ({ ...prev, [key]: !prev[key] }))
   }
 
   const handleBinClick = useCallback((bin: SimBin) => {
-    setSelectedBin(prev => (prev?.id === bin.id ? null : bin))
+    setSelectedBin((prev) => (prev?.id === bin.id ? null : bin))
   }, [])
 
   const handleAssign = useCallback((binId: string) => {
@@ -712,7 +1006,7 @@ function MapCommandCenter() {
 
   // Keep selected bin data fresh
   const freshSelectedBin = selectedBin
-    ? bins.find(b => b.id === selectedBin.id) ?? null
+    ? (bins.find((b) => b.id === selectedBin.id) ?? null)
     : null
 
   // Agent mode: strip panels, show full-screen map + task overlay
@@ -721,7 +1015,10 @@ function MapCommandCenter() {
       <div
         className="fixed inset-0 z-[200] flex flex-col"
         data-theme={theme}
-        style={{ background: 'var(--bg-base)', fontFamily: "'Inter', sans-serif" }}
+        style={{
+          background: 'var(--bg-base)',
+          fontFamily: "'Inter', sans-serif",
+        }}
       >
         <CommandTopbar role={role} onRoleChange={setRole} />
         <div className="flex-1 relative min-h-0 overflow-hidden">
@@ -745,7 +1042,10 @@ function MapCommandCenter() {
     <div
       className="fixed inset-0 z-[200] flex flex-col"
       data-theme={theme}
-      style={{ background: 'var(--bg-base)', fontFamily: "'Inter', sans-serif" }}
+      style={{
+        background: 'var(--bg-base)',
+        fontFamily: "'Inter', sans-serif",
+      }}
     >
       <CommandTopbar role={role} onRoleChange={setRole} />
 
@@ -767,7 +1067,11 @@ function MapCommandCenter() {
           )}
         </div>
 
-        <RightAlertPanel binAlerts={binAlerts} role={role} onAssign={handleAssign} />
+        <RightAlertPanel
+          binAlerts={binAlerts}
+          role={role}
+          onAssign={handleAssign}
+        />
       </div>
     </div>
   )
