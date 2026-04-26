@@ -17,7 +17,8 @@
       "PowerShell(git config --global credential.helper)",
       "PowerShell(git -C \"C:\\\\Users\\\\HP\\\\Desktop\\\\hackathon\\\\test\\\\frontend\\\\.claude\\\\worktrees\\\\cool-blackburn-e883f3\" remote get-url origin)",
       "PowerShell($env:GH_TOKEN)",
-      "PowerShell($env:GITHUB_TOKEN)"
+      "PowerShell($env:GITHUB_TOKEN)",
+      "Read(//c/Users/HP/Desktop/hackathon/test/frontend/src/hooks/**)"
     ]
   }
 }
