@@ -52,11 +52,12 @@ function AckTimer({
 
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded border ${
-        isLate
-          ? 'text-[#E5484D] bg-[#E5484D]/10 border-[#E5484D]/30 status-pulse-red'
-          : 'text-[#F5A623] bg-[#F5A623]/10 border-[#F5A623]/30'
-      }`}
+      className={`inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded ${isLate ? 'status-pulse-red' : ''}`}
+      style={{
+        color: isLate ? 'var(--accent-red)' : 'var(--accent-orange)',
+        background: isLate ? 'rgba(239,68,68,0.1)' : 'rgba(249,115,22,0.1)',
+        border: `1px solid ${isLate ? 'rgba(239,68,68,0.3)' : 'rgba(249,115,22,0.3)'}`,
+      }}
     >
       <Clock size={10} />
       {formatted}
@@ -92,26 +93,29 @@ function AlertCard({ alert }: { alert: Alert }) {
               acknowledged={alert.acknowledged}
             />
           </div>
-          <div className="text-[14px] font-semibold text-[#EDEDED] truncate">
+          <div className="text-[14px] font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
             {alert.site_name}
           </div>
-          <div className="text-[11px] text-[#888888] mt-0.5">
+          <div className="text-[11px] mt-0.5" style={{ color: 'var(--text-secondary)' }}>
             {alert.city} · {alert.occupancy_percentage}% ·{' '}
             {alert.estimated_real_crowd.toLocaleString('fr-FR')} pers.
           </div>
         </div>
       </div>
 
-      <div className="text-[12px] text-[#EDEDED] leading-snug bg-[#141414] border border-[#2A2A2A] rounded p-2.5">
+      <div
+        className="text-[12px] leading-snug rounded p-2.5"
+        style={{ color: 'var(--text-primary)', background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)' }}
+      >
         {alert.site_recommendation}
       </div>
 
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-[11px] text-[#888888]">
+        <div className="flex items-center gap-2 text-[11px]" style={{ color: 'var(--text-secondary)' }}>
           <Users size={11} />
           <span>
             Bénévole :{' '}
-            <span className="text-[#EDEDED] font-medium">
+            <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
               {alert.assigned_volunteer}
             </span>
           </span>
@@ -120,7 +124,8 @@ function AlertCard({ alert }: { alert: Alert }) {
           <button
             disabled={isPending}
             onClick={() => acknowledge(alert.id)}
-            className="text-[11px] font-semibold uppercase tracking-wide bg-[#10B981]/15 hover:bg-[#10B981]/25 text-[#10B981] border border-[#10B981]/30 rounded px-3 py-1.5 transition-colors disabled:opacity-50"
+            className="text-[11px] font-semibold uppercase tracking-wide rounded px-3 py-1.5 transition-all disabled:opacity-50 hover:opacity-80"
+            style={{ background: 'rgba(16,185,129,0.15)', color: 'var(--accent-green)', border: '1px solid rgba(16,185,129,0.3)' }}
           >
             {isPending ? 'Acquittement…' : 'Acquitter'}
           </button>
@@ -140,12 +145,11 @@ function AlertsPage() {
   return (
     <div className="flex flex-col gap-6 w-full max-w-[1400px] mx-auto h-full pb-6">
       <div>
-        <h1 className="text-xl font-semibold text-[#EDEDED] tracking-tight">
+        <h1 className="text-[20px] font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
           Alertes & Incidents
         </h1>
-        <p className="text-[13px] text-[#888888] mt-1">
-          Gérer les seuils, les incidents actifs et coordonner la réponse des
-          bénévoles.
+        <p className="text-[13px] mt-1" style={{ color: 'var(--text-secondary)' }}>
+          Gérer les seuils, les incidents actifs et coordonner la réponse des bénévoles.
         </p>
       </div>
 
