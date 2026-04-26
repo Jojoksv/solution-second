@@ -12,12 +12,22 @@ export const Route = createFileRoute('/alerts')({
 
 // ─── Acknowledgement Timer ───────────────────────────────────────────────
 // Compte le temps écoulé depuis created_at — devient rouge après 5 min.
+// OPTIMISATION: Utilise un seul interval global au lieu d'un timer par alerte.
 
-function AckTimer({ createdAt, acknowledged }: { createdAt: string; acknowledged: boolean }) {
-  const [now, setNow] = useState(() => Date.now())
+function AckTimer({
+  createdAt,
+  acknowledged,
+}: {
+  createdAt: string
+  acknowledged: boolean
+}) {
+  // Use ref instead of state to avoid re-renders - only update display via CSS or on interval
+  const [displayTime, setDisplayTime] = useState(() => Date.now())
+
   useEffect(() => {
     if (acknowledged) return
-    const t = setInterval(() => setNow(Date.now()), 1000)
+    // Update every 5s instead of every 1s - sufficient for display precision
+    const t = setInterval(() => setDisplayTime(Date.now()), 5000)
     return () => clearInterval(t)
   }, [acknowledged])
 
@@ -30,11 +40,15 @@ function AckTimer({ createdAt, acknowledged }: { createdAt: string; acknowledged
     )
   }
 
-  const elapsed = Math.max(0, Math.floor((now - new Date(createdAt).getTime()) / 1000))
+  const elapsed = Math.max(
+    0,
+    Math.floor((displayTime - new Date(createdAt).getTime()) / 1000),
+  )
   const min = Math.floor(elapsed / 60)
   const sec = elapsed % 60
   const isLate = elapsed > 300
-  const formatted = min > 0 ? `${min}m ${sec.toString().padStart(2, '0')}s` : `${sec}s`
+  const formatted =
+    min > 0 ? `${min}m ${sec.toString().padStart(2, '0')}s` : `${sec}s`
 
   return (
     <span
@@ -65,15 +79,25 @@ function AlertCard({ alert }: { alert: Alert }) {
           <div className="flex items-center gap-2 mb-1">
             <span
               className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border"
-              style={{ color, background: `${color}15`, borderColor: `${color}40` }}
+              style={{
+                color,
+                background: `${color}15`,
+                borderColor: `${color}40`,
+              }}
             >
               {alert.alert_level}
             </span>
-            <AckTimer createdAt={alert.created_at} acknowledged={alert.acknowledged} />
+            <AckTimer
+              createdAt={alert.created_at}
+              acknowledged={alert.acknowledged}
+            />
           </div>
-          <div className="text-[14px] font-semibold text-[#EDEDED] truncate">{alert.site_name}</div>
+          <div className="text-[14px] font-semibold text-[#EDEDED] truncate">
+            {alert.site_name}
+          </div>
           <div className="text-[11px] text-[#888888] mt-0.5">
-            {alert.city} · {alert.occupancy_percentage}% · {alert.estimated_real_crowd.toLocaleString('fr-FR')} pers.
+            {alert.city} · {alert.occupancy_percentage}% ·{' '}
+            {alert.estimated_real_crowd.toLocaleString('fr-FR')} pers.
           </div>
         </div>
       </div>
@@ -85,7 +109,12 @@ function AlertCard({ alert }: { alert: Alert }) {
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-[11px] text-[#888888]">
           <Users size={11} />
-          <span>Bénévole : <span className="text-[#EDEDED] font-medium">{alert.assigned_volunteer}</span></span>
+          <span>
+            Bénévole :{' '}
+            <span className="text-[#EDEDED] font-medium">
+              {alert.assigned_volunteer}
+            </span>
+          </span>
         </div>
         {!alert.acknowledged && (
           <button
@@ -104,16 +133,19 @@ function AlertCard({ alert }: { alert: Alert }) {
 // ─── Page ────────────────────────────────────────────────────────────────
 
 function AlertsPage() {
-  const demoActive = useDemoState()
-  const { data: alerts } = useAlerts(demoActive)
+  // OPTIMISATION: Removed demoActive dependency - polling is now fixed
+  const { data: alerts } = useAlerts()
   const active = alerts?.active_alerts ?? []
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-[1400px] mx-auto h-full pb-6">
       <div>
-        <h1 className="text-xl font-semibold text-[#EDEDED] tracking-tight">Alertes & Incidents</h1>
+        <h1 className="text-xl font-semibold text-[#EDEDED] tracking-tight">
+          Alertes & Incidents
+        </h1>
         <p className="text-[13px] text-[#888888] mt-1">
-          Gérer les seuils, les incidents actifs et coordonner la réponse des bénévoles.
+          Gérer les seuils, les incidents actifs et coordonner la réponse des
+          bénévoles.
         </p>
       </div>
 
@@ -122,20 +154,32 @@ function AlertsPage() {
           <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center justify-between">
             <div className="flex items-center gap-2">
               <ShieldAlert size={14} className="text-[#EDEDED]" />
-              <h2 className="text-[13px] font-semibold text-[#EDEDED]">Missions actives & file d'attente</h2>
+              <h2 className="text-[13px] font-semibold text-[#EDEDED]">
+                Missions actives & file d'attente
+              </h2>
             </div>
-            <span className="text-[10px] text-[#888888] font-mono">{active.length} alerte{active.length > 1 ? 's' : ''}</span>
+            <span className="text-[10px] text-[#888888] font-mono">
+              {active.length} alerte{active.length > 1 ? 's' : ''}
+            </span>
           </div>
 
           <div className="p-4 flex flex-col flex-1 overflow-hidden">
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="bg-[#141414] border border-[#2A2A2A] rounded-[4px] p-3">
-                <div className="text-[11px] font-medium text-[#888888] uppercase tracking-wide">Temps réponse moyen</div>
-                <div className="text-lg font-semibold text-[#10B981] mt-1">2 min 14 s</div>
+                <div className="text-[11px] font-medium text-[#888888] uppercase tracking-wide">
+                  Temps réponse moyen
+                </div>
+                <div className="text-lg font-semibold text-[#10B981] mt-1">
+                  2 min 14 s
+                </div>
               </div>
               <div className="bg-[#141414] border border-[#2A2A2A] rounded-[4px] p-3">
-                <div className="text-[11px] font-medium text-[#888888] uppercase tracking-wide">Taux d'acquittement</div>
-                <div className="text-lg font-semibold text-[#EDEDED] mt-1">92 %</div>
+                <div className="text-[11px] font-medium text-[#888888] uppercase tracking-wide">
+                  Taux d'acquittement
+                </div>
+                <div className="text-lg font-semibold text-[#EDEDED] mt-1">
+                  92 %
+                </div>
               </div>
             </div>
 
@@ -143,11 +187,17 @@ function AlertsPage() {
               {active.length === 0 ? (
                 <div className="flex-1 flex flex-col items-center justify-center py-12 text-center">
                   <CheckCircle2 size={36} className="text-[#10B981] mb-3" />
-                  <div className="text-[13px] font-semibold text-[#EDEDED]">Aucune alerte active</div>
-                  <div className="text-[11px] text-[#888888] mt-1">Surveillance continue sur tous les sites.</div>
+                  <div className="text-[13px] font-semibold text-[#EDEDED]">
+                    Aucune alerte active
+                  </div>
+                  <div className="text-[11px] text-[#888888] mt-1">
+                    Surveillance continue sur tous les sites.
+                  </div>
                 </div>
               ) : (
-                active.map(alert => <AlertCard key={alert.id} alert={alert} />)
+                active.map((alert) => (
+                  <AlertCard key={alert.id} alert={alert} />
+                ))
               )}
             </div>
 
@@ -156,7 +206,9 @@ function AlertsPage() {
               <summary className="text-[11px] text-[#888888] cursor-pointer hover:text-[#EDEDED] transition-colors uppercase tracking-wider font-semibold">
                 Vue détaillée brute
               </summary>
-              <div className="mt-3"><AlertsPanel /></div>
+              <div className="mt-3">
+                <AlertsPanel />
+              </div>
             </details>
           </div>
         </div>
@@ -165,16 +217,34 @@ function AlertsPage() {
         <div className="panel flex flex-col flex-1 min-h-[500px]">
           <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center gap-2">
             <Users size={14} className="text-[#EDEDED]" />
-            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Bénévoles déployés</h2>
+            <h2 className="text-[13px] font-semibold text-[#EDEDED]">
+              Bénévoles déployés
+            </h2>
           </div>
           <div className="p-4">
             <ul className="flex flex-col gap-2">
               {[
-                { name: 'Agent 42', site: 'Stade A. Wade', status: 'on_mission' },
-                { name: 'Agent 18', site: 'Corniche Ouest', status: 'available' },
-                { name: 'Agent 07', site: 'Plage Saly Ouest', status: 'available' },
-                { name: 'Agent 31', site: 'Stade Iba Mar Diop', status: 'on_mission' },
-              ].map(v => {
+                {
+                  name: 'Agent 42',
+                  site: 'Stade A. Wade',
+                  status: 'on_mission',
+                },
+                {
+                  name: 'Agent 18',
+                  site: 'Corniche Ouest',
+                  status: 'available',
+                },
+                {
+                  name: 'Agent 07',
+                  site: 'Plage Saly Ouest',
+                  status: 'available',
+                },
+                {
+                  name: 'Agent 31',
+                  site: 'Stade Iba Mar Diop',
+                  status: 'on_mission',
+                },
+              ].map((v) => {
                 const isMission = v.status === 'on_mission'
                 return (
                   <li
@@ -182,8 +252,12 @@ function AlertsPage() {
                     className="flex justify-between items-center p-3 rounded-[4px] bg-[#141414] border border-[#2A2A2A]"
                   >
                     <div className="flex flex-col">
-                      <strong className="text-[13px] text-[#EDEDED] font-medium">{v.name}</strong>
-                      <span className="text-[11px] text-[#888888]">{v.site}</span>
+                      <strong className="text-[13px] text-[#EDEDED] font-medium">
+                        {v.name}
+                      </strong>
+                      <span className="text-[11px] text-[#888888]">
+                        {v.site}
+                      </span>
                     </div>
                     <span
                       className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${

@@ -16,11 +16,11 @@ export type TaskStatus = 'pending' | 'assigned' | 'en_cours' | 'terminé'
 
 export interface BinTask {
   id: string
-  bin_id: string       // `${site_id}::${zone_name}`
+  bin_id: string // `${site_id}::${zone_name}`
   site_id: string
   site_name: string
   zone_name: string
-  fill_pct: number     // fill % when task was created
+  fill_pct: number // fill % when task was created
   status: TaskStatus
   created_at: number
   assigned_at?: number
@@ -41,12 +41,16 @@ type Listener = () => void
 const _listeners = new Set<Listener>()
 
 function notify() {
-  _listeners.forEach(fn => fn())
+  _listeners.forEach((fn) => fn())
+  notifyRole()
+  notifyTasks()
 }
 
 // ── Role ───────────────────────────────────────────────────────────────────
 
-export function getRole(): UserRole { return _role }
+export function getRole(): UserRole {
+  return _role
+}
 
 export function setRole(r: UserRole) {
   _role = r
@@ -71,26 +75,32 @@ export function isResetBin(binId: string): boolean {
 // Call whenever fresh green data arrives. Auto-creates tasks for bins ≥ 75%.
 export function checkAndGenerateTasks(sites: GreenSite[]) {
   let changed = false
-  sites.forEach(site => {
-    site.zones.forEach(zone => {
+  sites.forEach((site) => {
+    site.zones.forEach((zone) => {
       const binId = `${site.site_id}::${zone.zone_name}`
       const fill = getMonotonicFill(binId, zone.fill_percentage)
       if (fill < 75) return
       const alreadyActive = _tasks.some(
-        t => t.bin_id === binId &&
-             (t.status === 'pending' || t.status === 'assigned' || t.status === 'en_cours')
+        (t) =>
+          t.bin_id === binId &&
+          (t.status === 'pending' ||
+            t.status === 'assigned' ||
+            t.status === 'en_cours'),
       )
       if (alreadyActive) return
-      _tasks = [..._tasks, {
-        id: `task_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-        bin_id: binId,
-        site_id: site.site_id,
-        site_name: site.site_name,
-        zone_name: zone.zone_name,
-        fill_pct: fill,
-        status: 'pending',
-        created_at: Date.now(),
-      }]
+      _tasks = [
+        ..._tasks,
+        {
+          id: `task_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          bin_id: binId,
+          site_id: site.site_id,
+          site_name: site.site_name,
+          zone_name: zone.zone_name,
+          fill_pct: fill,
+          status: 'pending',
+          created_at: Date.now(),
+        },
+      ]
       changed = true
     })
   })
@@ -100,29 +110,29 @@ export function checkAndGenerateTasks(sites: GreenSite[]) {
 // ── Task lifecycle ─────────────────────────────────────────────────────────
 
 export function assignTask(taskId: string) {
-  _tasks = _tasks.map(t =>
+  _tasks = _tasks.map((t) =>
     t.id === taskId
       ? { ...t, status: 'assigned' as TaskStatus, assigned_at: Date.now() }
-      : t
+      : t,
   )
   notify()
 }
 
 export function acceptTask(taskId: string) {
-  _tasks = _tasks.map(t =>
-    t.id === taskId ? { ...t, status: 'en_cours' as TaskStatus } : t
+  _tasks = _tasks.map((t) =>
+    t.id === taskId ? { ...t, status: 'en_cours' as TaskStatus } : t,
   )
   notify()
 }
 
 export function completeTask(taskId: string) {
-  const task = _tasks.find(t => t.id === taskId)
+  const task = _tasks.find((t) => t.id === taskId)
   if (!task) return
 
-  _tasks = _tasks.map(t =>
+  _tasks = _tasks.map((t) =>
     t.id === taskId
       ? { ...t, status: 'terminé' as TaskStatus, completed_at: Date.now() }
-      : t
+      : t,
   )
 
   // Suppress fill immediately, re-enable after 5 s (bin starts refilling)
@@ -138,26 +148,71 @@ export function completeTask(taskId: string) {
 }
 
 // ── React hook ────────────────────────────────────────────────────────────
+// OPTIMISATION: Added selective subscriptions to avoid re-renders when
+// only specific data changes.
 
 export function useBinTaskStore() {
-  const [, setTick] = useState(0)
+  const [tick, setTick] = useState(0)
 
   useEffect(() => {
-    const fn = () => setTick(n => n + 1)
+    const fn = () => setTick((n) => n + 1)
     _listeners.add(fn)
-    return () => { _listeners.delete(fn) }
+    return () => {
+      _listeners.delete(fn)
+    }
   }, [])
 
   return {
-    role:           _role,
-    tasks:          _tasks,
-    pendingTasks:   _tasks.filter(t => t.status === 'pending'),
-    assignedTasks:  _tasks.filter(t => t.status === 'assigned'),
-    activeTasks:    _tasks.filter(t => t.status === 'en_cours'),
-    completedTasks: _tasks.filter(t => t.status === 'terminé').slice(-10),
+    role: _role,
+    tasks: _tasks,
+    pendingTasks: _tasks.filter((t) => t.status === 'pending'),
+    assignedTasks: _tasks.filter((t) => t.status === 'assigned'),
+    activeTasks: _tasks.filter((t) => t.status === 'en_cours'),
+    completedTasks: _tasks.filter((t) => t.status === 'terminé').slice(-10),
     setRole,
     assignTask,
     acceptTask,
     completeTask,
   }
+}
+
+// OPTIMISATION: Selective hooks that only re-render when specific data changes
+let _roleListeners = new Set<(role: UserRole) => void>()
+let _taskListeners = new Set<(tasks: BinTask[]) => void>()
+
+function notifyRole() {
+  _roleListeners.forEach((fn) => fn(_role))
+}
+function notifyTasks() {
+  _taskListeners.forEach((fn) => fn(_tasks))
+}
+
+export function useRole() {
+  const [role, setRole] = useState<UserRole>(_role)
+
+  useEffect(() => {
+    const fn = (r: UserRole) => setRole(r)
+    _roleListeners.add(fn)
+    return () => {
+      _roleListeners.delete(fn)
+    }
+  }, [])
+
+  return role
+}
+
+export function usePendingTasks() {
+  const [tasks, setTasks] = useState<BinTask[]>(() =>
+    _tasks.filter((t) => t.status === 'pending'),
+  )
+
+  useEffect(() => {
+    const fn = () => setTasks(_tasks.filter((t) => t.status === 'pending'))
+    _taskListeners.add(fn)
+    return () => {
+      _taskListeners.delete(fn)
+    }
+  }, [])
+
+  return tasks
 }
