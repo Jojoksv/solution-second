@@ -5,7 +5,7 @@ export const Route = createFileRoute('/flows')({
   component: FlowsPage,
 })
 
-export function FlowsPage() {
+function FlowsPage() {
   return (
     <div className="flex flex-col gap-6 w-full max-w-[1400px] mx-auto h-full pb-6">
       {/* Header */}

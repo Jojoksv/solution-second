@@ -5,7 +5,7 @@ export const Route = createFileRoute('/map')({
   component: MapPage,
 })
 
-export function MapPage() {
+function MapPage() {
   return (
     <div className="flex flex-col h-full w-full max-w-[1600px] mx-auto gap-4">
       <div className="flex-none">

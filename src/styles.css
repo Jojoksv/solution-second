@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Inter is now loaded via <link> in index.html to avoid PostCSS @import order errors */
 
 @theme {
   --color-bg-base: #000000;
@@ -191,3 +191,70 @@ html, body, #app {
 .green-icon.green svg { fill: var(--color-accent-green); }
 .green-icon.orange svg { fill: var(--color-accent-orange); }
 .green-icon.red svg { fill: var(--color-accent-red); }
+
+/* ── Demo mode progress bar ── */
+@keyframes demo-progress {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+.demo-progress-bar {
+  width: 100%;
+  height: 100%;
+  animation: demo-progress 30s linear forwards;
+  transform-origin: left;
+}
+
+/* ── Stadium simulation slider ── */
+.sim-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #0f1827;
+  border-radius: 4px;
+  outline: none;
+}
+.sim-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f5c842;
+  cursor: pointer;
+  box-shadow: 0 0 6px #f5c84260;
+  border: 2px solid #03050a;
+}
+.sim-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f5c842;
+  cursor: pointer;
+  box-shadow: 0 0 6px #f5c84260;
+  border: 2px solid #03050a;
+}
+
+/* ── Toast slide-in animation ── */
+@keyframes slide-in-right {
+  from { transform: translateX(110%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.toast-slide-in {
+  animation: slide-in-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ── Bin alert card pulse ── */
+@keyframes bin-alert-pulse {
+  0%, 100% { border-color: rgba(239, 68, 68, 0.3); }
+  50%       { border-color: rgba(239, 68, 68, 0.7); box-shadow: 0 0 8px rgba(239, 68, 68, 0.2); }
+}
+.bin-alert-card {
+  animation: bin-alert-pulse 1.8s ease-in-out infinite;
+}
+
+/* ── Leaflet popup dark theme override ── */
+.leaflet-popup-close-button {
+  color: #888888 !important;
+}
+.leaflet-popup-close-button:hover {
+  color: #EDEDED !important;
+}
