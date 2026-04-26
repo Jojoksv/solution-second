@@ -1,61 +1,125 @@
 @import 'tailwindcss';
-/* Inter is now loaded via <link> in index.html to avoid PostCSS @import order errors */
+/* Inter is loaded via <link> in index.html */
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* THEME: Dark (default)                                                       */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme="dark"] {
+  --bg-base:          #0B0F1A;
+  --bg-panel:         #111827;
+  --bg-panel-hover:   #1F2937;
+  --bg-glass:         rgba(13, 18, 30, 0.85);
+  --bg-glass-light:   rgba(17, 24, 39, 0.6);
+
+  --border-subtle:    rgba(255, 255, 255, 0.07);
+  --border-focus:     rgba(255, 255, 255, 0.15);
+
+  --text-primary:     #F9FAFB;
+  --text-secondary:   #9CA3AF;
+  --text-muted:       #4B5563;
+
+  --accent-violet:    #7C3AED;
+  --accent-violet-glow: rgba(124, 58, 237, 0.3);
+  --accent-orange:    #F97316;
+  --accent-orange-glow: rgba(249, 115, 22, 0.3);
+  --accent-green:     #10B981;
+  --accent-green-glow: rgba(16, 185, 129, 0.3);
+  --accent-red:       #EF4444;
+  --accent-red-glow:  rgba(239, 68, 68, 0.3);
+  --accent-blue:      #3B82F6;
+
+  --map-tile-style: dark_all;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* THEME: Light                                                                */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+[data-theme="light"] {
+  --bg-base:          #F1F5F9;
+  --bg-panel:         #FFFFFF;
+  --bg-panel-hover:   #F8FAFC;
+  --bg-glass:         rgba(255, 255, 255, 0.88);
+  --bg-glass-light:   rgba(248, 250, 252, 0.7);
+
+  --border-subtle:    rgba(0, 0, 0, 0.08);
+  --border-focus:     rgba(0, 0, 0, 0.16);
+
+  --text-primary:     #0F172A;
+  --text-secondary:   #475569;
+  --text-muted:       #94A3B8;
+
+  --accent-violet:    #6D28D9;
+  --accent-violet-glow: rgba(109, 40, 217, 0.2);
+  --accent-orange:    #EA580C;
+  --accent-orange-glow: rgba(234, 88, 12, 0.2);
+  --accent-green:     #059669;
+  --accent-green-glow: rgba(5, 150, 105, 0.2);
+  --accent-red:       #DC2626;
+  --accent-red-glow:  rgba(220, 38, 38, 0.2);
+  --accent-blue:      #2563EB;
+
+  --map-tile-style: light_all;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Tailwind theme extensions                                                   */
+/* ─────────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  --color-bg-base: #000000;
-  --color-bg-panel: #0A0A0A;
-  --color-bg-panel-hover: #141414;
-  --color-border-subtle: #2A2A2A;
-  --color-border-focus: #3A3A3A;
-  
-  --color-text-primary: #EDEDED;
-  --color-text-secondary: #888888;
-  
-  --color-accent-blue: #0070F3;
-  --color-accent-green: #10B981;
-  --color-accent-red: #E5484D;
-  --color-accent-orange: #F5A623;
-  
+  --color-bg-base:          var(--bg-base);
+  --color-bg-panel:         var(--bg-panel);
+  --color-bg-panel-hover:   var(--bg-panel-hover);
+  --color-border-subtle:    var(--border-subtle);
+  --color-border-focus:     var(--border-focus);
+  --color-text-primary:     var(--text-primary);
+  --color-text-secondary:   var(--text-secondary);
+  --color-accent-violet:    var(--accent-violet);
+  --color-accent-blue:      var(--accent-blue);
+  --color-accent-green:     var(--accent-green);
+  --color-accent-red:       var(--accent-red);
+  --color-accent-orange:    var(--accent-orange);
   --font-inter: 'Inter', sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Global Reset & Base                                                         */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
 
 html, body, #app {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg-base);
-  color: var(--color-text-primary);
-  font-family: var(--font-inter);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ── Custom Scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-border-subtle);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-border-focus);
-}
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Custom Scrollbar                                                            */
+/* ─────────────────────────────────────────────────────────────────────────── */
 
-/* ── Global Layout ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-focus); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Layout                                                                      */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 .app-layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
-  background: var(--color-bg-base);
+  background: var(--bg-base);
 }
 
 .dashboard-content {
@@ -67,70 +131,117 @@ html, body, #app {
   position: relative;
 }
 
-/* ── Base UI Elements ── */
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Panel Components                                                            */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 .panel {
-  background-color: var(--color-bg-panel);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 6px;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .panel-hover {
   transition: all 0.2s ease;
 }
 .panel-hover:hover {
-  background-color: var(--color-bg-panel-hover);
-  border-color: var(--color-border-focus);
+  background-color: var(--bg-panel-hover);
+  border-color: var(--border-focus);
 }
 
-/* ── Specific Overrides for Leaflet Map ── */
+/* Glassmorphism panel */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.glass-panel-sm {
+  background: var(--bg-glass-light);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Glow Effects                                                                */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.glow-violet { box-shadow: 0 0 20px var(--accent-violet-glow), 0 0 40px rgba(124,58,237,0.1); }
+.glow-orange { box-shadow: 0 0 20px var(--accent-orange-glow); }
+.glow-green  { box-shadow: 0 0 20px var(--accent-green-glow); }
+.glow-red    { box-shadow: 0 0 20px var(--accent-red-glow); }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Leaflet Map Overrides                                                       */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 .leaflet-container {
-  background: var(--color-bg-base) !important;
-  font-family: var(--font-inter) !important;
+  background: var(--bg-base) !important;
+  font-family: 'Inter', sans-serif !important;
 }
 
 .leaflet-popup-content-wrapper {
-  background: var(--color-bg-panel-hover) !important;
-  color: var(--color-text-primary) !important;
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 6px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  background: var(--bg-panel) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px var(--border-subtle) !important;
 }
 
 .leaflet-popup-tip {
-  background: var(--color-bg-panel-hover) !important;
-  border: 1px solid var(--color-border-subtle);
-  border-top: none;
-  border-left: none;
+  background: var(--bg-panel) !important;
 }
 
 .leaflet-popup-content {
-  margin: 12px !important;
+  margin: 14px !important;
+  color: var(--text-primary) !important;
 }
 
-/* ── Pulse Animations for Sensors ── */
+.leaflet-popup-close-button {
+  color: var(--text-secondary) !important;
+}
+.leaflet-popup-close-button:hover {
+  color: var(--text-primary) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Pulse Animations                                                            */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 @keyframes pulse-green {
-  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-  70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0%   { box-shadow: 0 0 0 0 var(--accent-green-glow); }
+  70%  { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
 }
-.status-pulse-green {
-  animation: pulse-green 2s infinite;
-}
+.status-pulse-green { animation: pulse-green 2.4s infinite; }
 
 @keyframes pulse-red {
-  0% { box-shadow: 0 0 0 0 rgba(229, 72, 77, 0.4); }
-  70% { box-shadow: 0 0 0 6px rgba(229, 72, 77, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(229, 72, 77, 0); }
+  0%   { box-shadow: 0 0 0 0 var(--accent-red-glow); }
+  70%  { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
 }
-.status-pulse-red {
-  animation: pulse-red 2s infinite;
-}
+.status-pulse-red { animation: pulse-red 1.8s infinite; }
 
-/* ── Map Markers Pulse Animations ── */
+@keyframes pulse-orange {
+  0%   { box-shadow: 0 0 0 0 var(--accent-orange-glow); }
+  70%  { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.status-pulse-orange { animation: pulse-orange 2s infinite; }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Map Marker Pulses                                                           */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 .pulse-wrapper {
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,48 +262,77 @@ html, body, #app {
   top: 0;
   left: 0;
   border-radius: 50%;
-  animation: map-pulse 2s ease-out infinite;
+  animation: map-pulse 2.2s ease-out infinite;
 }
 
-.pulse-dot.red { background: var(--color-accent-red); }
-.pulse-dot.red::after { box-shadow: 0 0 0 0 rgba(229, 72, 77, 0.7); }
+.pulse-dot.red    { background: #EF4444; }
+.pulse-dot.red::after { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
 
-.pulse-dot.orange { background: var(--color-accent-orange); }
-.pulse-dot.orange::after { box-shadow: 0 0 0 0 rgba(245, 166, 35, 0.7); }
+.pulse-dot.orange { background: #F97316; }
+.pulse-dot.orange::after { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.6); }
 
-.pulse-dot.green { background: var(--color-accent-green); }
-.pulse-dot.green::after { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+.pulse-dot.green  { background: #10B981; }
+.pulse-dot.green::after { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
 
 @keyframes map-pulse {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(3.5); opacity: 0; }
+  0%   { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(4.5); opacity: 0; }
 }
 
-/* ── Smart Green Map Icons ── */
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Smart Green Map Icons                                                       */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 .green-icon {
-  background: var(--color-bg-panel-hover);
-  border: 1px solid var(--color-border-subtle);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 2px 6px;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(--color-text-primary);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.green-icon svg { width: 12px; height: 12px; }
+.green-icon.green  svg { fill: #10B981; }
+.green-icon.orange svg { fill: #F97316; }
+.green-icon.red    svg { fill: #EF4444; }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Command Center Sidebar (left/right overlay panels)                          */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.cc-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-color: var(--border-subtle);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-.green-icon svg {
-  width: 12px;
-  height: 12px;
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Animated Alert Cards                                                        */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+@keyframes alert-pulse {
+  0%, 100% { border-color: rgba(239, 68, 68, 0.25); box-shadow: none; }
+  50%       { border-color: rgba(239, 68, 68, 0.6); box-shadow: 0 0 12px rgba(239,68,68,0.15); }
 }
+.bin-alert-card { animation: alert-pulse 2s ease-in-out infinite; }
 
-.green-icon.green svg { fill: var(--color-accent-green); }
-.green-icon.orange svg { fill: var(--color-accent-orange); }
-.green-icon.red svg { fill: var(--color-accent-red); }
+@keyframes fade-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-slide-in { animation: fade-slide-in 0.3s ease forwards; }
 
-/* ── Demo mode progress bar ── */
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Demo mode progress bar                                                      */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 @keyframes demo-progress {
   0%   { transform: translateX(-100%); }
   100% { transform: translateX(0); }
@@ -204,57 +344,110 @@ html, body, #app {
   transform-origin: left;
 }
 
-/* ── Stadium simulation slider ── */
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Stadium simulation slider                                                   */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 .sim-slider {
   -webkit-appearance: none;
   appearance: none;
-  background: #0f1827;
+  background: var(--bg-panel);
   border-radius: 4px;
   outline: none;
 }
 .sim-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 14px; height: 14px;
   border-radius: 50%;
-  background: #f5c842;
+  background: var(--accent-orange);
   cursor: pointer;
-  box-shadow: 0 0 6px #f5c84260;
-  border: 2px solid #03050a;
+  box-shadow: 0 0 6px var(--accent-orange-glow);
+  border: 2px solid var(--bg-base);
 }
 .sim-slider::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
+  width: 14px; height: 14px;
   border-radius: 50%;
-  background: #f5c842;
+  background: var(--accent-orange);
   cursor: pointer;
-  box-shadow: 0 0 6px #f5c84260;
-  border: 2px solid #03050a;
+  box-shadow: 0 0 6px var(--accent-orange-glow);
+  border: 2px solid var(--bg-base);
 }
 
-/* ── Toast slide-in animation ── */
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Toast slide-in                                                              */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 @keyframes slide-in-right {
   from { transform: translateX(110%); opacity: 0; }
   to   { transform: translateX(0);    opacity: 1; }
 }
-.toast-slide-in {
-  animation: slide-in-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.toast-slide-in { animation: slide-in-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Gradient accent line (top of panels)                                        */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.accent-line-violet::before {
+  content: '';
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-violet), transparent);
+  border-radius: 2px 2px 0 0;
+  margin-bottom: -1px;
 }
 
-/* ── Bin alert card pulse ── */
-@keyframes bin-alert-pulse {
-  0%, 100% { border-color: rgba(239, 68, 68, 0.3); }
-  50%       { border-color: rgba(239, 68, 68, 0.7); box-shadow: 0 0 8px rgba(239, 68, 68, 0.2); }
-}
-.bin-alert-card {
-  animation: bin-alert-pulse 1.8s ease-in-out infinite;
+.accent-line-orange::before {
+  content: '';
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-orange), transparent);
+  border-radius: 2px 2px 0 0;
+  margin-bottom: -1px;
 }
 
-/* ── Leaflet popup dark theme override ── */
-.leaflet-popup-close-button {
-  color: #888888 !important;
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Sidebar nav active state gradient                                           */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.nav-item-active {
+  background: linear-gradient(90deg, rgba(124,58,237,0.15), rgba(124,58,237,0.05));
+  border-left: 2px solid var(--accent-violet);
 }
-.leaflet-popup-close-button:hover {
-  color: #EDEDED !important;
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Animated counter (for KPI values)                                           */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+@keyframes count-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.count-in { animation: count-in 0.4s ease; }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Risk badge glow                                                             */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+@keyframes risk-critical-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
+  50%       { box-shadow: 0 0 0 6px rgba(239,68,68,0); }
+}
+.risk-critical { animation: risk-critical-pulse 1.5s infinite; }
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Vertical divider                                                            */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.vdivider {
+  width: 1px;
+  background: var(--border-subtle);
+  align-self: stretch;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Light theme Leaflet overrides                                               */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+[data-theme="light"] .leaflet-container {
+  background: #e8edf5 !important;
 }

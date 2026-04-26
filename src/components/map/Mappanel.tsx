@@ -5,13 +5,27 @@
 //   • Stadium view — Stade Iba Mar Diop detail simulation (polygon + gates + persons + bins)
 
 import { useEffect, useRef, useState } from 'react'
-import type { Map as LMap, LayerGroup, CircleMarker } from 'leaflet'
+import type { Map as LMap, LayerGroup, CircleMarker, TileLayer } from 'leaflet'
 import { useDensity, useGreen } from '@/hooks'
 import { useDemoState } from '@/stores/demoStore'
 import {
   useSimulationStore,
   simPause,
 } from '@/stores/simulationStore'
+import { useTheme } from '@/stores/themeStore'
+import type { SimBin } from '@/stores/binSimulationStore'
+
+export interface MapLayers {
+  bins?: boolean
+  crowd?: boolean
+  heatmap?: boolean
+}
+
+export interface MapPanelProps {
+  layers?: MapLayers
+  bins?: SimBin[]
+  onBinClick?: (bin: SimBin) => void
+}
 import {
   STADIUM_CENTER,
   STADIUM_POLYGON,
@@ -36,17 +50,19 @@ declare const L: typeof import('leaflet') & {
 
 const TRASH_SVG = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`
 
-export function MapPanel() {
+export function MapPanel({ layers, bins, onBinClick }: MapPanelProps = {}) {
   const demoActive = useDemoState()
   const { data: density } = useDensity(demoActive)
   // Green markers only need to update when status crosses a threshold, not on
   // every bin fill tick — pass false so MapPanel never enters the 2 s cycle.
   const { data: green } = useGreen(false)
   const sim = useSimulationStore()
+  const { theme } = useTheme()
 
   // ── Leaflet refs ───────────────────────────────────────────────────────
   const mapDivRef     = useRef<HTMLDivElement>(null)
   const mapRef        = useRef<LMap | null>(null)
+  const tileLayerRef  = useRef<TileLayer | null>(null)
   const markerLayer   = useRef<LayerGroup | null>(null)
   const greenLayer    = useRef<LayerGroup | null>(null)
   const stadiumLayer  = useRef<LayerGroup | null>(null)   // static: polygon
@@ -54,6 +70,7 @@ export function MapPanel() {
   const personsLayer  = useRef<LayerGroup | null>(null)   // updated per tick (canvas)
   const binsLayer     = useRef<LayerGroup | null>(null)   // updated per tick
   const heatLayerRef  = useRef<L.Layer | null>(null)      // stadium heatmap (toggle)
+  const simBinsLayer  = useRef<LayerGroup | null>(null)   // simulation bin markers
   const canvasRef     = useRef<L.Canvas | null>(null)
 
   // ── React state ────────────────────────────────────────────────────────
@@ -75,15 +92,19 @@ export function MapPanel() {
       [14.715, -17.25],
       STADIUM_ZOOM_GLOBAL,
     )
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    const tileStyle = theme === 'light' ? 'light_all' : 'dark_all'
+    const tile = L.tileLayer(`https://{s}.basemaps.cartocdn.com/${tileStyle}/{z}/{x}/{y}{r}.png`, {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
       subdomains: 'abcd',
       maxZoom: 20,
-    }).addTo(map)
+    })
+    tile.addTo(map)
+    tileLayerRef.current = tile
     L.control.zoom({ position: 'bottomright' }).addTo(map)
 
     markerLayer.current  = L.layerGroup().addTo(map)
     greenLayer.current   = L.layerGroup().addTo(map)
+    simBinsLayer.current = L.layerGroup().addTo(map)
     stadiumLayer.current = L.layerGroup().addTo(map)
     gatesLayer.current   = L.layerGroup().addTo(map)
     personsLayer.current = L.layerGroup().addTo(map)
@@ -96,6 +117,119 @@ export function MapPanel() {
       mapRef.current = null
     }
   }, [])
+
+  // ── Swap tile layer when theme changes ────────────────────────────────
+  useEffect(() => {
+    const map = mapRef.current
+    const oldTile = tileLayerRef.current
+    if (!map || !oldTile) return
+    map.removeLayer(oldTile)
+    const tileStyle = theme === 'light' ? 'light_all' : 'dark_all'
+    const newTile = L.tileLayer(`https://{s}.basemaps.cartocdn.com/${tileStyle}/{z}/{x}/{y}{r}.png`, {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 20,
+    })
+    newTile.addTo(map)
+    tileLayerRef.current = newTile
+  }, [theme])
+
+  // ── External layer visibility control ─────────────────────────────────
+  useEffect(() => {
+    const map = mapRef.current
+    const layer = markerLayer.current
+    if (!map || !layer) return
+    if (layers?.crowd === false) { if (map.hasLayer(layer)) map.removeLayer(layer) }
+    else if (!map.hasLayer(layer)) layer.addTo(map)
+  }, [layers?.crowd])
+
+  useEffect(() => {
+    const map = mapRef.current
+    const layer = greenLayer.current
+    if (!map || !layer) return
+    if (layers?.bins === false) { if (map.hasLayer(layer)) map.removeLayer(layer) }
+    else if (!map.hasLayer(layer)) layer.addTo(map)
+  }, [layers?.bins])
+
+  // ── Simulation bin markers (from binSimulationStore) ─────────────────
+  useEffect(() => {
+    const layer = simBinsLayer.current
+    if (!layer || isStadiumMode) return
+
+    layer.clearLayers()
+    if (!bins || layers?.bins === false) return
+
+    bins.forEach(bin => {
+      const color =
+        bin.status === 'red'    ? '#ef4444' :
+        bin.status === 'orange' ? '#f97316' : '#10b981'
+
+      const pulseRing = bin.status !== 'green'
+        ? `<div style="
+            position:absolute;
+            top:50%;left:50%;
+            transform:translate(-50%,-50%);
+            width:28px;height:28px;
+            border-radius:50%;
+            border:1.5px solid ${color};
+            opacity:0.4;
+            animation:map-pulse 1.8s ease-out infinite;
+            pointer-events:none;
+          "></div>`
+        : ''
+
+      const resetBadge = bin.resetting
+        ? `<div style="
+            position:absolute;top:-6px;right:-6px;
+            background:#7C3AED;color:#fff;
+            border-radius:50%;width:12px;height:12px;
+            font-size:7px;
+            display:flex;align-items:center;justify-content:center;
+            font-weight:bold;
+          ">↻</div>`
+        : ''
+
+      const icon = L.divIcon({
+        className: '',
+        html: `
+          <div style="position:relative;display:inline-flex;align-items:center;justify-content:center;">
+            ${pulseRing}
+            <div style="
+              position:relative;
+              background:#07090f;
+              border:1.5px solid ${color};
+              border-radius:6px;
+              padding:2px 6px;
+              font-size:9px;
+              font-weight:700;
+              color:${color};
+              display:flex;
+              align-items:center;
+              gap:3px;
+              white-space:nowrap;
+              box-shadow:0 2px 10px rgba(0,0,0,0.7)${bin.status !== 'green' ? `,0 0 8px ${color}40` : ''};
+              font-family:monospace;
+              ${bin.resetting ? 'opacity:0.7;' : ''}
+            ">
+              <svg viewBox="0 0 24 24" width="9" height="9" fill="${color}">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+              </svg>
+              ${bin.resetting ? '…' : bin.fillPct + '%'}
+            </div>
+            ${resetBadge}
+          </div>
+        `,
+        iconSize: [52, 22],
+        iconAnchor: [26, 11],
+      })
+
+      const marker = L.marker([bin.lat, bin.lng], { icon })
+      marker.on('click', () => {
+        if (onBinClick) onBinClick(bin)
+      })
+      marker.addTo(layer)
+    })
+  }, [bins, isStadiumMode, layers?.bins, onBinClick])
 
   // ── Global crowd markers ───────────────────────────────────────────────
   useEffect(() => {
@@ -235,6 +369,7 @@ export function MapPanel() {
     setToasts([])
     markerLayer.current?.clearLayers()
     greenLayer.current?.clearLayers()
+    simBinsLayer.current?.clearLayers()
     mapRef.current?.flyTo(STADIUM_CENTER, STADIUM_ZOOM_DETAIL, {
       duration: 1.2,
       easeLinearity: 0.3,
