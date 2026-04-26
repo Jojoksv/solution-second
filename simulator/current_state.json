@@ -1,13 +1,13 @@
 {
-  "real_tick": 180,
-  "timestamp": "2026-04-26T06:55:09Z",
+  "real_tick": 200,
+  "timestamp": "2026-04-26T06:55:13Z",
   "phase": {
     "name": "post_event",
     "label": "Post-événement",
     "color": "#eab308",
     "density_range": [
-      0.19272727272727275,
-      0.23818181818181805
+      0.040000000000000036,
+      0.08
     ]
   },
   "gates": [
@@ -17,8 +17,8 @@
       "lat": 14.6952,
       "lng": -17.4458,
       "capacity": 800,
-      "density": 0.2016,
-      "crowd_count": 161,
+      "density": 0.0458,
+      "crowd_count": 37,
       "level": "low",
       "color": "#22c55e"
     },
@@ -28,8 +28,8 @@
       "lat": 14.6953,
       "lng": -17.4441,
       "capacity": 600,
-      "density": 0.1904,
-      "crowd_count": 114,
+      "density": 0.0647,
+      "crowd_count": 39,
       "level": "low",
       "color": "#22c55e"
     },
@@ -39,8 +39,8 @@
       "lat": 14.6952,
       "lng": -17.4424,
       "capacity": 700,
-      "density": 0.1476,
-      "crowd_count": 103,
+      "density": 0.0484,
+      "crowd_count": 34,
       "level": "low",
       "color": "#22c55e"
     },
@@ -50,8 +50,8 @@
       "lat": 14.6937,
       "lng": -17.4419,
       "capacity": 500,
-      "density": 0.1684,
-      "crowd_count": 84,
+      "density": 0.0635,
+      "crowd_count": 32,
       "level": "low",
       "color": "#22c55e"
     },
@@ -61,8 +61,8 @@
       "lat": 14.6921,
       "lng": -17.4424,
       "capacity": 700,
-      "density": 0.2124,
-      "crowd_count": 149,
+      "density": 0.0498,
+      "crowd_count": 35,
       "level": "low",
       "color": "#22c55e"
     },
@@ -72,10 +72,10 @@
       "lat": 14.692,
       "lng": -17.4441,
       "capacity": 900,
-      "density": 0.288,
-      "crowd_count": 259,
-      "level": "moderate",
-      "color": "#eab308"
+      "density": 0.0674,
+      "crowd_count": 61,
+      "level": "low",
+      "color": "#22c55e"
     },
     {
       "id": "G7",
@@ -83,8 +83,8 @@
       "lat": 14.6921,
       "lng": -17.4458,
       "capacity": 800,
-      "density": 0.2355,
-      "crowd_count": 188,
+      "density": 0.0806,
+      "crowd_count": 64,
       "level": "low",
       "color": "#22c55e"
     },
@@ -94,1156 +94,340 @@
       "lat": 14.6937,
       "lng": -17.4462,
       "capacity": 600,
-      "density": 0.151,
-      "crowd_count": 91,
+      "density": 0.0313,
+      "crowd_count": 19,
       "level": "low",
       "color": "#22c55e"
     }
   ],
   "persons": [
     {
-      "lat": 14.695251,
-      "lng": -17.445776,
+      "lat": 14.695373,
+      "lng": -17.446088,
       "gate_ref": "G1",
       "color": "#22c55e"
     },
     {
-      "lat": 14.69535,
-      "lng": -17.445857,
+      "lat": 14.69531,
+      "lng": -17.446054,
       "gate_ref": "G1",
       "color": "#22c55e"
     },
     {
-      "lat": 14.69562,
-      "lng": -17.446488,
+      "lat": 14.69593,
+      "lng": -17.446558,
       "gate_ref": "G1",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695524,
-      "lng": -17.445669,
+      "lat": 14.695945,
+      "lng": -17.44652,
       "gate_ref": "G1",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695177,
-      "lng": -17.445845,
+      "lat": 14.695229,
+      "lng": -17.445838,
       "gate_ref": "G1",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695363,
-      "lng": -17.445881,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695246,
-      "lng": -17.445936,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695553,
-      "lng": -17.446049,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695729,
-      "lng": -17.446393,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695825,
-      "lng": -17.446442,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695553,
-      "lng": -17.446368,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695352,
-      "lng": -17.445829,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695795,
-      "lng": -17.446589,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.69549,
-      "lng": -17.446304,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695421,
-      "lng": -17.446117,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.694976,
-      "lng": -17.446166,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695471,
-      "lng": -17.446118,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695967,
-      "lng": -17.446529,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.69569,
-      "lng": -17.446399,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695256,
-      "lng": -17.445749,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695734,
-      "lng": -17.446203,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695736,
-      "lng": -17.446369,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.69533,
-      "lng": -17.446111,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695513,
-      "lng": -17.446295,
-      "gate_ref": "G1",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.696282,
-      "lng": -17.444013,
+      "lat": 14.695534,
+      "lng": -17.444239,
       "gate_ref": "G2",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695439,
-      "lng": -17.444083,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.696072,
-      "lng": -17.44417,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695455,
-      "lng": -17.444068,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695972,
+      "lat": 14.695351,
       "lng": -17.44419,
       "gate_ref": "G2",
       "color": "#22c55e"
     },
     {
-      "lat": 14.696218,
-      "lng": -17.444243,
+      "lat": 14.695586,
+      "lng": -17.444174,
       "gate_ref": "G2",
       "color": "#22c55e"
     },
     {
-      "lat": 14.696368,
-      "lng": -17.444122,
+      "lat": 14.695301,
+      "lng": -17.444184,
       "gate_ref": "G2",
       "color": "#22c55e"
     },
     {
-      "lat": 14.696001,
-      "lng": -17.44402,
+      "lat": 14.695775,
+      "lng": -17.443969,
       "gate_ref": "G2",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695388,
-      "lng": -17.444193,
+      "lat": 14.695241,
+      "lng": -17.443554,
       "gate_ref": "G2",
       "color": "#22c55e"
     },
     {
-      "lat": 14.69581,
-      "lng": -17.44414,
+      "lat": 14.695539,
+      "lng": -17.444198,
       "gate_ref": "G2",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695324,
-      "lng": -17.444192,
+      "lat": 14.696345,
+      "lng": -17.444125,
       "gate_ref": "G2",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695376,
-      "lng": -17.444206,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695316,
-      "lng": -17.444036,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695173,
-      "lng": -17.444692,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695567,
-      "lng": -17.443994,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.696076,
-      "lng": -17.44414,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695448,
-      "lng": -17.444096,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.6953,
-      "lng": -17.444686,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695793,
-      "lng": -17.444159,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695684,
-      "lng": -17.444041,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695345,
-      "lng": -17.444124,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695349,
-      "lng": -17.444135,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695461,
-      "lng": -17.443986,
-      "gate_ref": "G2",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695216,
-      "lng": -17.442391,
+      "lat": 14.694912,
+      "lng": -17.442307,
       "gate_ref": "G3",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695587,
-      "lng": -17.442085,
+      "lat": 14.695184,
+      "lng": -17.442305,
       "gate_ref": "G3",
       "color": "#22c55e"
     },
     {
-      "lat": 14.695211,
+      "lat": 14.695663,
+      "lng": -17.441859,
+      "gate_ref": "G3",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.695505,
+      "lng": -17.441985,
+      "gate_ref": "G3",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.695391,
+      "lng": -17.442155,
+      "gate_ref": "G3",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.695209,
+      "lng": -17.442403,
+      "gate_ref": "G3",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.693708,
+      "lng": -17.441789,
+      "gate_ref": "G4",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.693653,
+      "lng": -17.441613,
+      "gate_ref": "G4",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.693796,
+      "lng": -17.441111,
+      "gate_ref": "G4",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.693767,
+      "lng": -17.441819,
+      "gate_ref": "G4",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.693722,
+      "lng": -17.44183,
+      "gate_ref": "G4",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.693703,
+      "lng": -17.441848,
+      "gate_ref": "G4",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.693671,
+      "lng": -17.440936,
+      "gate_ref": "G4",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.693763,
+      "lng": -17.441833,
+      "gate_ref": "G4",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.691839,
       "lng": -17.442246,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695398,
-      "lng": -17.442228,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695515,
-      "lng": -17.442153,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695674,
-      "lng": -17.441788,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695725,
-      "lng": -17.441622,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695339,
-      "lng": -17.442204,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695607,
-      "lng": -17.442108,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695232,
-      "lng": -17.442549,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.694977,
-      "lng": -17.442371,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695398,
-      "lng": -17.442078,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695318,
-      "lng": -17.44243,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695208,
-      "lng": -17.442315,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695568,
-      "lng": -17.442098,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695243,
-      "lng": -17.442349,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695649,
-      "lng": -17.442082,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.695369,
-      "lng": -17.442217,
-      "gate_ref": "G3",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693808,
-      "lng": -17.441896,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693834,
-      "lng": -17.440861,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693739,
-      "lng": -17.441302,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693561,
-      "lng": -17.441858,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.694201,
-      "lng": -17.441945,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693781,
-      "lng": -17.441718,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693749,
-      "lng": -17.440885,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693571,
-      "lng": -17.441679,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693566,
-      "lng": -17.441884,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693565,
-      "lng": -17.441898,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693772,
-      "lng": -17.441587,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693958,
-      "lng": -17.44179,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693684,
-      "lng": -17.44161,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.694098,
-      "lng": -17.441981,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693758,
-      "lng": -17.44152,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693715,
-      "lng": -17.441658,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693738,
-      "lng": -17.441847,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693678,
-      "lng": -17.441894,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693685,
-      "lng": -17.441021,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693662,
-      "lng": -17.44152,
-      "gate_ref": "G4",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691744,
-      "lng": -17.442084,
       "gate_ref": "G5",
       "color": "#22c55e"
     },
     {
-      "lat": 14.69156,
-      "lng": -17.441818,
+      "lat": 14.691989,
+      "lng": -17.442392,
       "gate_ref": "G5",
       "color": "#22c55e"
     },
     {
-      "lat": 14.691935,
-      "lng": -17.442637,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691966,
-      "lng": -17.442564,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691941,
-      "lng": -17.442306,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692075,
-      "lng": -17.442287,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691788,
-      "lng": -17.442074,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691688,
-      "lng": -17.442103,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.69173,
-      "lng": -17.441838,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692073,
+      "lat": 14.692094,
       "lng": -17.442241,
       "gate_ref": "G5",
       "color": "#22c55e"
     },
     {
-      "lat": 14.691688,
-      "lng": -17.441922,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691813,
-      "lng": -17.442615,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692656,
-      "lng": -17.442023,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691667,
-      "lng": -17.442128,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692055,
-      "lng": -17.442204,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691832,
-      "lng": -17.442207,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691643,
-      "lng": -17.442099,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691747,
-      "lng": -17.441989,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692156,
-      "lng": -17.442256,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.69158,
-      "lng": -17.441857,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692522,
-      "lng": -17.441852,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691772,
-      "lng": -17.442062,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692472,
-      "lng": -17.442234,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692043,
-      "lng": -17.44223,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.69182,
-      "lng": -17.44277,
-      "gate_ref": "G5",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691443,
-      "lng": -17.444172,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691984,
-      "lng": -17.444093,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691084,
-      "lng": -17.444213,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691401,
-      "lng": -17.444171,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691669,
-      "lng": -17.444152,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691263,
-      "lng": -17.444136,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691629,
-      "lng": -17.443993,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691816,
-      "lng": -17.444237,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.6913,
-      "lng": -17.444025,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691451,
-      "lng": -17.444121,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
       "lat": 14.691991,
-      "lng": -17.44403,
-      "gate_ref": "G6",
-      "color": "#eab308"
+      "lng": -17.442477,
+      "gate_ref": "G5",
+      "color": "#22c55e"
     },
     {
-      "lat": 14.691873,
-      "lng": -17.443589,
-      "gate_ref": "G6",
-      "color": "#eab308"
+      "lat": 14.691532,
+      "lng": -17.441728,
+      "gate_ref": "G5",
+      "color": "#22c55e"
     },
     {
-      "lat": 14.691889,
-      "lng": -17.443487,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691828,
-      "lng": -17.444168,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691874,
-      "lng": -17.444229,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.692142,
-      "lng": -17.444663,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691156,
-      "lng": -17.444151,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691889,
-      "lng": -17.443955,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691423,
-      "lng": -17.444219,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691012,
-      "lng": -17.444018,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691986,
-      "lng": -17.444024,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691499,
-      "lng": -17.444144,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691269,
-      "lng": -17.444226,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691398,
-      "lng": -17.444058,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.690957,
-      "lng": -17.444123,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.692032,
-      "lng": -17.444508,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691281,
-      "lng": -17.443968,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691202,
-      "lng": -17.444108,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.69189,
-      "lng": -17.444122,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691439,
-      "lng": -17.443989,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.69138,
-      "lng": -17.444222,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691801,
-      "lng": -17.444148,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.69199,
-      "lng": -17.444126,
-      "gate_ref": "G6",
-      "color": "#eab308"
-    },
-    {
-      "lat": 14.691994,
-      "lng": -17.444199,
-      "gate_ref": "G6",
-      "color": "#eab308"
+      "lat": 14.691595,
+      "lng": -17.442853,
+      "gate_ref": "G5",
+      "color": "#22c55e"
     },
     {
       "lat": 14.690988,
-      "lng": -17.444148,
+      "lng": -17.444001,
       "gate_ref": "G6",
-      "color": "#eab308"
+      "color": "#22c55e"
     },
     {
-      "lat": 14.691452,
-      "lng": -17.446457,
+      "lat": 14.691548,
+      "lng": -17.444183,
+      "gate_ref": "G6",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.691912,
+      "lng": -17.444792,
+      "gate_ref": "G6",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.691463,
+      "lng": -17.443972,
+      "gate_ref": "G6",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.691751,
+      "lng": -17.444005,
+      "gate_ref": "G6",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.691916,
+      "lng": -17.444039,
+      "gate_ref": "G6",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.691259,
+      "lng": -17.444075,
+      "gate_ref": "G6",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.691871,
+      "lng": -17.444006,
+      "gate_ref": "G6",
+      "color": "#22c55e"
+    },
+    {
+      "lat": 14.691669,
+      "lng": -17.446232,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.692134,
-      "lng": -17.445855,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.69211,
-      "lng": -17.445822,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691831,
-      "lng": -17.446162,
+      "lat": 14.691588,
+      "lng": -17.445485,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
       "lat": 14.692006,
-      "lng": -17.445718,
+      "lng": -17.44598,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.692003,
-      "lng": -17.445722,
+      "lat": 14.691824,
+      "lng": -17.445921,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.691886,
-      "lng": -17.44564,
+      "lat": 14.692064,
+      "lng": -17.445877,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.691548,
-      "lng": -17.44633,
+      "lat": 14.69189,
+      "lng": -17.445438,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.691705,
-      "lng": -17.445496,
+      "lat": 14.692103,
+      "lng": -17.445936,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.692341,
-      "lng": -17.445948,
+      "lat": 14.691917,
+      "lng": -17.445946,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.691711,
-      "lng": -17.446099,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692107,
-      "lng": -17.445814,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691901,
-      "lng": -17.445832,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691966,
-      "lng": -17.446145,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691891,
-      "lng": -17.446158,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691668,
-      "lng": -17.446423,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691323,
-      "lng": -17.446525,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691863,
-      "lng": -17.446243,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691323,
-      "lng": -17.446494,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692444,
-      "lng": -17.446269,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.692078,
-      "lng": -17.445853,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691614,
-      "lng": -17.446403,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691338,
-      "lng": -17.44644,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691958,
-      "lng": -17.445949,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691696,
-      "lng": -17.44608,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.691995,
+      "lat": 14.691998,
       "lng": -17.445835,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.691939,
-      "lng": -17.445822,
+      "lat": 14.691408,
+      "lng": -17.446434,
       "gate_ref": "G7",
       "color": "#22c55e"
     },
     {
-      "lat": 14.692173,
-      "lng": -17.445929,
-      "gate_ref": "G7",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693686,
-      "lng": -17.446206,
+      "lat": 14.693662,
+      "lng": -17.446201,
       "gate_ref": "G8",
       "color": "#22c55e"
     },
     {
-      "lat": 14.693932,
-      "lng": -17.446231,
+      "lat": 14.693683,
+      "lng": -17.447096,
       "gate_ref": "G8",
       "color": "#22c55e"
     },
     {
-      "lat": 14.694162,
-      "lng": -17.446284,
+      "lat": 14.693565,
+      "lng": -17.446351,
       "gate_ref": "G8",
       "color": "#22c55e"
     },
     {
-      "lat": 14.693602,
-      "lng": -17.446499,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693797,
-      "lng": -17.446662,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693585,
-      "lng": -17.446251,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693669,
-      "lng": -17.446258,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.69377,
-      "lng": -17.446688,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693005,
-      "lng": -17.446254,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693824,
-      "lng": -17.446951,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693739,
-      "lng": -17.446738,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693181,
-      "lng": -17.446061,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693644,
-      "lng": -17.446893,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693661,
-      "lng": -17.447039,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693806,
-      "lng": -17.446558,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693621,
-      "lng": -17.446328,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693659,
-      "lng": -17.446822,
-      "gate_ref": "G8",
-      "color": "#22c55e"
-    },
-    {
-      "lat": 14.693826,
-      "lng": -17.446827,
+      "lat": 14.693741,
+      "lng": -17.446909,
       "gate_ref": "G8",
       "color": "#22c55e"
     }
@@ -1255,11 +439,11 @@
       "lng": -17.4462,
       "near_gate": "G1",
       "label": "Poubelle Nord-Ouest",
-      "fill_percent": 30,
-      "current_liters": 72,
+      "fill_percent": 15,
+      "current_liters": 36,
       "max_liters": 240,
-      "level": "moderate",
-      "color": "#eab308",
+      "level": "low",
+      "color": "#22c55e",
       "alert": false
     },
     {
@@ -1268,8 +452,8 @@
       "lng": -17.4441,
       "near_gate": "G2",
       "label": "Poubelle Nord",
-      "fill_percent": 23,
-      "current_liters": 55,
+      "fill_percent": 13,
+      "current_liters": 31,
       "max_liters": 240,
       "level": "low",
       "color": "#22c55e",
@@ -1281,8 +465,8 @@
       "lng": -17.442,
       "near_gate": "G3",
       "label": "Poubelle Nord-Est",
-      "fill_percent": 19,
-      "current_liters": 46,
+      "fill_percent": 13,
+      "current_liters": 31,
       "max_liters": 240,
       "level": "low",
       "color": "#22c55e",
@@ -1294,11 +478,11 @@
       "lng": -17.4412,
       "near_gate": "G4",
       "label": "Poubelle Est",
-      "fill_percent": 33,
-      "current_liters": 79,
+      "fill_percent": 22,
+      "current_liters": 53,
       "max_liters": 240,
-      "level": "moderate",
-      "color": "#eab308",
+      "level": "low",
+      "color": "#22c55e",
       "alert": false
     },
     {
@@ -1307,11 +491,11 @@
       "lng": -17.442,
       "near_gate": "G5",
       "label": "Poubelle Sud-Est",
-      "fill_percent": 28,
-      "current_liters": 67,
+      "fill_percent": 11,
+      "current_liters": 26,
       "max_liters": 240,
-      "level": "moderate",
-      "color": "#eab308",
+      "level": "low",
+      "color": "#22c55e",
       "alert": false
     },
     {
@@ -1320,11 +504,11 @@
       "lng": -17.4441,
       "near_gate": "G6",
       "label": "Poubelle Sud",
-      "fill_percent": 41,
-      "current_liters": 98,
+      "fill_percent": 20,
+      "current_liters": 48,
       "max_liters": 240,
-      "level": "moderate",
-      "color": "#eab308",
+      "level": "low",
+      "color": "#22c55e",
       "alert": false
     },
     {
@@ -1333,11 +517,11 @@
       "lng": -17.4462,
       "near_gate": "G7",
       "label": "Poubelle Sud-Ouest",
-      "fill_percent": 39,
-      "current_liters": 94,
+      "fill_percent": 24,
+      "current_liters": 58,
       "max_liters": 240,
-      "level": "moderate",
-      "color": "#eab308",
+      "level": "low",
+      "color": "#22c55e",
       "alert": false
     },
     {
@@ -1346,11 +530,11 @@
       "lng": -17.447,
       "near_gate": "G8",
       "label": "Poubelle Ouest",
-      "fill_percent": 25,
-      "current_liters": 60,
+      "fill_percent": 12,
+      "current_liters": 29,
       "max_liters": 240,
-      "level": "moderate",
-      "color": "#eab308",
+      "level": "low",
+      "color": "#22c55e",
       "alert": false
     },
     {
@@ -1359,8 +543,8 @@
       "lng": -17.4441,
       "near_gate": "G2",
       "label": "Poubelle Cour Nord",
-      "fill_percent": 22,
-      "current_liters": 53,
+      "fill_percent": 13,
+      "current_liters": 31,
       "max_liters": 240,
       "level": "low",
       "color": "#22c55e",
@@ -1372,19 +556,19 @@
       "lng": -17.4441,
       "near_gate": "G6",
       "label": "Poubelle Cour Sud",
-      "fill_percent": 32,
-      "current_liters": 77,
+      "fill_percent": 18,
+      "current_liters": 43,
       "max_liters": 240,
-      "level": "moderate",
-      "color": "#eab308",
+      "level": "low",
+      "color": "#22c55e",
       "alert": false
     }
   ],
   "alerts": [],
   "stats": {
-    "total_crowd": 1149,
+    "total_crowd": 321,
     "max_capacity": 5600,
-    "occupancy_rate": 21,
+    "occupancy_rate": 6,
     "critical_bins": 0,
     "active_alerts": 0
   }
