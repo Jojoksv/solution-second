@@ -17,9 +17,9 @@ export function ToastNotifications({ toasts }: Props) {
           key={toast.id}
           className="toast-slide-in flex items-start gap-3 px-4 py-3 rounded-lg shadow-2xl min-w-[270px] max-w-[320px]"
           style={{
-            background: '#070b12',
-            border: `1px solid ${toast.severity === 'critical' ? '#ef4444' : '#f97316'}55`,
-            boxShadow: `0 4px 24px rgba(0,0,0,0.6), 0 0 12px ${toast.severity === 'critical' ? '#ef444420' : '#f9731620'}`,
+            background: '#FFFFFF',
+            border: `1.5px solid ${toast.severity === 'critical' ? '#ef4444' : '#f97316'}55`,
+            boxShadow: `0 4px 24px rgba(0,0,0,0.12), 0 0 12px ${toast.severity === 'critical' ? '#ef444415' : '#f9731615'}`,
           }}
         >
           <div className="text-[18px] flex-none mt-0.5">
@@ -38,8 +38,8 @@ export function ToastNotifications({ toasts }: Props) {
                 {toast.severity === 'critical' ? '🚨 CRITIQUE' : '⚠️ ALERTE'}
               </span>
             </div>
-            <div className="text-[12px] font-semibold text-[#ededed] truncate">{toast.name}</div>
-            <div className="text-[10px] text-[#4a6080] font-mono mt-0.5 leading-snug">{toast.description}</div>
+            <div className="text-[12px] font-semibold text-[#111827] truncate">{toast.name}</div>
+            <div className="text-[10px] text-[#6B7280] font-mono mt-0.5 leading-snug">{toast.description}</div>
           </div>
         </div>
       ))}

@@ -547,7 +547,7 @@ export function MapPanel() {
         </div>
       )}
 
-      <div className="flex-1 relative w-full h-full bg-[#000000]">
+      <div className="flex-1 relative w-full h-full bg-[#E8ECF0]">
         <div id="map" ref={mapDivRef} className="absolute inset-0 w-full h-full z-[1]" />
 
         {/* Normal site detail overlay */}
@@ -570,20 +570,20 @@ export function MapPanel() {
       </div>
 
       {/* Status bar */}
-      <div className="absolute bottom-4 left-4 z-[400] bg-[#0A0A0A]/90 backdrop-blur-md border border-[#2A2A2A] px-3 py-1.5 rounded shadow-lg text-[11px] font-mono pointer-events-auto">
+      <div className="absolute bottom-4 left-4 z-[400] bg-white/90 backdrop-blur-md border border-[#E5E7EB] px-3 py-1.5 rounded-lg shadow-md text-[11px] font-mono pointer-events-auto">
         {isStadiumMode ? (
           <span>
-            <span className="text-[#4a6080]">Stade Iba Mar Diop · </span>
-            <span className="text-[#f5c842]">Tick {sim.snapshot.realTick}</span>
-            <span className="text-[#4a6080]"> · </span>
+            <span className="text-[#9CA3AF]">Stade Iba Mar Diop · </span>
+            <span className="text-[#FF6600] font-semibold">Tick {sim.snapshot.realTick}</span>
+            <span className="text-[#9CA3AF]"> · </span>
             <span style={{ color: sim.snapshot.phase.color }}>{sim.snapshot.phase.label}</span>
-            <span className="text-[#4a6080]"> · </span>
-            <span className="text-[#00d4aa]">{sim.snapshot.totalCrowd.toLocaleString('fr-FR')} pers.</span>
+            <span className="text-[#9CA3AF]"> · </span>
+            <span className="text-[#10B981] font-semibold">{sim.snapshot.totalCrowd.toLocaleString('fr-FR')} pers.</span>
           </span>
         ) : (
           <span>
-            <span className="text-[#888888]">Dernière sync : </span>
-            <span className="text-[#EDEDED]">
+            <span className="text-[#9CA3AF]">Dernière sync : </span>
+            <span className="text-[#374151] font-semibold">
               {density?.timestamp ? new Date(density.timestamp).toLocaleTimeString() : '--'}
             </span>
           </span>

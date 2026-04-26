@@ -8,105 +8,81 @@ export const Route = createFileRoute('/flows')({
 export function FlowsPage() {
   return (
     <div className="flex flex-col gap-6 w-full max-w-[1400px] mx-auto h-full pb-6">
-      {/* Header */}
       <div>
-        <h1 className="text-xl font-semibold text-[#EDEDED] tracking-tight">Flow Control & Routing</h1>
-        <p className="text-[13px] text-[#888888] mt-1">AI-driven crowd redirection and bottleneck prevention.</p>
+        <h1 className="text-xl font-semibold text-[#111827] tracking-tight">Contrôle des flux</h1>
+        <p className="text-[13px] text-[#6B7280] mt-1">Recommandations de redirection et prévention des goulots d'étranglement.</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4 min-h-0 flex-1">
-        
+
         {/* Main Panel */}
         <div className="panel flex flex-col flex-[2] min-h-[500px]">
-          <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center gap-2">
-            <AlertTriangle size={14} className="text-[#F5A623]" />
-            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Active Routing Recommendations</h2>
+          <div className="px-4 py-3 border-b border-[#E5E7EB] flex items-center gap-2">
+            <AlertTriangle size={14} className="text-[#FF6600]" />
+            <h2 className="text-[13px] font-semibold text-[#111827]">Recommandations de routage actives</h2>
           </div>
-          
+
           <div className="p-4 flex flex-col gap-4 overflow-y-auto">
-             <div className="p-4 bg-[#141414] border border-[#E5484D]/30 rounded-[6px]">
-                <div className="text-[11px] text-[#E5484D] font-bold tracking-widest uppercase mb-3">Critical Capacity</div>
-                <div className="flex items-center gap-4 text-base font-semibold text-[#EDEDED]">
-                   <span>Stade A. Wade</span>
-                   <ArrowRight className="text-[#555555]" size={16} />
-                   <span className="text-[#10B981]">Dakar Arena</span>
-                </div>
-                <p className="text-[12px] mt-2 text-[#888888] leading-relaxed">
-                  <strong className="text-[#EDEDED]">Action Required:</strong> Redirect 4,000 attendees to Dakar Arena (9,000 seats available).<br/>
-                  <strong className="text-[#EDEDED]">Vector:</strong> Dispatch +2 TER trains/hour.
-                </p>
-                <div className="mt-4 flex gap-2">
-                   <button className="bg-[#EDEDED] text-[#000000] px-3 py-1.5 rounded-[4px] font-semibold text-[12px] hover:bg-white transition-colors">
-                      Execute Routing
-                   </button>
-                   <button className="bg-transparent border border-[#2A2A2A] text-[#EDEDED] px-3 py-1.5 rounded-[4px] font-medium text-[12px] hover:bg-[#2A2A2A] transition-colors">
-                      Dismiss
-                   </button>
-                </div>
-             </div>
-             
-             <div className="p-4 bg-[#141414] border border-[#2A2A2A] rounded-[6px]">
-                <div className="text-[11px] text-[#F5A623] font-bold tracking-widest uppercase mb-3">Vigilance</div>
-                <div className="flex items-center gap-4 text-base font-semibold text-[#EDEDED]">
-                   <span>Corniche Ouest</span>
-                   <ArrowRight className="text-[#555555]" size={16} />
-                   <span>Tour de l'Œuf</span>
-                </div>
-                <p className="text-[12px] mt-2 text-[#888888] leading-relaxed">
-                  <strong className="text-[#EDEDED]">Action Required:</strong> Recommend opening secondary pathways.
-                </p>
-             </div>
+            <div className="p-4 bg-[#FEF2F2] border border-[#EF4444]/25 rounded-[8px]">
+              <div className="text-[11px] text-[#EF4444] font-bold tracking-widest uppercase mb-3">Capacité critique</div>
+              <div className="flex items-center gap-4 text-base font-semibold text-[#111827]">
+                <span>Stade A. Wade</span>
+                <ArrowRight className="text-[#9CA3AF]" size={16} />
+                <span className="text-[#10B981]">Dakar Arena</span>
+              </div>
+              <p className="text-[12px] mt-2 text-[#6B7280] leading-relaxed">
+                <strong className="text-[#111827]">Action requise :</strong> Rediriger 4 000 spectateurs vers Dakar Arena (9 000 places disponibles).<br/>
+                <strong className="text-[#111827]">Vecteur :</strong> Déployer +2 rames TER / heure.
+              </p>
+              <div className="mt-4 flex gap-2">
+                <button className="bg-[#111827] text-white px-3 py-1.5 rounded-[6px] font-semibold text-[12px] hover:bg-[#374151] transition-colors">
+                  Exécuter le routage
+                </button>
+                <button className="bg-transparent border border-[#E5E7EB] text-[#6B7280] px-3 py-1.5 rounded-[6px] font-medium text-[12px] hover:bg-[#F4F5F7] transition-colors">
+                  Ignorer
+                </button>
+              </div>
+            </div>
+
+            <div className="p-4 bg-[#FFF7ED] border border-[#FF6600]/20 rounded-[8px]">
+              <div className="text-[11px] text-[#FF6600] font-bold tracking-widest uppercase mb-3">Vigilance</div>
+              <div className="flex items-center gap-4 text-base font-semibold text-[#111827]">
+                <span>Corniche Ouest</span>
+                <ArrowRight className="text-[#9CA3AF]" size={16} />
+                <span>Tour de l'Œuf</span>
+              </div>
+              <p className="text-[12px] mt-2 text-[#6B7280] leading-relaxed">
+                <strong className="text-[#111827]">Action requise :</strong> Recommander l'ouverture des voies secondaires.
+              </p>
+            </div>
           </div>
         </div>
 
         {/* Side Panel */}
         <div className="panel flex flex-col flex-1 min-h-[500px]">
-          <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center gap-2">
-            <GitMerge size={14} className="text-[#EDEDED]" />
-            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Global Capacity Syntax</h2>
+          <div className="px-4 py-3 border-b border-[#E5E7EB] flex items-center gap-2">
+            <GitMerge size={14} className="text-[#374151]" />
+            <h2 className="text-[13px] font-semibold text-[#111827]">Capacité globale des sites</h2>
           </div>
-          
+
           <div className="p-4 flex flex-col gap-6">
-             <div>
+            {[
+              { name: 'Stade Abdoulaye Wade', pct: 92, color: '#EF4444' },
+              { name: 'Corniche Ouest', pct: 72, color: '#FF6600' },
+              { name: 'Stade Iba Mar Diop', pct: 50, color: '#10B981' },
+              { name: 'Dakar Arena', pct: 13, color: '#10B981', note: 'Forte disponibilité détectée' },
+            ].map(({ name, pct, color, note }) => (
+              <div key={name}>
                 <div className="flex justify-between text-[12px] font-medium mb-1.5">
-                   <span className="text-[#EDEDED]">Stade Abdoulaye Wade</span>
-                   <span className="text-[#E5484D]">92%</span>
+                  <span className="text-[#111827]">{name}</span>
+                  <span style={{ color }}>{pct}%</span>
                 </div>
-                <div className="h-1.5 w-full bg-[#1A1A1A] rounded-full overflow-hidden">
-                   <div className="h-full bg-[#E5484D]" style={{width: '92%'}}></div>
+                <div className="h-1.5 w-full bg-[#E5E7EB] rounded-full overflow-hidden">
+                  <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
                 </div>
-             </div>
-             
-             <div>
-                <div className="flex justify-between text-[12px] font-medium mb-1.5">
-                   <span className="text-[#EDEDED]">Corniche Ouest</span>
-                   <span className="text-[#F5A623]">72%</span>
-                </div>
-                <div className="h-1.5 w-full bg-[#1A1A1A] rounded-full overflow-hidden">
-                   <div className="h-full bg-[#F5A623]" style={{width: '72%'}}></div>
-                </div>
-             </div>
-             
-             <div>
-                <div className="flex justify-between text-[12px] font-medium mb-1.5">
-                   <span className="text-[#EDEDED]">Stade Iba Mar Diop</span>
-                   <span className="text-[#10B981]">50%</span>
-                </div>
-                <div className="h-1.5 w-full bg-[#1A1A1A] rounded-full overflow-hidden">
-                   <div className="h-full bg-[#10B981]" style={{width: '50%'}}></div>
-                </div>
-             </div>
-             
-             <div>
-                <div className="flex justify-between text-[12px] font-medium mb-1.5">
-                   <span className="text-[#EDEDED]">Dakar Arena</span>
-                   <span className="text-[#10B981]">13%</span>
-                </div>
-                <div className="h-1.5 w-full bg-[#1A1A1A] rounded-full overflow-hidden">
-                   <div className="h-full bg-[#10B981]" style={{width: '13%'}}></div>
-                </div>
-                <div className="text-[10px] text-[#555555] mt-2 tracking-wide uppercase">Massive availability detected</div>
-             </div>
+                {note && <div className="text-[10px] text-[#9CA3AF] mt-1.5 tracking-wide uppercase">{note}</div>}
+              </div>
+            ))}
           </div>
         </div>
       </div>

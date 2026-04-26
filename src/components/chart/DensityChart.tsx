@@ -29,7 +29,7 @@ export function DensityChart() {
   useEffect(() => {
     if (!canvasRef.current || chartRef.current) return;
 
-    Chart.defaults.color = "#94a3b8";
+    Chart.defaults.color = "#6B7280";
     Chart.defaults.font.family = "'Inter', sans-serif";
 
     chartRef.current = new Chart(canvasRef.current, {
@@ -42,10 +42,10 @@ export function DensityChart() {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: "rgba(15,20,29,0.9)",
-            titleColor: "#fff",
-            bodyColor: "#cbd5e1",
-            borderColor: "rgba(255,255,255,0.1)",
+            backgroundColor: "rgba(255,255,255,0.96)",
+            titleColor: "#111827",
+            bodyColor: "#374151",
+            borderColor: "#E5E7EB",
             borderWidth: 1,
           },
         },
@@ -54,7 +54,7 @@ export function DensityChart() {
           y: {
             min: 0,
             max: 100,
-            grid: { color: "rgba(255,255,255,0.05)" },
+            grid: { color: "rgba(0,0,0,0.05)" },
           },
         },
         elements: { point: { radius: 0, hitRadius: 10, hoverRadius: 4 } },

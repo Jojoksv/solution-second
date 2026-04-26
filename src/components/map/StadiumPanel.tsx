@@ -27,32 +27,32 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
   const sortedBins = [...snapshot.bins].sort((a, b) => b.fillPercent - a.fillPercent)
 
   return (
-    <aside className="absolute top-0 right-0 h-full w-[360px] z-[500] flex flex-col bg-[#03050a] border-l border-[#0f1827]">
+    <aside className="absolute top-0 right-0 h-full w-[360px] z-[500] flex flex-col bg-white border-l border-[#E5E7EB]">
 
       {/* ── Header ── */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[#0f1827]">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[#E5E7EB]">
         <div className="flex items-center gap-2.5">
           <div className="relative w-2.5 h-2.5">
             <div className="absolute inset-0 rounded-full bg-[#f5c842] animate-ping opacity-50" />
             <div className="absolute inset-0 rounded-full bg-[#f5c842]" />
           </div>
           <div>
-            <div className="text-[13px] font-bold text-[#ededed] leading-tight">Stade Iba Mar Diop</div>
-            <div className="text-[10px] font-mono text-[#4a6080] mt-0.5">
+            <div className="text-[13px] font-bold text-[#111827] leading-tight">Stade Iba Mar Diop</div>
+            <div className="text-[10px] font-mono text-[#9CA3AF] mt-0.5">
               Dakar · JOJ 2026 · Live Monitor
             </div>
           </div>
         </div>
         <button
           onClick={onClose}
-          className="w-6 h-6 flex items-center justify-center rounded text-[#4a6080] hover:text-[#ededed] hover:bg-[#0f1827] transition-colors text-[14px] font-bold"
+          className="w-6 h-6 flex items-center justify-center rounded text-[#9CA3AF] hover:text-[#111827] hover:bg-[#F4F5F7] transition-colors text-[14px] font-bold"
         >
           ✕
         </button>
       </div>
 
       {/* ── KPI row ── */}
-      <div className="grid grid-cols-4 border-b border-[#0f1827]">
+      <div className="grid grid-cols-4 border-b border-[#E5E7EB]">
         {[
           {
             label: 'Personnes',
@@ -77,29 +77,29 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
         ].map(kpi => (
           <div
             key={kpi.label}
-            className="flex flex-col items-center justify-center py-2.5 border-r border-[#0f1827] last:border-0"
+            className="flex flex-col items-center justify-center py-2.5 border-r border-[#E5E7EB] last:border-0"
           >
             <div className="text-[15px] font-bold font-mono leading-tight" style={{ color: kpi.color }}>
               {kpi.value}
             </div>
-            <div className="text-[8px] text-[#4a6080] uppercase tracking-wider mt-0.5">{kpi.label}</div>
+            <div className="text-[8px] text-[#9CA3AF] uppercase tracking-wider mt-0.5">{kpi.label}</div>
           </div>
         ))}
       </div>
 
       {/* ── Phase badge ── */}
       <div
-        className="flex items-center justify-between px-4 py-1.5 border-b border-[#0f1827] text-[10px] font-mono"
+        className="flex items-center justify-between px-4 py-1.5 border-b border-[#E5E7EB] text-[10px] font-mono"
         style={{ background: snapshot.phase.color + '12' }}
       >
         <span style={{ color: snapshot.phase.color }} className="font-semibold uppercase tracking-wide">
           ● {snapshot.phase.label}
         </span>
-        <span className="text-[#4a6080]">Tick {snapshot.realTick} / 200</span>
+        <span className="text-[#9CA3AF]">Tick {snapshot.realTick} / 200</span>
       </div>
 
       {/* ── Tabs ── */}
-      <div className="flex border-b border-[#0f1827]">
+      <div className="flex border-b border-[#E5E7EB]">
         {[
           { id: 'crowd'  as const, label: 'Foule' },
           { id: 'bins'   as const, label: `Poubelles${criticalBins > 0 ? ` (${criticalBins})` : ''}` },
@@ -111,7 +111,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
             className={`flex-1 py-2.5 text-[10px] font-bold uppercase tracking-wider transition-all ${
               activeTab === tab.id
                 ? 'border-b-2 border-[#f5c842] text-[#f5c842]'
-                : 'text-[#4a6080] hover:text-[#8090a0]'
+                : 'text-[#9CA3AF] hover:text-[#8090a0]'
             }${tab.id === 'alerts' && alertCount > 0 && activeTab !== 'alerts' ? ' !text-[#ef4444]' : ''}`}
           >
             {tab.label}
@@ -128,21 +128,21 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
             {snapshot.gates.map(gate => (
               <button
                 key={gate.id}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors hover:bg-[#0f1827] border border-transparent hover:border-[#1a2a3a]"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors hover:bg-[#F4F5F7] border border-transparent hover:border-[#1a2a3a]"
                 onClick={() => onFlyToGate(gate.lat, gate.lng)}
               >
                 {/* Density indicator dot */}
                 <div
-                  className="w-2 h-2 rounded-full flex-none ring-2 ring-offset-1 ring-offset-[#03050a]"
+                  className="w-2 h-2 rounded-full flex-none ring-2 ring-offset-1 ring-offset-white"
                   style={{ background: gate.color, boxShadow: `0 0 6px ${gate.color}80` }}
                 />
 
                 {/* Gate info */}
                 <div className="flex-1 min-w-0">
-                  <div className="text-[11px] font-semibold text-[#cedde8] truncate leading-tight">
+                  <div className="text-[11px] font-semibold text-[#374151] truncate leading-tight">
                     {gate.name}
                   </div>
-                  <div className="text-[9px] text-[#4a6080] font-mono mt-0.5">
+                  <div className="text-[9px] text-[#9CA3AF] font-mono mt-0.5">
                     Cap. {gate.capacity.toLocaleString('fr-FR')}
                   </div>
                 </div>
@@ -152,13 +152,13 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
                   <div className="text-[12px] font-bold font-mono" style={{ color: gate.color }}>
                     {Math.round(gate.density * 100)}%
                   </div>
-                  <div className="w-full bg-[#0f1827] rounded-full h-1 overflow-hidden">
+                  <div className="w-full bg-[#F4F5F7] rounded-full h-1 overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all duration-500"
                       style={{ width: `${Math.round(gate.density * 100)}%`, background: gate.color }}
                     />
                   </div>
-                  <div className="text-[8px] text-[#4a6080] font-mono">
+                  <div className="text-[8px] text-[#9CA3AF] font-mono">
                     {gate.crowdCount.toLocaleString('fr-FR')} pers.
                   </div>
                 </div>
@@ -175,8 +175,8 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
                 key={bin.id}
                 className={`w-full rounded-md p-3 text-left transition-all border ${
                   bin.alert
-                    ? 'bg-[#1a0a0a] border-[#ef4444]/30 bin-alert-card'
-                    : 'bg-[#070b10] border-[#0f1827] hover:border-[#1a2a3a] hover:bg-[#0d1420]'
+                    ? 'bg-[#FEF2F2] border-[#ef4444]/30 bin-alert-card'
+                    : 'bg-[#F9FAFB] border-[#E5E7EB] hover:border-[#1a2a3a] hover:bg-[#E5E7EB]'
                 }`}
                 onClick={() => onFlyToBin(bin.lat, bin.lng)}
               >
@@ -185,7 +185,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
                     <span className="text-[11px]">
                       {bin.level === 'critical' ? '🚨' : bin.level === 'high' ? '⚠️' : bin.level === 'moderate' ? '🟡' : '✅'}
                     </span>
-                    <span className="text-[11px] font-semibold text-[#cedde8]">{bin.label}</span>
+                    <span className="text-[11px] font-semibold text-[#374151]">{bin.label}</span>
                   </div>
                   {bin.alert && (
                     <span className="text-[8px] bg-[#ef4444]/15 text-[#ef4444] border border-[#ef4444]/30 rounded px-1.5 py-0.5 font-bold uppercase tracking-wide">
@@ -195,7 +195,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
                 </div>
 
                 {/* Fill bar */}
-                <div className="bg-[#0d1420] rounded h-2 overflow-hidden mb-1.5">
+                <div className="bg-[#E5E7EB] rounded h-2 overflow-hidden mb-1.5">
                   <div
                     className="h-full rounded transition-all duration-700"
                     style={{ width: `${bin.fillPercent}%`, background: bin.color, boxShadow: bin.alert ? `0 0 4px ${bin.color}` : 'none' }}
@@ -203,7 +203,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-[9px] text-[#4a6080] font-mono">
+                  <span className="text-[9px] text-[#9CA3AF] font-mono">
                     {bin.currentLiters}L / {bin.maxLiters}L
                   </span>
                   <span className="text-[12px] font-bold font-mono" style={{ color: bin.color }}>
@@ -221,8 +221,8 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
             {snapshot.alerts.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <div className="text-[32px] mb-3">✅</div>
-                <div className="text-[12px] font-semibold text-[#4a6080]">Aucune alerte active</div>
-                <div className="text-[10px] text-[#2a3a4a] mt-1">Situation nominale — surveillance continue</div>
+                <div className="text-[12px] font-semibold text-[#9CA3AF]">Aucune alerte active</div>
+                <div className="text-[10px] text-[#9CA3AF] mt-1">Situation nominale — surveillance continue</div>
               </div>
             ) : (
               snapshot.alerts.map(alert => (
@@ -231,7 +231,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
                   className={`rounded-md p-3 border ${
                     alert.severity === 'critical'
                       ? 'bg-[#1a0808] border-[#ef4444]/35'
-                      : 'bg-[#130e04] border-[#f97316]/25'
+                      : 'bg-[#FFF7ED] border-[#f97316]/25'
                   }`}
                 >
                   <div className="flex items-start gap-2.5">
@@ -240,7 +240,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
                     </span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 mb-1">
-                        <span className="text-[11px] font-semibold text-[#ededed] truncate">{alert.name}</span>
+                        <span className="text-[11px] font-semibold text-[#111827] truncate">{alert.name}</span>
                         <span
                           className={`ml-auto text-[7px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded border flex-none ${
                             alert.severity === 'critical'
@@ -251,7 +251,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
                           {alert.severity}
                         </span>
                       </div>
-                      <div className="text-[10px] text-[#4a6080] font-mono leading-relaxed">
+                      <div className="text-[10px] text-[#9CA3AF] font-mono leading-relaxed">
                         {alert.description}
                       </div>
                     </div>
@@ -264,14 +264,14 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
       </div>
 
       {/* ── Simulation Controls ── */}
-      <div className="border-t border-[#0f1827] p-3 space-y-2.5 bg-[#03050a]">
+      <div className="border-t border-[#E5E7EB] p-3 space-y-2.5 bg-white">
 
         {/* Play controls row */}
         <div className="flex items-center gap-2">
           <button
             onClick={reset}
             title="Retour au début"
-            className="w-8 h-8 flex items-center justify-center rounded-md bg-[#0f1827] hover:bg-[#1a2235] border border-[#1a2235] text-[#4a6080] hover:text-[#ededed] transition-colors text-sm"
+            className="w-8 h-8 flex items-center justify-center rounded-md bg-[#F4F5F7] hover:bg-[#F0F2F5] border border-[#1a2235] text-[#9CA3AF] hover:text-[#111827] transition-colors text-sm"
           >
             ⏮
           </button>
@@ -288,7 +288,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
           <button
             onClick={goToPeak}
             title="Sauter au pic d'affluence"
-            className="px-2.5 h-8 rounded-md bg-[#0f1827] hover:bg-[#1a2235] border border-[#1a2235] text-[#4a6080] hover:text-[#ef4444] transition-colors text-[10px] font-bold uppercase tracking-wide"
+            className="px-2.5 h-8 rounded-md bg-[#F4F5F7] hover:bg-[#F0F2F5] border border-[#1a2235] text-[#9CA3AF] hover:text-[#ef4444] transition-colors text-[10px] font-bold uppercase tracking-wide"
           >
             ⚡Pic
           </button>
@@ -296,7 +296,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
 
         {/* Timeline slider */}
         <div className="flex items-center gap-2">
-          <span className="text-[8px] text-[#2a3a4a] font-mono w-5">0</span>
+          <span className="text-[8px] text-[#9CA3AF] font-mono w-5">0</span>
           <div className="flex-1 relative">
             <input
               type="range"
@@ -317,12 +317,12 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
               ))}
             </div>
           </div>
-          <span className="text-[8px] text-[#2a3a4a] font-mono w-6 text-right">200</span>
+          <span className="text-[8px] text-[#9CA3AF] font-mono w-6 text-right">200</span>
         </div>
 
         {/* Speed selector */}
         <div className="flex items-center gap-1.5 mt-1">
-          <span className="text-[8px] text-[#2a3a4a] uppercase tracking-wide mr-1">Vitesse</span>
+          <span className="text-[8px] text-[#9CA3AF] uppercase tracking-wide mr-1">Vitesse</span>
           {[0.5, 1, 2, 4].map(s => (
             <button
               key={s}
@@ -330,7 +330,7 @@ export function StadiumPanel({ sim, onClose, onFlyToGate, onFlyToBin }: Props) {
               className={`flex-1 h-6 rounded text-[9px] font-bold transition-all border ${
                 speed === s
                   ? 'bg-[#f5c842]/15 text-[#f5c842] border-[#f5c842]/40'
-                  : 'bg-[#0f1827] text-[#4a6080] border-[#0f1827] hover:text-[#8090a0] hover:border-[#1a2235]'
+                  : 'bg-[#F4F5F7] text-[#9CA3AF] border-[#E5E7EB] hover:text-[#8090a0] hover:border-[#D1D5DB]'
               }`}
             >
               {s}×
