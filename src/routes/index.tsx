@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import { useEffect, useMemo, useState } from 'react'
-=======
-import { useMemo, useState, useEffect } from 'react'
->>>>>>> 43e1110a937e5c9437ff510ab05488f25ac36642
 import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   AlertTriangle,
@@ -21,6 +16,7 @@ import { useAlerts } from '@/hooks'
 import { DensityChart } from '@/components/chart/DensityChart'
 import { fmt, cityColor } from '@/lib/utils'
 import type { LucideIcon } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
 
 export const Route = createFileRoute('/')({
   component: DashboardOverview,
