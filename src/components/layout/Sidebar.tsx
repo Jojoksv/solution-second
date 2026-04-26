@@ -21,7 +21,12 @@ import { useTheme } from '@/stores/themeStore'
 
 const NAV_PRIMARY = [
   { to: '/' as const, label: 'Tableau de bord', icon: Activity, exact: true },
-  { to: '/map' as const, label: 'Carte temps réel', icon: MapIcon, exact: false },
+  {
+    to: '/map' as const,
+    label: 'Carte temps réel',
+    icon: MapIcon,
+    exact: false,
+  },
 ]
 
 const NAV_MODULES = [
@@ -34,8 +39,10 @@ export function Sidebar() {
   const { data: alerts } = useAlerts()
   const demoActive = useDemoState()
   const alertCount = alerts?.active_alerts.length ?? 0
-  const { role, pendingTasks, assignedTasks, activeTasks, setRole } = useBinTaskStore()
-  const binAlertCount = pendingTasks.length + assignedTasks.length + activeTasks.length
+  const { role, pendingTasks, assignedTasks, activeTasks, setRole } =
+    useBinTaskStore()
+  const binAlertCount =
+    pendingTasks.length + assignedTasks.length + activeTasks.length
   const { theme } = useTheme()
 
   const badgeColors: Record<string, string> = {
@@ -65,24 +72,41 @@ export function Sidebar() {
           {/* Logo mark */}
           <div
             className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-black tracking-tight flex-none"
-            style={{ background: 'var(--accent-violet)', color: '#fff', boxShadow: '0 0 12px var(--accent-violet-glow)' }}
+            style={{
+              background: 'var(--accent-violet)',
+              color: '#fff',
+              boxShadow: '0 0 12px var(--accent-violet-glow)',
+            }}
           >
             JOJ
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-[13px] font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
-              CrowdFlow
+            <div
+              className="text-[13px] font-bold tracking-tight"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              EcoFlow
             </div>
-            <div className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+            <div
+              className="text-[9px] font-bold uppercase tracking-widest"
+              style={{ color: 'var(--text-muted)' }}
+            >
               Dakar 2026
             </div>
           </div>
           {/* Live indicator */}
           <div
             className="flex-none flex items-center gap-1 text-[8px] font-bold uppercase px-1.5 py-0.5 rounded"
-            style={{ background: 'rgba(16,185,129,0.12)', color: 'var(--accent-green)', border: '1px solid rgba(16,185,129,0.25)' }}
+            style={{
+              background: 'rgba(16,185,129,0.12)',
+              color: 'var(--accent-green)',
+              border: '1px solid rgba(16,185,129,0.25)',
+            }}
           >
-            <div className="w-1.5 h-1.5 rounded-full status-pulse-green" style={{ background: 'var(--accent-green)' }} />
+            <div
+              className="w-1.5 h-1.5 rounded-full status-pulse-green"
+              style={{ background: 'var(--accent-green)' }}
+            />
             live
           </div>
         </div>
@@ -105,7 +129,8 @@ export function Sidebar() {
             className="flex items-center gap-3 px-3 py-2 text-[12px] font-medium rounded-lg transition-all"
             style={{ color: 'var(--text-secondary)' }}
             activeProps={{
-              className: 'flex items-center gap-3 px-3 py-2 text-[12px] font-medium rounded-lg transition-all nav-item-active',
+              className:
+                'flex items-center gap-3 px-3 py-2 text-[12px] font-medium rounded-lg transition-all nav-item-active',
               style: { color: 'var(--text-primary)' },
             }}
             activeOptions={{ exact }}
@@ -132,7 +157,8 @@ export function Sidebar() {
               className="flex items-center justify-between px-3 py-2 text-[12px] font-medium rounded-lg transition-all"
               style={{ color: 'var(--text-secondary)' }}
               activeProps={{
-                className: 'flex items-center justify-between px-3 py-2 text-[12px] font-medium rounded-lg transition-all nav-item-active',
+                className:
+                  'flex items-center justify-between px-3 py-2 text-[12px] font-medium rounded-lg transition-all nav-item-active',
                 style: { color: 'var(--text-primary)' },
               }}
             >
@@ -143,7 +169,11 @@ export function Sidebar() {
               {count > 0 && (
                 <span
                   className="min-w-[18px] h-[18px] px-1 flex items-center justify-center text-[9px] font-black rounded-full"
-                  style={{ background: badgeColor, color: '#fff', boxShadow: `0 0 8px ${badgeColor}60` }}
+                  style={{
+                    background: badgeColor,
+                    color: '#fff',
+                    boxShadow: `0 0 8px ${badgeColor}60`,
+                  }}
                 >
                   {count}
                 </span>
@@ -164,15 +194,31 @@ export function Sidebar() {
             }}
           >
             <div className="flex items-center gap-2 mb-1.5">
-              <Zap size={10} style={{ color: 'var(--accent-orange)' }} strokeWidth={2.5} />
-              <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--accent-orange)' }}>
+              <Zap
+                size={10}
+                style={{ color: 'var(--accent-orange)' }}
+                strokeWidth={2.5}
+              />
+              <span
+                className="text-[9px] font-bold uppercase tracking-widest"
+                style={{ color: 'var(--accent-orange)' }}
+              >
                 Mode Démo Actif
               </span>
             </div>
-            <div className="h-0.5 rounded-full overflow-hidden" style={{ background: 'var(--border-subtle)' }}>
-              <div className="h-full demo-progress-bar" style={{ background: 'var(--accent-orange)' }} />
+            <div
+              className="h-0.5 rounded-full overflow-hidden"
+              style={{ background: 'var(--border-subtle)' }}
+            >
+              <div
+                className="h-full demo-progress-bar"
+                style={{ background: 'var(--accent-orange)' }}
+              />
             </div>
-            <div className="text-[9px] font-mono mt-1" style={{ color: 'var(--text-muted)' }}>
+            <div
+              className="text-[9px] font-mono mt-1"
+              style={{ color: 'var(--text-muted)' }}
+            >
               Refresh 2s · 30s restantes
             </div>
           </div>
@@ -181,26 +227,37 @@ export function Sidebar() {
 
       {/* Role switcher */}
       <div className="px-3 pb-2">
-        <div className="rounded-xl overflow-hidden border" style={{ borderColor: 'var(--border-subtle)' }}>
+        <div
+          className="rounded-xl overflow-hidden border"
+          style={{ borderColor: 'var(--border-subtle)' }}
+        >
           <button
             onClick={() => setRole('superviseur')}
             className="w-full flex items-center gap-2 px-3 py-2.5 text-[11px] font-semibold transition-all"
             style={{
-              background: role === 'superviseur' ? 'var(--accent-orange)' : 'var(--bg-panel-hover)',
+              background:
+                role === 'superviseur'
+                  ? 'var(--accent-orange)'
+                  : 'var(--bg-panel-hover)',
               color: role === 'superviseur' ? '#fff' : 'var(--text-secondary)',
             }}
           >
             <UserCheck size={13} strokeWidth={2} />
             <span>Superviseur</span>
             {role === 'superviseur' && (
-              <span className="ml-auto text-[8px] opacity-70 font-mono uppercase tracking-wider">Actif</span>
+              <span className="ml-auto text-[8px] opacity-70 font-mono uppercase tracking-wider">
+                Actif
+              </span>
             )}
           </button>
           <button
             onClick={() => setRole('agent')}
             className="w-full flex items-center gap-2 px-3 py-2.5 text-[11px] font-semibold transition-all border-t"
             style={{
-              background: role === 'agent' ? 'var(--accent-green)' : 'var(--bg-panel-hover)',
+              background:
+                role === 'agent'
+                  ? 'var(--accent-green)'
+                  : 'var(--bg-panel-hover)',
               color: role === 'agent' ? '#fff' : 'var(--text-secondary)',
               borderColor: 'var(--border-subtle)',
             }}
@@ -208,14 +265,19 @@ export function Sidebar() {
             <HardHat size={13} strokeWidth={2} />
             <span>Agent Propreté</span>
             {role === 'agent' && (
-              <span className="ml-auto text-[8px] opacity-70 font-mono uppercase tracking-wider">Actif</span>
+              <span className="ml-auto text-[8px] opacity-70 font-mono uppercase tracking-wider">
+                Actif
+              </span>
             )}
           </button>
         </div>
       </div>
 
       {/* Footer profile */}
-      <div className="px-3 pb-3 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+      <div
+        className="px-3 pb-3 border-t"
+        style={{ borderColor: 'var(--border-subtle)' }}
+      >
         <a
           href="#"
           className="flex items-center gap-3 px-2 py-2 text-[12px] font-medium rounded-lg mt-2 hover:opacity-80 transition-all"
@@ -226,12 +288,19 @@ export function Sidebar() {
         </a>
         <div
           className="flex items-center gap-3 px-2 py-2 rounded-lg cursor-pointer transition-all hover:opacity-80"
-          style={{ background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)', marginTop: '2px' }}
+          style={{
+            background: 'var(--bg-panel-hover)',
+            border: '1px solid var(--border-subtle)',
+            marginTop: '2px',
+          }}
         >
           <div
             className="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold flex-none"
             style={{
-              background: role === 'agent' ? 'var(--accent-green)' : 'var(--accent-violet)',
+              background:
+                role === 'agent'
+                  ? 'var(--accent-green)'
+                  : 'var(--accent-violet)',
               color: '#fff',
               boxShadow: `0 0 8px ${role === 'agent' ? 'var(--accent-green-glow)' : 'var(--accent-violet-glow)'}`,
             }}
@@ -239,10 +308,16 @@ export function Sidebar() {
             {role === 'agent' ? 'AP' : 'SV'}
           </div>
           <div className="flex flex-col min-w-0">
-            <span className="text-[12px] font-semibold leading-none truncate" style={{ color: 'var(--text-primary)' }}>
+            <span
+              className="text-[12px] font-semibold leading-none truncate"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {role === 'agent' ? 'Agent Propreté' : 'Superviseur'}
             </span>
-            <span className="text-[10px] leading-none mt-1" style={{ color: 'var(--text-muted)' }}>
+            <span
+              className="text-[10px] leading-none mt-1"
+              style={{ color: 'var(--text-muted)' }}
+            >
               Dakar Operations
             </span>
           </div>
