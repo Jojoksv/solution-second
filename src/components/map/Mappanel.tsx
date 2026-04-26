@@ -26,7 +26,13 @@ import type { SiteData } from '@/types'
 import type { SimAlert, GateState, BinState } from '@/lib/stadiumSimulation'
 
 // Leaflet is loaded via CDN in index.html
-declare const L: typeof import('leaflet')
+// leaflet-heat extends L.heatLayer at runtime
+declare const L: typeof import('leaflet') & {
+  heatLayer: (
+    points: Array<[number, number, number?]>,
+    options?: { radius?: number; blur?: number; maxZoom?: number; max?: number; gradient?: Record<number, string> }
+  ) => L.Layer
+}
 
 const TRASH_SVG = `<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`
 
@@ -45,11 +51,13 @@ export function MapPanel() {
   const gatesLayer    = useRef<LayerGroup | null>(null)   // updated per tick
   const personsLayer  = useRef<LayerGroup | null>(null)   // updated per tick (canvas)
   const binsLayer     = useRef<LayerGroup | null>(null)   // updated per tick
+  const heatLayerRef  = useRef<L.Layer | null>(null)      // stadium heatmap (toggle)
   const canvasRef     = useRef<L.Canvas | null>(null)
 
   // ── React state ────────────────────────────────────────────────────────
   const [selectedSite, setSelectedSite] = useState<SiteData | null>(null)
   const [isStadiumMode, setIsStadiumMode] = useState(false)
+  const [showHeatmap, setShowHeatmap] = useState(true)
   const [toasts, setToasts] = useState<SimAlert[]>([])
   const prevAlertIds = useRef<Set<string>>(new Set())
 
@@ -172,12 +180,12 @@ export function MapPanel() {
     })
   }, [green?.sites, isStadiumMode])
 
-  // ── Stadium simulation layers (tick-driven) ────────────────────────────
+  // ── Stadium simulation layers (tick-driven + heatmap toggle) ───────────
   useEffect(() => {
     if (!isStadiumMode) return
     renderStadiumLayers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isStadiumMode, sim.tick])
+  }, [isStadiumMode, sim.tick, showHeatmap])
 
   // ── Toast notifications on new alerts ─────────────────────────────────
   useEffect(() => {
@@ -224,6 +232,10 @@ export function MapPanel() {
     gatesLayer.current?.clearLayers()
     personsLayer.current?.clearLayers()
     binsLayer.current?.clearLayers()
+    if (heatLayerRef.current && mapRef.current) {
+      mapRef.current.removeLayer(heatLayerRef.current)
+      heatLayerRef.current = null
+    }
     mapRef.current?.flyTo([14.715, -17.25], STADIUM_ZOOM_GLOBAL, { duration: 1.0 })
   }
 
@@ -280,6 +292,36 @@ export function MapPanel() {
         interactive: false,
       }).addTo(pLayer)
     })
+
+    // ── Heatmap layer (intensity-weighted by gate density) ──────────────
+    const map = mapRef.current
+    if (map) {
+      if (heatLayerRef.current) {
+        map.removeLayer(heatLayerRef.current)
+        heatLayerRef.current = null
+      }
+      if (showHeatmap && typeof L.heatLayer === 'function') {
+        const heatPoints: Array<[number, number, number]> = snap.persons.map(p => {
+          // Find this person's gate density for intensity
+          const gate = snap.gates.find(g => g.id === p.gateRef)
+          const intensity = gate ? gate.density : 0.3
+          return [p.lat, p.lng, intensity]
+        })
+        heatLayerRef.current = L.heatLayer(heatPoints, {
+          radius: 22,
+          blur: 28,
+          maxZoom: 18,
+          max: 1.0,
+          gradient: {
+            0.2: '#22c55e',
+            0.4: '#eab308',
+            0.6: '#f97316',
+            0.8: '#ef4444',
+            1.0: '#b91c1c',
+          },
+        }).addTo(map)
+      }
+    }
 
     // ── Gate markers ──────────────────────────────────────────────────────
     snap.gates.forEach(gate => {
@@ -461,6 +503,22 @@ export function MapPanel() {
             </div>
           ))}
         </div>
+      )}
+
+      {/* ── Stadium mode heatmap toggle ── */}
+      {isStadiumMode && (
+        <button
+          onClick={() => setShowHeatmap(h => !h)}
+          className={`absolute top-4 left-4 z-[400] flex items-center gap-2 px-3 py-2 rounded-lg shadow-xl border backdrop-blur-md text-[11px] font-semibold uppercase tracking-wide transition-all pointer-events-auto ${
+            showHeatmap
+              ? 'bg-[#f5c842]/15 border-[#f5c842]/40 text-[#f5c842]'
+              : 'bg-[#03050a]/95 border-[#0f1827] text-[#4a6080] hover:text-[#8090a0]'
+          }`}
+          title="Activer/désactiver la heatmap thermique"
+        >
+          <span>{showHeatmap ? '🔥' : '○'}</span>
+          <span>Heatmap</span>
+        </button>
       )}
 
       {/* ── Stadium mode density/bin legend ── */}

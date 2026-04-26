@@ -37,16 +37,16 @@ GATES = [
 ]
 
 BINS = [
-    {"id": "B1",  "lat": 14.6950, "lng": -17.4456, "near_gate": "G1", "label": "Poubelle NO-1"},
-    {"id": "B2",  "lat": 14.6948, "lng": -17.4460, "near_gate": "G1", "label": "Poubelle NO-2"},
-    {"id": "B3",  "lat": 14.6951, "lng": -17.4437, "near_gate": "G2", "label": "Poubelle Nord"},
-    {"id": "B4",  "lat": 14.6934, "lng": -17.4421, "near_gate": "G4", "label": "Poubelle Est"},
-    {"id": "B5",  "lat": 14.6923, "lng": -17.4426, "near_gate": "G5", "label": "Poubelle SE"},
-    {"id": "B6",  "lat": 14.6922, "lng": -17.4443, "near_gate": "G6", "label": "Poubelle Sud-A"},
-    {"id": "B7",  "lat": 14.6922, "lng": -17.4438, "near_gate": "G6", "label": "Poubelle Sud-B"},
-    {"id": "B8",  "lat": 14.6923, "lng": -17.4456, "near_gate": "G7", "label": "Poubelle SO"},
-    {"id": "B9",  "lat": 14.6935, "lng": -17.4460, "near_gate": "G8", "label": "Poubelle Ouest"},
-    {"id": "B10", "lat": 14.6938, "lng": -17.4441, "near_gate": None, "label": "Poubelle Centrale"},
+    {"id": "B1",  "lat": 14.6957, "lng": -17.4462, "near_gate": "G1", "label": "Poubelle Nord-Ouest"},
+    {"id": "B2",  "lat": 14.6958, "lng": -17.4441, "near_gate": "G2", "label": "Poubelle Nord"},
+    {"id": "B3",  "lat": 14.6957, "lng": -17.4420, "near_gate": "G3", "label": "Poubelle Nord-Est"},
+    {"id": "B4",  "lat": 14.6937, "lng": -17.4412, "near_gate": "G4", "label": "Poubelle Est"},
+    {"id": "B5",  "lat": 14.6916, "lng": -17.4420, "near_gate": "G5", "label": "Poubelle Sud-Est"},
+    {"id": "B6",  "lat": 14.6914, "lng": -17.4441, "near_gate": "G6", "label": "Poubelle Sud"},
+    {"id": "B7",  "lat": 14.6916, "lng": -17.4462, "near_gate": "G7", "label": "Poubelle Sud-Ouest"},
+    {"id": "B8",  "lat": 14.6937, "lng": -17.4470, "near_gate": "G8", "label": "Poubelle Ouest"},
+    {"id": "B9",  "lat": 14.6945, "lng": -17.4441, "near_gate": "G2", "label": "Poubelle Cour Nord"},
+    {"id": "B10", "lat": 14.6929, "lng": -17.4441, "near_gate": "G6", "label": "Poubelle Cour Sud"},
 ]
 
 MAX_LITERS = 240
@@ -121,16 +121,35 @@ def simulate(real_tick: int) -> dict:
             "color": color,
         })
 
-    # ── Personnes ──
+    # ── Personnes : files d'attente directionnelles depuis chaque porte ──
     persons = []
     for gate in gates_state:
         count = round(MAX_PERSONS_PER_GATE * gate["density"])
+        # Direction extérieure (centre stade → porte) corrigée visuellement
+        d_lat = gate["lat"] - STADIUM_CENTER[0]
+        d_lng_vis = (gate["lng"] - STADIUM_CENTER[1]) * cos_lat
+        length = math.hypot(d_lat, d_lng_vis) or 1
+        out_lat = d_lat / length
+        out_lng_vis = d_lng_vis / length
+        perp_lat = -out_lng_vis
+        perp_lng_vis = out_lat
+
         for _ in range(count):
-            angle = rng.random() * 2 * math.pi
-            r = (rng.random() ** 2.5) * 0.0009
+            if rng.random() < 0.85:
+                # File d'attente sortante
+                dist = (rng.random() ** 1.6) * 0.0011
+                width = (rng.random() - 0.5) * 0.00028
+                off_lat = out_lat * dist + perp_lat * width
+                off_lng_vis = out_lng_vis * dist + perp_lng_vis * width
+            else:
+                # Marcheurs sur le périmètre
+                tan = (rng.random() - 0.5) * 0.0014
+                rad = (rng.random() - 0.5) * 0.0003
+                off_lat = perp_lat * tan + out_lat * rad
+                off_lng_vis = perp_lng_vis * tan + out_lng_vis * rad
             persons.append({
-                "lat": round(gate["lat"] + r * math.cos(angle), 6),
-                "lng": round(gate["lng"] + r * math.sin(angle) / cos_lat, 6),
+                "lat": round(gate["lat"] + off_lat, 6),
+                "lng": round(gate["lng"] + off_lng_vis / cos_lat, 6),
                 "gate_ref": gate["id"],
                 "color": gate["color"],
             })

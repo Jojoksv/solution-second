@@ -192,6 +192,18 @@ html, body, #app {
 .green-icon.orange svg { fill: var(--color-accent-orange); }
 .green-icon.red svg { fill: var(--color-accent-red); }
 
+/* ── Demo mode progress bar ── */
+@keyframes demo-progress {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+.demo-progress-bar {
+  width: 100%;
+  height: 100%;
+  animation: demo-progress 30s linear forwards;
+  transform-origin: left;
+}
+
 /* ── Stadium simulation slider ── */
 .sim-slider {
   -webkit-appearance: none;
