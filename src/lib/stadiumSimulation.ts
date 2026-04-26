@@ -37,17 +37,20 @@ export const GATES = [
   { id: 'G8', name: 'Entrée Ouest',      lat: 14.6937, lng: -17.4462, capacity: 600 },
 ]
 
+// Each gate has one dedicated bin in the buffer zone (just outside the polygon)
+// plus two strategic bins in the inner courtyard. Spacing avoids visual overlap.
 export const BINS_BASE = [
-  { id: 'B1',  lat: 14.6950, lng: -17.4456, nearGate: 'G1', label: 'Poubelle NO-1' },
-  { id: 'B2',  lat: 14.6948, lng: -17.4460, nearGate: 'G1', label: 'Poubelle NO-2' },
-  { id: 'B3',  lat: 14.6951, lng: -17.4437, nearGate: 'G2', label: 'Poubelle Nord'  },
-  { id: 'B4',  lat: 14.6934, lng: -17.4421, nearGate: 'G4', label: 'Poubelle Est'   },
-  { id: 'B5',  lat: 14.6923, lng: -17.4426, nearGate: 'G5', label: 'Poubelle SE'    },
-  { id: 'B6',  lat: 14.6922, lng: -17.4443, nearGate: 'G6', label: 'Poubelle Sud-A' },
-  { id: 'B7',  lat: 14.6922, lng: -17.4438, nearGate: 'G6', label: 'Poubelle Sud-B' },
-  { id: 'B8',  lat: 14.6923, lng: -17.4456, nearGate: 'G7', label: 'Poubelle SO'    },
-  { id: 'B9',  lat: 14.6935, lng: -17.4460, nearGate: 'G8', label: 'Poubelle Ouest' },
-  { id: 'B10', lat: 14.6938, lng: -17.4441, nearGate: null,  label: 'Poubelle Centrale' },
+  { id: 'B1',  lat: 14.6957, lng: -17.4462, nearGate: 'G1', label: 'Poubelle Nord-Ouest' },
+  { id: 'B2',  lat: 14.6958, lng: -17.4441, nearGate: 'G2', label: 'Poubelle Nord' },
+  { id: 'B3',  lat: 14.6957, lng: -17.4420, nearGate: 'G3', label: 'Poubelle Nord-Est' },
+  { id: 'B4',  lat: 14.6937, lng: -17.4412, nearGate: 'G4', label: 'Poubelle Est' },
+  { id: 'B5',  lat: 14.6916, lng: -17.4420, nearGate: 'G5', label: 'Poubelle Sud-Est' },
+  { id: 'B6',  lat: 14.6914, lng: -17.4441, nearGate: 'G6', label: 'Poubelle Sud' },
+  { id: 'B7',  lat: 14.6916, lng: -17.4462, nearGate: 'G7', label: 'Poubelle Sud-Ouest' },
+  { id: 'B8',  lat: 14.6937, lng: -17.4470, nearGate: 'G8', label: 'Poubelle Ouest' },
+  // Inner courtyard bins (between center and main gates)
+  { id: 'B9',  lat: 14.6945, lng: -17.4441, nearGate: 'G2', label: 'Poubelle Cour Nord' },
+  { id: 'B10', lat: 14.6929, lng: -17.4441, nearGate: 'G6', label: 'Poubelle Cour Sud' },
 ]
 
 // ── Stable per-entity factors (pre-computed, tick-independent) ─────────────
@@ -193,20 +196,51 @@ export function simulate(tick: number): SimulationSnapshot {
     return { ...gate, density, crowdCount, level, color }
   })
 
-  // ── Persons (clustered around gates, beta-like distribution) ─────────────
+  // ── Persons (queues extending outward from each gate) ────────────────────
+  // Each gate generates a directional queue: people line up perpendicular to
+  // the polygon edge, density highest near the gate, tapering off outward.
+  // A small fraction (~15%) walks along the perimeter between gates.
   const persons: PersonPoint[] = []
   gates.forEach(gate => {
     const count = Math.round(MAX_PERSONS_PER_GATE * gate.density)
+
+    // Outward direction from stadium center to gate (visual-corrected)
+    const dLat = gate.lat - STADIUM_CENTER[0]
+    const dLngVis = (gate.lng - STADIUM_CENTER[1]) * cosLat
+    const len = Math.hypot(dLat, dLngVis) || 1
+    const outLat = dLat / len
+    const outLngVis = dLngVis / len
+    // Perpendicular (queue width direction)
+    const perpLat = -outLngVis
+    const perpLngVis = outLat
+
     for (let i = 0; i < count; i++) {
-      const angle = rand() * Math.PI * 2
-      // pow(rand, 2.5): 90% of points within ~60m, tail up to ~90m
-      const r = Math.pow(rand(), 2.5) * 0.0009
-      persons.push({
-        lat: gate.lat + r * Math.cos(angle),
-        lng: gate.lng + r * Math.sin(angle) / cosLat,
-        color: gate.color,
-        gateRef: gate.id,
-      })
+      const isInQueue = rand() < 0.85          // 85% queue, 15% perimeter walkers
+      if (isInQueue) {
+        // Queue extends outward, ~110m max, biased toward gate
+        const dist  = Math.pow(rand(), 1.6) * 0.0011
+        const width = (rand() - 0.5) * 0.00028
+        const offLat = outLat * dist + perpLat * width
+        const offLngVis = outLngVis * dist + perpLngVis * width
+        persons.push({
+          lat: gate.lat + offLat,
+          lng: gate.lng + offLngVis / cosLat,
+          color: gate.color,
+          gateRef: gate.id,
+        })
+      } else {
+        // Perimeter walkers: tangent to stadium, near the gate
+        const tangentDist = (rand() - 0.5) * 0.0014
+        const radialJit   = (rand() - 0.5) * 0.0003
+        const offLat = perpLat * tangentDist + outLat * radialJit
+        const offLngVis = perpLngVis * tangentDist + outLngVis * radialJit
+        persons.push({
+          lat: gate.lat + offLat,
+          lng: gate.lng + offLngVis / cosLat,
+          color: gate.color,
+          gateRef: gate.id,
+        })
+      }
     }
   })
 
