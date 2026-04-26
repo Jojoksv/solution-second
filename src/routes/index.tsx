@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   AlertTriangle,
@@ -9,6 +9,7 @@ import {
   Minus,
   Users,
   Radio,
+  Activity,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchDensity, fetchRiskIndex } from '@/api'

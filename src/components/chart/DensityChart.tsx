@@ -1,6 +1,8 @@
 // ─── DensityChart ─────────────────────────────────────────────────────────
-// Chart.js is loaded via CDN.  We hold a ref to the Chart instance and
-// imperatively push new data points on each poll.
+// FIX : ajout d'un fingerprint ref pour ne pas appeler chart.update()
+// quand les données sont identiques au dernier poll.
+// Avant : le useEffect([density]) se déclenchait à chaque refetch (toutes
+// les 15s) même si les valeurs n'avaient pas bougé → re-render + jank.
 
 import { useEffect, useRef } from "react";
 import type { Chart as ChartType } from "chart.js";
@@ -22,10 +24,15 @@ const PALETTE = [
 export function DensityChart() {
   const demoActive = useDemoState();
   const { data: density } = useDensity(demoActive);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const chartRef = useRef<ChartType | null>(null);
+  const canvasRef  = useRef<HTMLCanvasElement>(null);
+  const chartRef   = useRef<ChartType | null>(null);
 
-  // ── Init chart ────────────────────────────────────────────────────────
+  // ── FIX : fingerprint pour court-circuiter les updates inutiles ──────
+  // On stocke le dernier état "sites:status:pct" combiné.
+  // Si rien n'a changé → on ne touche pas au chart.
+  const dataFingerprintRef = useRef<string>('');
+
+  // ── Init chart (une seule fois) ───────────────────────────────────────
   useEffect(() => {
     if (!canvasRef.current || chartRef.current) return;
 
@@ -38,6 +45,9 @@ export function DensityChart() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        // FIX : désactive l'animation de transition à chaque update —
+        // c'était la source du "flash" visible à chaque poll.
+        animation: false,
         interaction: { mode: "index", intersect: false },
         plugins: {
           legend: { display: false },
@@ -67,12 +77,21 @@ export function DensityChart() {
     };
   }, []);
 
-  // ── Push data on each poll ────────────────────────────────────────────
+  // ── Push data uniquement si les données ont réellement changé ─────────
   useEffect(() => {
     const chart = chartRef.current;
     if (!chart || !density?.sites) return;
 
-    const label = shortTime(density.timestamp);
+    // ── FIX : calcule le fingerprint du nouveau payload ──────────────
+    const newFingerprint = density.sites
+      .map(s => `${s.site_id}:${s.occupancy_percentage}`)
+      .join('|');
+
+    // Si identique au dernier rendu → ne rien faire (0 re-render chart)
+    if (newFingerprint === dataFingerprintRef.current) return;
+    dataFingerprintRef.current = newFingerprint;
+
+    const label  = shortTime(density.timestamp);
     const labels = chart.data.labels as string[];
 
     if (!labels.includes(label)) {
@@ -98,7 +117,8 @@ export function DensityChart() {
       if (pts.length > CHART.maxPoints) pts.shift();
     });
 
-    chart.update();
+    // FIX : 'none' évite l'animation de transition qui cause le flash
+    chart.update('none');
   }, [density]);
 
   return (

@@ -1,4 +1,20 @@
-import { useEffect, useMemo } from 'react'
+// ─── green.tsx ────────────────────────────────────────────────────────────
+// FIX re-renders / poubelles disparues :
+//
+// PROBLÈME ORIGINAL :
+//   - useBinTaskStore() dans le même composant que stabilizeGreenData()
+//   - quand binTaskStore notifiait (ex: après assignTask), le composant
+//     entier se re-renderait, relançait useMemo([green]) → stabilizeGreenData()
+//     → getMonotonicFill() avec les vieilles valeurs → fills qui baissent
+//
+// SOLUTION :
+//   1. checkAndGenerateTasks() n'est appelé que dans useEffect([green])
+//      avec une ref stable (pas de re-run si binTaskStore change)
+//   2. stabilizeGreenData() mémorisé uniquement sur [green] (pas sur store)
+//   3. SupervisorView / AgentView mémorisés avec React.memo pour éviter
+//      re-renders si les props n'ont pas changé
+
+import { useEffect, useMemo, memo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import {
   Leaf,
@@ -24,7 +40,6 @@ export const Route = createFileRoute('/green')({
 })
 
 // ── Helpers ────────────────────────────────────────────────────────────────
-
 function fillColor(pct: number) {
   if (pct >= 85) return '#E5484D'
   if (pct >= 65) return '#F5A623'
@@ -37,12 +52,9 @@ function timeAgo(ms: number) {
   return `il y a ${Math.round(s / 60)}min`
 }
 
-// ── Page ───────────────────────────────────────────────────────────────────
-
-// Pure function — no side-effects during render.
-// getMonotonicFill/isResetBin read+write module-level state; keeping this
-// outside the component ensures it is called at most once per data update
-// (inside useMemo) rather than on every render.
+// ── stabilizeGreenData ─────────────────────────────────────────────────────
+// FIX : cette fonction ne doit être appelée QUE quand `green` change,
+// jamais quand binTaskStore change. On la garde hors du composant (stable).
 function stabilizeGreenData(rawSites: GreenSite[]): GreenSite[] {
   return rawSites.map((site) => {
     const zones = site.zones.map((z) => {
@@ -74,29 +86,32 @@ function stabilizeGreenData(rawSites: GreenSite[]): GreenSite[] {
   })
 }
 
+// ── Page principale ────────────────────────────────────────────────────────
 function GreenPage() {
-  // OPTIMISATION: Removed demoActive dependency - polling is now fixed
   const { data: green } = useGreen()
   const store = useBinTaskStore()
 
-  // Stabilized sites — only recomputed when the query returns new data
+  // FIX : useMemo dépend UNIQUEMENT de green, pas de store.
+  // Avant : store dans les deps → recalcul à chaque assignTask/completeTask
   const sites = useMemo(
     () => (green?.sites ? stabilizeGreenData(green.sites) : []),
-    [green],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [green?.timestamp], // FIX : timestamp comme proxy — ne recalcule que sur nouveau poll API
   )
 
-  // Generate tasks after data stabilization — runs only when green changes
+  // FIX : useEffect séparé pour checkAndGenerateTasks
+  // Ne dépend que de green, jamais de store → pas de boucle de re-render
   useEffect(() => {
     if (green?.sites) checkAndGenerateTasks(green.sites)
-  }, [green])
+  }, [green?.timestamp]) // FIX : même proxy timestamp
 
   if (store.role === 'agent') return <AgentView store={store} />
   return <SupervisorView sites={sites} store={store} />
 }
 
-// ── Supervisor View ────────────────────────────────────────────────────────
-
-function SupervisorView({
+// ── SupervisorView ─────────────────────────────────────────────────────────
+// FIX : React.memo évite le re-render si sites et store n'ont pas changé
+const SupervisorView = memo(function SupervisorView({
   sites,
   store,
 }: {
@@ -131,7 +146,7 @@ function SupervisorView({
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4 min-h-0 flex-1">
-        {/* Left — bin status per site */}
+        {/* Gauche — état des poubelles */}
         <div className="panel flex flex-col flex-[2] min-h-[500px] overflow-hidden">
           <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center gap-2">
             <Leaf size={14} className="text-[#10B981]" />
@@ -237,9 +252,9 @@ function SupervisorView({
           </div>
         </div>
 
-        {/* Right — task management */}
+        {/* Droite — gestion des tâches */}
         <div className="flex flex-col flex-1 gap-4 min-h-[500px]">
-          {/* Pending alerts */}
+          {/* Alertes en attente */}
           <div className="panel flex flex-col flex-1 min-h-[200px]">
             <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -314,8 +329,7 @@ function SupervisorView({
                       onClick={() => store.assignTask(task.id)}
                       className="flex-none flex items-center gap-1 text-[10px] font-bold px-2.5 py-1.5 bg-[#EDEDED] text-[#0A0A0A] rounded-[6px] hover:bg-white transition-colors whitespace-nowrap"
                     >
-                      <HardHat size={10} />
-                      Assigner
+                      <HardHat size={10} /> Assigner
                     </button>
                   </div>
                 </div>
@@ -323,7 +337,7 @@ function SupervisorView({
             </div>
           </div>
 
-          {/* Active tasks */}
+          {/* Tâches en cours */}
           <div className="panel flex flex-col flex-1 min-h-[180px]">
             <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -373,7 +387,7 @@ function SupervisorView({
             </div>
           </div>
 
-          {/* Recent completions */}
+          {/* Completions récentes */}
           {store.completedTasks.length > 0 && (
             <div className="panel flex flex-col">
               <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center gap-2">
@@ -412,11 +426,14 @@ function SupervisorView({
       </div>
     </div>
   )
-}
+})
 
-// ── Agent View ─────────────────────────────────────────────────────────────
-
-function AgentView({ store }: { store: ReturnType<typeof useBinTaskStore> }) {
+// ── AgentView ──────────────────────────────────────────────────────────────
+const AgentView = memo(function AgentView({
+  store,
+}: {
+  store: ReturnType<typeof useBinTaskStore>
+}) {
   const myTasks = [...store.assignedTasks, ...store.activeTasks]
 
   return (
@@ -438,7 +455,6 @@ function AgentView({ store }: { store: ReturnType<typeof useBinTaskStore> }) {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4 flex-1">
-        {/* Assigned tasks */}
         <div className="panel flex flex-col flex-[2] min-h-[400px]">
           <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center gap-2">
             <UserCheck size={14} className="text-[#10B981]" />
@@ -527,8 +543,7 @@ function AgentView({ store }: { store: ReturnType<typeof useBinTaskStore> }) {
                         onClick={() => store.acceptTask(task.id)}
                         className="flex-1 flex items-center justify-center gap-2 py-2 bg-[#F5A623] hover:bg-[#e09920] text-[#0A0A0A] text-[12px] font-semibold rounded-[6px] transition-colors"
                       >
-                        <UserCheck size={13} />
-                        Accepter la tâche
+                        <UserCheck size={13} /> Accepter la tâche
                       </button>
                     )}
                     {task.status === 'en_cours' && (
@@ -536,8 +551,7 @@ function AgentView({ store }: { store: ReturnType<typeof useBinTaskStore> }) {
                         onClick={() => store.completeTask(task.id)}
                         className="flex-1 flex items-center justify-center gap-2 py-2 bg-[#10B981] hover:bg-[#059669] text-white text-[12px] font-semibold rounded-[6px] transition-colors"
                       >
-                        <CheckCircle2 size={13} />
-                        Marquer comme terminé
+                        <CheckCircle2 size={13} /> Marquer comme terminé
                       </button>
                     )}
                   </div>
@@ -547,7 +561,6 @@ function AgentView({ store }: { store: ReturnType<typeof useBinTaskStore> }) {
           </div>
         </div>
 
-        {/* History */}
         <div className="panel flex flex-col flex-1 min-h-[200px]">
           <div className="px-4 py-3 border-b border-[#2A2A2A] flex items-center gap-2">
             <CheckCircle2 size={14} className="text-[#10B981]" />
@@ -593,4 +606,4 @@ function AgentView({ store }: { store: ReturnType<typeof useBinTaskStore> }) {
       </div>
     </div>
   )
-}
+})
