@@ -25,7 +25,7 @@ function StatCard({ title, value, icon: Icon, trend, isAlert = false }: any) {
           {value}
         </span>
         {trend && (
-          <div className="flex items-center gap-1 bg-[#141414] px-1.5 py-0.5 rounded-[4px] border border-[#2A2A2A]">
+          <div className="flex items-center gap-1 bg-[#141414] px-1.5 py-0.5 rounded-[4px] border border-black">
             <span className={`text-[11px] font-medium ${trend.startsWith('+') ? 'text-[#10B981]' : 'text-[#E5484D]'}`}>
               {trend}
             </span>
@@ -49,36 +49,36 @@ export function DashboardOverview() {
   const activeSensors = 142; // Simulated
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-[1400px] mx-auto">
+    <div className="flex flex-col gap-6 w-full max-w-[1400px]">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-semibold text-[#EDEDED] tracking-tight">Overview</h1>
-        <p className="text-[13px] text-[#888888] mt-1">Real-time metrics from all deployed sensors.</p>
+        <h1 className="text-xl font-semibold text-white tracking-tight">Vue</h1>
+        <p className="text-[13px] text-white mt-1">Mesures en temps réel des capteurs déployés.</p>
       </div>
 
       {/* 4x4 Grid Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 element1 bg-element2">
         <StatCard 
-          title="Total Crowd Count" 
+          title="Nombre total de foule" 
           value={fmt(totalPeople)} 
           icon={Users} 
-          trend="+5.2%" 
+          trend="+5.2%"
         />
         <StatCard 
-          title="Active Sensors" 
+          title="Capteurs actifs" 
           value={activeSensors} 
           icon={Radio} 
           trend="99.9%" 
         />
         <StatCard 
-          title="Alerts Triggered" 
+          title="Alertes déclenchées" 
           value={sitesAlert} 
           icon={AlertTriangle} 
           trend={sitesAlert > 0 ? "+2" : "0"} 
           isAlert={sitesAlert > 0}
         />
         <StatCard 
-          title="System Load" 
+          title="Charge système" 
           value="42%" 
           icon={Activity} 
           trend="-1.5%" 
@@ -86,11 +86,11 @@ export function DashboardOverview() {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 element2 bg-element" >
         {/* Chart Section */}
-        <div className="lg:col-span-2 panel flex flex-col min-h-[400px]">
+        <div className="lg:col-span-2 panel flex flex-col max-h-[450px]">
           <div className="px-4 py-3 border-b border-[#2A2A2A]">
-            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Crowd Density Simulation</h2>
+            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Simulation de la densité de foule</h2>
           </div>
           <div className="p-4 flex-1">
             <DensityChart />
@@ -98,9 +98,9 @@ export function DashboardOverview() {
         </div>
 
         {/* Activity Log / Sensors */}
-        <div className="panel flex flex-col min-h-[400px]">
+        <div className="panel flex flex-col max-h-[450px]">
           <div className="px-4 py-3 border-b border-[#2A2A2A] flex justify-between items-center">
-            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Sensor Streams</h2>
+            <h2 className="text-[13px] font-semibold text-[#EDEDED]">Flux de capteurs</h2>
             <div className="w-2 h-2 rounded-full bg-[#10B981] status-pulse-green"></div>
           </div>
           <div className="p-0 flex-1 overflow-y-auto">
@@ -115,19 +115,19 @@ export function DashboardOverview() {
 
 
 const MOCK_MESSAGES = [
-  { msg: 'Data packet received: S-14A', status: 'ok' },
-  { msg: 'Density threshold normal: Zone 2', status: 'ok' },
-  { msg: 'Latency spike detected (42ms)', status: 'warn' },
-  { msg: 'New connection: Gate B', status: 'ok' },
-  { msg: 'Sensor calibration complete', status: 'ok' },
-  { msg: 'Flow rate stabilized at Gate C', status: 'ok' },
-  { msg: 'Syncing with upstream node', status: 'ok' },
-  { msg: 'Minor packet loss recovered', status: 'warn' },
+  { msg: 'Packets données reçus: S-14A', status: 'ok' },
+  { msg: 'Seuil normal densité: Zone 2', status: 'ok' },
+  { msg: 'Pic de latence détecté (42ms)', status: 'avertir' },
+  { msg: 'Nouvelle connection: Vanne B', status: 'ok' },
+  { msg: 'Calibration capteurs complete', status: 'ok' },
+  { msg: 'Débit stabilisé sur vanne C', status: 'ok' },
+  { msg: 'Synchronisation avec le nœud en amont', status: 'ok' },
+  { msg: 'Perte mineure de paquets récupérée', status: 'avertir' },
 ]
 
 function SensorSimulationPanel() {
   const [logs, setLogs] = useState([
-    { id: 100, time: new Date(), msg: 'System initialized', status: 'ok' }
+    { id: 100, time: new Date(), msg: 'Systeme initialize', status: 'ok' }
   ]);
 
   useEffect(() => {

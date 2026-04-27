@@ -23,11 +23,68 @@
   box-sizing: border-box;
 }
 
+/* Add some custom css*/
+.gradient-background {
+      background: #272727;
+}
+
+.gradient-background-vers2 {
+    background: #272727;
+}
+
+.gradient-background-vers3 {
+  background: #272727;
+}
+
+.element1 > :nth-child(1) {
+  border: 1px solid #005AA7;
+  color: white;
+}
+
+.element1 > :nth-child(2) {
+    border: 1px solid #00A651;
+}
+
+.element1 > :nth-child(3) {
+  border: 1px solid #FFD200;
+}
+
+.element1 > :nth-child(4) {
+  border: 1px solid white;
+}
+
+.element2 > :nth-child(1) {
+    border: 1px solid black;
+}
+
+.element2 > :nth-child(2) {
+    border: 1px solid black;
+}
+
+.bg-element > :nth-child(1) , .bg-element > :nth-child(2) {
+    background: #272727;
+}
+
+.bg-element2 > :nth-child(1) {
+  background: #005AA7;
+}
+
+.bg-element2 > :nth-child(2) {
+  background: #00A651;
+}
+.bg-element2 > :nth-child(3) {
+  background: #FFD200;
+}
+.bg-element2 > :nth-child(4) {
+  background: white;
+}
+
+
 html, body, #app {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg-base);
+  background-color: black;
   color: var(--color-text-primary);
   font-family: var(--font-inter);
   -webkit-font-smoothing: antialiased;
@@ -69,7 +126,8 @@ html, body, #app {
 
 /* ── Base UI Elements ── */
 .panel {
-  background-color: var(--color-bg-panel);
+  background: black;
+  
   border: 1px solid var(--color-border-subtle);
   border-radius: 6px;
 }
@@ -84,7 +142,7 @@ html, body, #app {
 
 /* ── Specific Overrides for Leaflet Map ── */
 .leaflet-container {
-  background: var(--color-bg-base) !important;
+  background: wheat !important;
   font-family: var(--font-inter) !important;
 }
 

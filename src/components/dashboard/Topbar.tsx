@@ -12,14 +12,14 @@ export function Topbar() {
   const isCritical = riskIndex?.level === 'critical' || riskIndex?.level === 'alert';
 
   return (
-    <header className="h-14 flex-shrink-0 flex items-center justify-between px-6 border-b border-[#2A2A2A] bg-[#0A0A0A]">
+    <header className="h-14 flex-shrink-0 flex items-center justify-between px-6 border-b border-[#2A2A2A] gradient-background-vers3">
       
       {/* Search Bar */}
-      <div className="flex items-center w-[300px] h-8 bg-[#111111] border border-[#2A2A2A] rounded-[4px] px-3 focus-within:border-[#3A3A3A] transition-colors">
+      <div className="flex items-center w-[300px] h-8 bg-white border border-black rounded-[4px] px-3 focus-within:border-[#3A3A3A] transition-colors">
         <Search size={14} className="text-[#555555] mr-2" />
         <input 
           type="text" 
-          placeholder="Search sites, sensors or alerts..." 
+          placeholder="Sites, capteurs ou alertes..." 
           className="bg-transparent border-none outline-none text-[13px] text-[#EDEDED] w-full placeholder:text-[#555555]"
         />
         <div className="flex items-center gap-1">
@@ -32,10 +32,10 @@ export function Topbar() {
       <div className="flex items-center gap-4">
         
         {/* System Health Status */}
-        <div className="flex items-center gap-2 px-3 h-8 bg-[#111111] border border-[#2A2A2A] rounded-[4px]">
+        <div className="flex items-center gap-2 px-3 h-8 bg-white border border-[#2A2A2A] rounded-[4px]">
           <div className="flex items-center gap-1.5">
             <Wifi size={12} className="text-[#10B981]" />
-            <span className="text-[12px] font-medium text-[#888888]">All Systems Operational</span>
+            <span className="text-[12px] font-medium text-black">Systemes operationnels</span>
           </div>
         </div>
 
