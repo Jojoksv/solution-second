@@ -435,7 +435,6 @@ const MOCK_MESSAGES = [
   { msg: 'Flux stabilisé à la Porte C', status: 'ok' },
   { msg: 'Synchronisation avec le nœud amont', status: 'ok' },
   { msg: 'Perte de paquets mineure récupérée', status: 'warn' },
->>>>>>> 9574392aea2ce03d2be456e657ab6d6de14c4bdd
 ]
 
 function SensorSimulationPanel() {
