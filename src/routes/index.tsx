@@ -36,33 +36,56 @@ function StatCard({
   icon: Icon,
   trend,
   isAlert = false,
-}: StatCardProps) {
+}) {
   const alertColor = 'var(--accent-red)'
   const normalColor = 'var(--text-secondary)'
-  const trendColor = trend?.startsWith('+') ? 'var(--accent-green)' : trend?.startsWith('-') ? 'var(--accent-red)' : 'var(--text-secondary)'
+
+  const trendColor =
+    trend?.startsWith('+')
+      ? 'var(--accent-green)'
+      : trend?.startsWith('-')
+      ? 'var(--accent-red)'
+      : 'var(--text-secondary)'
 
   return (
     <div className="panel p-4 flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <Icon size={14} style={{ color: isAlert ? alertColor : normalColor }} />
-        <span className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+        <Icon
+          size={14}
+          style={{ color: isAlert ? alertColor : normalColor }}
+        />
+        <span
+          className="text-[11px] font-semibold uppercase tracking-widest"
+          style={{ color: 'var(--text-muted)' }}
+        >
           {title}
         </span>
       </div>
+
       <div className="flex items-end justify-between">
-        <span className="text-[26px] font-bold tracking-tight leading-none" style={{ color: isAlert ? alertColor : 'var(--text-primary)' }}>
+        <span
+          className="text-[26px] font-bold tracking-tight leading-none"
+          style={{
+            color: isAlert ? alertColor : 'var(--text-primary)',
+          }}
+        >
           {value}
         </span>
+
         {trend && (
-          <div className="flex items-center gap-1 bg-[#141414] px-1.5 py-0.5 rounded-[4px] border border-black">
-            <span className={`text-[11px] font-medium ${trend.startsWith('+') ? 'text-[#10B981]' : 'text-[#E5484D]'}`}>
-              {trend}
-            </span>
           <div
             className="flex items-center gap-1 px-1.5 py-0.5 rounded"
-            style={{ background: 'var(--bg-panel-hover)', border: '1px solid var(--border-subtle)' }}
+            style={{
+              background: 'var(--bg-panel-hover)',
+              border: '1px solid var(--border-subtle)',
+            }}
           >
-            <span className="text-[11px] font-semibold" style={{ color: trendColor }}>{trend}</span>
+            <span
+              className="text-[11px] font-semibold"
+              style={{ color: trendColor }}
+            >
+              {trend}
+            </span>
           </div>
         )}
       </div>
